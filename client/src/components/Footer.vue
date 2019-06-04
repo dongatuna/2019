@@ -1,0 +1,37 @@
+<template>
+     <footer class="pt-4 m-5 p-5 border-top">
+    <div class="row">
+      
+      <div class="col-6 col-md">
+        <h5>Contact Us</h5>
+        <ul class="list-unstyled text-small">
+          <li><a class="text-muted" href="#">Call/text 206.271.1946</a></li>
+          <li><a class="text-muted" href="#">Email Us</a></li>
+          <li><a class="text-muted" href="#">Send us your job opening</a></li>
+          <li><a class="text-muted" href="#">Recruit our students</a></li>          
+        </ul>
+      </div>
+      <div class="col-6 col-md">
+        <h5>Resources</h5>
+        <ul class="list-unstyled text-small">
+          <li><a class="text-muted" href="#">Questions</a></li>
+          <li><a class="text-muted" href="#">Skill Videos</a></li>
+          <li><a class="text-muted" href="https://www.doh.wa.gov/LicensesPermitsandCertificates/ProfessionsNewReneworUpdate/NursingAssistant/ApplyOnline/NursingAssistantCertified">DoH NAC Online application</a></li>
+          <li><a class="text-muted" href="https://www.doh.wa.gov/LicensesPermitsandCertificates/ProfessionsNewReneworUpdate/NursingAssistant/ApplyOnline/NursingAssistantRegistered">DoH NAR Online Application</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-md">
+        <h5>Location</h5>
+        <ul class="list-unstyled text-small">
+          <li><a class="text-muted" href="#">22659 Pacific Highway South Suite 301</a></li>
+          <li><a class="text-muted" href="#">Des Moines WA 98198</a></li>        
+        </ul>
+      </div>
+    </div>
+  </footer>
+</template>
+<script>
+export default {
+    
+}
+</script>
