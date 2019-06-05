@@ -1,25 +1,26 @@
 import axios from 'axios'
 
 const state = {
-    user: "",
-    token: localStorage.getItem('token')||null
+    user: false,
+    role: ""
+    
 }
 
-const getters = {
-   // getToken: state => state.token!==null,
+const getters = {   
     getUser: state => state.user,
-    isLoggedIn:state => !!state.token
+    getRole: state => state.role    
 }
 
 const mutations = {
-    IS_USER(state, payload){
-        state.token = payload.data.token,
-        state.user = payload.data.user.email
+    IS_USER(state, payload){        
+        state.user = payload.success,
+        state.role = payload.role
     },
 
-    REMOVE_USER (state,payload) {
-        state.user= null,
-        state.token = payload
+    REMOVE_USER (state) {
+        state.user = false,
+        state.role = ""
+        
     }
 }
 
@@ -27,19 +28,16 @@ const actions = {
 
     async signUp({commit}, payload){
         try{
-            debugger
+            
             const response = await axios({
                 method: 'post',
                 url: '/user/signup',
                 data: payload,
+                withCredentials: true,
                 headers: {"Content-Type": "application/json"}
-            })
-
-            response.data.token
-            localStorage.setItem('token', response.data.token)
-            axios.defaults.headers.common['Authorization'] = response.data.token    //maybe this sets the header Authorization to the token value for all the routes that require this...?
-
-            commit('IS_USER', response )
+            })            
+            debugger
+            commit('IS_USER', response.data)
         }catch(error){
             error
         }
@@ -51,14 +49,30 @@ const actions = {
                 method: 'post',
                 url: '/user/signin',
                 data: payload,
+                withCredentials: true,
                 headers: {"Content-Type": "application/json"}
             })
 
-            localStorage.setItem('token', response.data.token)
-            axios.defaults.headers.common['Authorization'] = response.data.token    //maybe this sets the header Authorization to the token value for all the routes that require this...?
+             debugger
+             commit('IS_USER', response.data )
+        }catch(error){
+            error
+        }
+    },
 
+    async checkUserStatus(){
+        try{
             debugger
-            commit('IS_USER', response )
+            await axios({
+                method: 'get',
+                url: '/user/status',                
+                withCredentials: true,
+                headers: {"Content-Type": "application/json"}
+            })    
+            
+            debugger
+            //commit('IS_USER' )
+            
         }catch(error){
             error
         }
@@ -68,15 +82,14 @@ const actions = {
         try{
             debugger
             
-            const response = await axios({
+            await axios({
                     method: 'get',
-                    url: '/user/logout'              
-            })   
+                    url: '/user/logout'  ,
+                    withCredentials: true,
+                    headers: {"Content-Type": "application/json"}           
+            })               
             
-            localStorage.removeItem('token')
-            delete axios.defaults.headers.common['Authorization']
-            debugger
-            commit('REMOVE_USER', response.data.token)
+            commit('REMOVE_USER')
 
         }catch(error){
             error

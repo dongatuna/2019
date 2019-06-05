@@ -26,6 +26,9 @@
 import { store } from "../../store/store"
 
 export default {
+
+    props:['admin'],
+
     data(){
         return{
             user: {
@@ -36,10 +39,14 @@ export default {
     },
 
     methods: {
-        async signIn(){
-            await this.$store.dispatch("signIn", this.user)
+        signIn(){
+            this.$store.dispatch("signIn", this.user)
             debugger
-            this.$router.push({path: '/admin'})  
+            if(this.admin){
+                    this.$router.push({path: '/admin'})
+                }else{
+                    this.$router.push({path: '/adminjobs'})
+            }
         }
     }
     

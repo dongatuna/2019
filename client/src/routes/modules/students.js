@@ -7,7 +7,7 @@ export default [
         props:{edit:false}, 
         component: RegisterStudent,
         meta:{
-            requiresAuth: true
+            requiresAdminAuth: true
         }
     },
 
@@ -17,7 +17,7 @@ export default [
         props:{edit: true}, 
         component: RegisterStudent,
         meta:{
-            requiresAuth: true
+            requiresAdminAuth: true
         }
     } //edit, read student
 ]

@@ -8,14 +8,20 @@
 
 <script>
 
-  import Header from './components/Header.vue'
-  import Footer from './components/Footer.vue'
+import Header from './components/Header.vue'
+import Footer from './components/Footer.vue'
+import {store} from './store/store'
 
-export default {
+export default { 
+
   components: {
     "pp-header": Header,
     "pp-footer": Footer
-  }   
+  }, 
+
+  mounted(){
+    this.$store.dispatch("checkUserStatus")
+  }
 }
 </script>
 

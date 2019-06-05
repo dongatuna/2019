@@ -10,30 +10,27 @@ export default [
           path: '/admin', 
           name: 'admin_page', 
           component: Admin,
-          meta: {requiresAuth: true},
+          meta: {requiresAdminAuth: true},
           children: [
                {path: '', name: 'daily-registrants', component: DailyRegistrations, 
-                    meta: {requiresAuth: true}}, 
+                    meta: {requiresAdminAuth: true}}, 
                     
                {path: '/courses', name: 'course-schedule', component: CourseSchedule,
                     props:{transfer: false},
-                    meta: {requiresAuth: true}}, //
+                    meta: {requiresAdminAuth: true}}, //
                
                {path: '/transfer', name: 'transfer', component: CourseSchedule,
                     props:{transfer: true},
-                    meta: {requiresAuth: true}}, 
+                    meta: {requiresAdminAuth: true}}, 
                
                {path: '/course/add', name: 'add-course', component: AddCourse,
-                    meta: {requiresAuth: true}}, //add              
-
-               // {path: '/course/:course_id', name: 'read-course', component: ReadCourse,
-               //      meta: {requiresAuth: true}}, //read specific course
+                    meta: {requiresAdminAuth: true}}, //add                    
                     
                {path: '/edit_course/:course_id', name: 'edit-course', component: EditCourse, //uses patch
-                    meta: {requiresAuth: true}}, 
+                    meta: {requiresAdminAuth: true}}, 
                
                {path: '/course/:course_id', name: 'view-course-students', component: ViewCourseStudents, //uses get
-                    meta: {requiresAuth: true}}, 
+                    meta: {requiresAdminAuth: true}}, 
                     
           ]
      

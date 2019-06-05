@@ -94,6 +94,7 @@
 <script>
 export default {
     name:'SignUp',
+    props: ['edit'],
 
     metaInfo: {
         title: 'Course Sign Up',

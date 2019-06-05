@@ -7,7 +7,7 @@
         </div>
 
         <div class="form-label-group">
-            <input type="text" class="form-control" placeholder="username" v-model="user.username" autofocus required>
+            <input type="email" class="form-control" placeholder="username" v-model="user.email" autofocus required>
             <label for="inputUsername">Username</label>
         </div>
 
@@ -29,7 +29,7 @@ export default {
     data(){
         return{
             user: {
-                username: "",
+                email: "",
                 password: ""
             }
         }
@@ -37,7 +37,7 @@ export default {
 
     methods: {
         async signIn(){
-            await this.$store.dispatch("adminSignIn", this.user)
+            await this.$store.dispatch("signIn", this.user)
             debugger
             this.$router.push({path: '/admin'})  
         }

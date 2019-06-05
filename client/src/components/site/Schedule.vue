@@ -2,39 +2,38 @@
     <section>
         <div class="container-fluid">
             <div class="row">
-                <div class="col-sm-10">
+                <div class="col-sm-8">
                     <div class="float-center mb-3">
                         <p class="text-dark lead">CNA/NAC Courses</p>
                     </div>
-                   
-                    <div class="row">
-                    <div class="col-md-4">
-                        <ul class="list-group">
-                            <li class="list-group-item" v-for="course of getAllSortedCourses.Day" :key="course.courseId" >
-                                <router-link v-bind:to="{ path: `/student_register/${course.courseId}` }">{{course.dates}}</router-link>
-                            </li>
-                        </ul>
-                    </div>
+                </div>   
+            </div>   
 
-                    <div class="col-md-4">
-                        <ul class="list-group">
-                            <li class="list-group-item" v-for="course of getAllSortedCourses.Evening" :key="course.courseId" >
-                                <router-link v-bind:to="{ path: `/student_register/${course.courseId}` }">{{course.dates}}</router-link>
-                            </li>
-                        </ul>
-                    </div>
-                    
-                    <div class="col-md-4">
-                        <ul class="list-group">
-                            <li class="list-group-item" v-for="course of getAllSortedCourses.Weekends" :key="course.courseId" >
-                                <router-link v-bind:to="{ path: `/student_register/${course.courseId}` }">{{course.dates}}</router-link>
-                            </li>
-                        </ul>
-                    </div>
-                    </div>
-                    
+            <div class="row">
+                <div class="col-md-4">
+                    <ul class="list-group">
+                        <li class="list-group-item" v-for="course of getAllSortedCourses.Day" :key="course.courseId" >
+                            <router-link v-bind:to="{ path: `/student_register/${course.courseId}` }">{{course.dates}}</router-link>
+                        </li>
+                    </ul>
                 </div>
-            </div>
+
+                <div class="col-md-4">
+                    <ul class="list-group">
+                        <li class="list-group-item" v-for="course of getAllSortedCourses.Evening" :key="course.courseId" >
+                            <router-link v-bind:to="{ path: `/student_register/${course.courseId}` }">{{course.dates}}</router-link>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="col-md-4">
+                    <ul class="list-group">
+                        <li class="list-group-item" v-for="course of getAllSortedCourses.Weekends" :key="course.courseId" >
+                            <router-link v-bind:to="{ path: `/student_register/${course.courseId}` }">{{course.dates}}</router-link>
+                        </li>
+                    </ul>
+                </div>
+            </div>          
         </div>
     </section>
     

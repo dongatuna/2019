@@ -1,10 +1,10 @@
 <template>
-    <section class="bg-light mt-5 py-5">
+    <section class="bg-light ">
         <div class="container-fluid">
-            <div class="row justify-content-center p-3">
-                <div class="col-md-8 col-sm-10">                   
-                    <h4 class="text-dark display-4" v-if="edit">Edit Job Post</h4> 
-                    <h4 class="text-dark display-4" v-else>Create Job Post</h4>
+            <div class="row justify-content-center">
+                <div class="col-md-10 col-sm-10">                   
+                    <h4 class="text-dark display-5" v-if="edit">Edit Job Post</h4> 
+                    <h4 class="text-dark display-5" v-else>Share Your Job Opening</h4>
                     <form v-on:submit.prevent="postJob" class="text-muted lead" ref="form" enctype="multipart/form-data" novalidate>
                         <div class="form-group">
                             <label for="topic">Job Post Title</label>
@@ -24,7 +24,7 @@
                         <div class="form-group mb-3">
                             <label for="description">Requirements</label>
                             <textarea v-if="edit" class="form-control" name="requirements" cols="30" rows="15" v-model="getJob.requirements"></textarea>
-                            <textarea v-else class="form-control" name="requirements" cols="30" rows="15" v-model="newJob.requirements"
+                            <textarea v-else class="form-control" name="requirements" cols="30" rows="5" v-model="newJob.requirements"
                             placeholder="Include job requirements and indicate whether you provide training assistance and resources"></textarea>
                             <span class="text-danger" v-if="(errors['requirements'])"><small>{{errors['requirements']}}</small></span>  
                         </div> 

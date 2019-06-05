@@ -7,8 +7,8 @@
         </div>
 
         <div class="form-label-group">
-            <input type="text" class="form-control" placeholder="username" v-model="user.username" autofocus required>
-            <label for="inputUsername">Username</label>
+            <input type="email" class="form-control" placeholder="username" v-model="user.email" autofocus required>
+            <label for="inputUsername">Email</label>
         </div>
 
         <div class="form-label-group">
@@ -34,7 +34,7 @@ export default {
     data(){
         return{
             user: {
-                username: "",
+                email: "",
                 password: "",
                 password2: ""
             }
@@ -46,7 +46,7 @@ export default {
 
             if(this.user.password===this.user.password2){
                 //const admin = { "username":this.user.username,  "password":this.user.password}
-                await this.$store.dispatch("adminSignUp", this.user)
+                await this.$store.dispatch("signUp", this.user)
                 debugger
                 this.$router.push({path: '/admin'})
             }   else {

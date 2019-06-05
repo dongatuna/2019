@@ -31,6 +31,9 @@
 import { store } from "../../store/store"
 
 export default {
+
+    props:['admin'],
+
     data(){
         return{
             user: {
@@ -46,9 +49,15 @@ export default {
 
             if(this.user.password===this.user.password2){
                 
+                
                 await this.$store.dispatch("signUp", this.user)
                 debugger
-                this.$router.push({path: '/admin'})
+                if(this.admin){
+                    this.$router.push({path: '/admin'})
+                }else{
+                    this.$router.push({path: '/adminjobs'})
+                }
+                
             }   else {
                 alert('Password and confirm password must match')
             }           

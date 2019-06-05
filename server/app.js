@@ -22,6 +22,7 @@ const app = express()
 app.use(morgan('dev')) //morgan is used to console.log -- reason we can't use in front end
 
 app.use(cookieParser())
+
 app.use(cors({
   origin: 'http://localhost:8080',
   credentials: true
@@ -33,7 +34,6 @@ app.use(bodyParser.urlencoded({extended: false}))
 //set up routes for students, admin and courses
 app.use('/students', require('./routes/students'))
 app.use('/courses', require('./routes/courses'))
-app.use('/admin', require('./routes/admin'))
 app.use('/jobs', require('./routes/jobs'))
 app.use('/user', require('./routes/user'))
 

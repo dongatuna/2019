@@ -10,8 +10,7 @@ signToken = (user) =>{
             sub: user.id,
             iat: new Date().getTime(), //current time
             expiresIn: "1h", //current time + 1 day ahead
-           // email: user.email,
-            //userId: user._id
+          
         },
         JWT_SECRET   
     )
@@ -38,13 +37,13 @@ module.exports = {
                 email, 
                 password
             })
-
+           
             await user.save()
 
             const token = signToken(user)
             //Send a cookie containing JWT
-            res.cookie("access_token", token /*, {secure: true,  httpOnly:true}*/)
-            res.status(200).json({success: true})
+            res.cookie("user_token", token , {/*secure: true,*/  httpOnly:true})
+            res.status(200).json({success: true, role: user.role})
             
 
         }catch(error){
@@ -60,9 +59,12 @@ module.exports = {
             //get the user from passport local method
             const user = req.user
 
+            console.log("This is the user ", user)
             const token = signToken(user)
 
-            res.status(200).json({ user, token })
+            res.cookie('user_token', token, {httpOnly:true})
+
+            res.status(200).json({ success: true, role: user.role })
 
         }catch(error){
             res.status(404).json({
@@ -72,14 +74,19 @@ module.exports = {
         }
     },
 
+    checkAuth: async(req, res, next ) => {
+        try{
+            res.status(200).json({success: true})
+        }catch(err){
+            console.log("This is the error", err)
+        }
+    },
+
     logOut: async (req, res, next) => {
         try{
 
-            req.logOut()
-
-            res.status(200).json({
-                token: null
-            })
+            res.clearCookie('user_token')
+            //res.status(200).json({success: true})
         }catch(error){
             res.status(401).json({
                 message:  "There has been an error logging out",

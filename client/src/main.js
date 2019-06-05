@@ -15,11 +15,7 @@ Vue.use(Meta)
 
 Vue.prototype.$http = Axios
 
-const token = localStorage.getItem('token')
-
-if(token){
-  Vue.prototype.$http.defaults.headers.common['Authorization'] = token
-}
+//Vue.prototype.$http.defaults.withCredentials = true
 
 const router = new VueRouter({
   routes:[
@@ -40,12 +36,24 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) =>{
-  if(to.matched.some(record => record.meta.requiresAuth)){
-    if(store.getters.isLoggedIn){
-      next()
+  if(to.matched.some(record => record.meta.requiresAdminAuth)){
+    if(store.getters.getRole==="admin"){
+      next()      
       return
     }
     next('/embaadmins')
+  }else{
+    next()
+  }
+})
+
+router.beforeEach((to, from, next) =>{
+  if(to.matched.some(record => record.meta.requiresAuth)){
+    if(store.getters.getRole==="user"){
+      next()      
+      return
+    }
+    next('/signin')
   }else{
     next()
   }

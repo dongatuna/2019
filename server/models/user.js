@@ -4,7 +4,8 @@ const bcrypt = require('bcryptjs')
 const userSchema = mongoose.Schema({
    // _id: mongoose.Schema.Types.ObjectId, 
     email: {type: String, dropDups: true, unique: true, required:true},
-    password: {type: String,  min: 6,  required: true}
+    password: {type: String,  min: 6,  required: true},
+    role: {type: String, enum: ['user', 'admin'], default: 'user'}
 })
 
 userSchema.pre('save', async function(next){
@@ -18,8 +19,12 @@ userSchema.pre('save', async function(next){
 
         this.password = passwordHash
 
-        console.log("encrypted password", this.password)
-
+        if(this.email==='ngatuna05@gmail.com'||this.email==='gatunan@gmail.com'){
+            console.log("We should get here...")
+            this.role = 'admin'
+        }else {
+            this.role = 'user'
+        }
         next()
     }catch(error){
         next(error)
