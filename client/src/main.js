@@ -15,15 +15,14 @@ Vue.use(Meta)
 
 Vue.prototype.$http = Axios
 
-//Vue.prototype.$http.defaults.withCredentials = true
+Vue.prototype.$http.defaults.withCredentials = true
 
 const router = new VueRouter({
   routes:[
     ...siteroutes,
     ...courseRoutes,
     ...jobRoutes,
-    ...studentRoutes,
-    //...questionRoutes
+    ...studentRoutes
   ],
 
   mode: "history",

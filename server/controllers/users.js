@@ -82,11 +82,14 @@ module.exports = {
         }
     },
 
-    logOut: async (req, res, next) => {
+    signOut: async (req, res, next) => {
         try{
+            console.log("Before ", req.cookies['user_token'])
 
-            res.clearCookie('user_token')
-            //res.status(200).json({success: true})
+            res.clearCookie('user_token', {httpOnly:true})
+           
+            console.log("After...", req.cookies['user_token'])
+            res.status(200).json({success: true})
         }catch(error){
             res.status(401).json({
                 message:  "There has been an error logging out",

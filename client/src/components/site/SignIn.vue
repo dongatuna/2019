@@ -39,8 +39,8 @@ export default {
     },
 
     methods: {
-        signIn(){
-            this.$store.dispatch("signIn", this.user)
+        async signIn(){
+            await this.$store.dispatch("signIn", this.user)
             debugger
             if(this.admin){
                     this.$router.push({path: '/admin'})

@@ -84,8 +84,9 @@ const actions = {
             
             await axios({
                     method: 'get',
-                    url: '/user/logout'  ,
+                    url: '/user/signout'  ,
                     withCredentials: true,
+                    credentials: 'same-origin',
                     headers: {"Content-Type": "application/json"}           
             })               
             

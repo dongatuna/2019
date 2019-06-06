@@ -11,6 +11,6 @@ router.route("/signin").post(passport.authenticate('local', {session:false}), Us
 
 router.route("/status").get(passport.authenticate('jwt', { session: false }), UserController.checkAuth)
 
-router.route("/logout").get(passport.authenticate('jwt', { session: false }), UserController.logOut)
+router.route("/signout").get(passport.authenticate('jwt', { session: false }), UserController.signOut)
 
 module.exports = router
