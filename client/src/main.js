@@ -13,9 +13,9 @@ import Meta from 'vue-meta'
 Vue.use(VueRouter)
 Vue.use(Meta)
 
-Vue.prototype.$http = Axios
+//Vue.prototype.$http = Axios
 
-Vue.prototype.$http.defaults.withCredentials = true
+//Vue.prototype.$http.defaults.withCredentials = true
 
 const router = new VueRouter({
   routes:[

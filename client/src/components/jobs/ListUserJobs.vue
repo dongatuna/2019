@@ -75,11 +75,11 @@ export default {
     },    
 
     
-    mounted(){
-        debugger
-        this.$store.dispatch()
+    // mounted(){
+    //     debugger
+    //     this.$store.dispatch()
         
-    },
+    // },
 
     methods:{
         editPost(id){

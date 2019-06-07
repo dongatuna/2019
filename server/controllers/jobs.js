@@ -73,6 +73,15 @@ module.exports = {
         try{            
             const jobs = await Job.find({}).sort({createdAt: 'desc'}) /*.populate("userId", "name");*/
 
+            //Job.find({})
+            //.exec()
+            //.then(jobs=>{
+    
+            //}).error(err=>{
+              //  console.log(console.error();
+                //)
+            //})
+
             if(jobs.length <1){
                 return res.status(404).json({
                     message: "No jobs at this moment.  Check back later."

@@ -13,15 +13,16 @@ import Footer from './components/Footer.vue'
 import {store} from './store/store'
 
 export default { 
+ mounted(){
+    this.$store.dispatch("checkUserStatus")
+  },
 
   components: {
     "pp-header": Header,
     "pp-footer": Footer
-  }, 
-
-  mounted(){
-    this.$store.dispatch("checkUserStatus")
   }
+
+ 
 }
 </script>
 
