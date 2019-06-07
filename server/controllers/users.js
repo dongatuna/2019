@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const User = require("../models/user")
 const JWT = require('jsonwebtoken')
+const crypto = require("crypto")
 const { JWT_SECRET, ISSUER } = require('../helpers/config')
 
 signToken = (user) =>{
@@ -17,6 +18,22 @@ signToken = (user) =>{
 }
 
 module.exports = {
+
+    checkAuth: async(req, res, next ) => {
+        try{
+            res.status(200).json({success: true})
+        }catch(err){
+            console.log("This is the error", err)
+        }
+    },
+
+    forgot: async( req, res, next ) => {
+        try{
+
+        }catch(err){
+            
+        }
+    },
 
     signUp: async(req, res, next) => {
         try{
@@ -72,15 +89,7 @@ module.exports = {
                 error
             })
         }
-    },
-
-    checkAuth: async(req, res, next ) => {
-        try{
-            res.status(200).json({success: true})
-        }catch(err){
-            console.log("This is the error", err)
-        }
-    },
+    },   
 
     signOut: async (req, res, next) => {
         try{
