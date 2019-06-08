@@ -13,4 +13,10 @@ router.route("/status").get(passport.authenticate('jwt', { session: false }), Us
 
 router.route("/signout").get(passport.authenticate('jwt', { session: false }), UserController.signOut)
 
+router.route("/forgot").post(UserController.forgot)
+
+router.route("/reset").get(UserController.reset)
+
+router.route("/reset").get(UserController.postReset)
+
 module.exports = router

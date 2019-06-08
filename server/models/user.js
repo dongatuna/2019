@@ -5,7 +5,10 @@ const userSchema = mongoose.Schema({
    // _id: mongoose.Schema.Types.ObjectId, 
     email: {type: String, dropDups: true, unique: true, required:true},
     password: {type: String,  min: 6,  required: true},
-    role: {type: String, enum: ['user', 'admin'], default: 'user'}
+    role: {type: String, enum: ['user', 'admin'], default: 'user'},
+    confirmed: {type: Boolean, default: false},
+    resetPasswordToken: String,
+    resetPasswordExpires: Date,
 })
 
 userSchema.pre('save', async function(next){
@@ -21,7 +24,8 @@ userSchema.pre('save', async function(next){
 
         if(this.email==='ngatuna05@gmail.com'||this.email==='gatunan@gmail.com'){
             console.log("We should get here...")
-            this.role = 'admin'
+            this.role = 'admin',
+            this.confirmed = true
         }else {
             this.role = 'user'
         }
