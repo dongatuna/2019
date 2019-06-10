@@ -47,7 +47,7 @@ const actions = {
         try{
             const response = await axios({
                 method: 'post',
-                url: '/user/signin',
+                url: 'http://localhost:3000//user/signin',
                 data: payload,
                 withCredentials: true,
                 headers: {"Content-Type": "application/json"}
@@ -65,7 +65,7 @@ const actions = {
             debugger
             await axios({
                 method: 'get',
-                url: '/user/status',                
+                url: 'http://localhost:3000/user/status',                
                 withCredentials: true,
                 headers: {"Content-Type": "application/json"}
             })    
