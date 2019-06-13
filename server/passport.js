@@ -1,10 +1,10 @@
-const mongoose = require('mongoose')
 const passport = require('passport')
 const JwtStrategy = require('passport-jwt').Strategy
 const {ExtractJwt} = require('passport-jwt')
 const LocalStrategy = require('passport-local').Strategy
 const User = require('./models/user')
 const {JWT_SECRET} = require('./helpers/config')
+
 
 const cookieExtractor = req => {
     let token = null
@@ -42,24 +42,30 @@ passport.use(new JwtStrategy({
 
 //local strategy - compare submitted password with stored password and to log in the admin
 passport.use(new LocalStrategy({
-        usernameField: 'email',    
-    }, async(email, password, done) =>{
-        try{
-            const user = await User.findOne({email})
-
-            if(!user){
-                return done(null, false)
-            }
-
-            //check if the password is a match
-            const isMatch = await user.validPassword(password)
-
-            if(!isMatch) return done(null, false)
-
-            //Otherwise, return the user
-            done(null, user)
-        }catch(error){
-            done(error, false)
-        }
+    usernameField: 'email'
+  }, async (email, password, done) => {
+    try {
+      // Find the user given the email
+      console.log("Here is the email...", email)
+      const user = await User.findOne({email })
+      console.log("Here is the user...", user)
+      // If not, handle it
+      if (!user) {
+        return done(null, false)
+      }
+    
+      // Check if the password is correct
+      const isMatch = await user.isValidPassword(password)
+    
+      // If not, handle it
+      if (!isMatch) {
+          console.log("We are getting in this if statement....")
+        return done(null, false)
+      }
+    
+      // Otherwise, return the user
+      done(null, user)
+    } catch(error) {
+      done(error, false)
     }
-))
+  }))

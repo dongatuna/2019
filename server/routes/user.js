@@ -7,6 +7,8 @@ const UserController = require('../controllers/users')
 
 router.route("/signup").post(UserController.signUp)
 
+router.route("/confirm/:token").post(UserController.addUser)
+
 router.route("/signin").post(passport.authenticate('local', {session:false}), UserController.signIn)
 
 router.route("/status").get(passport.authenticate('jwt', { session: false }), UserController.checkAuth)
@@ -15,8 +17,8 @@ router.route("/signout").get(passport.authenticate('jwt', { session: false }), U
 
 router.route("/forgot").post(UserController.forgot)
 
-router.route("/reset").get(UserController.reset)
+//router.route("/reset").get(UserController.reset)
 
-router.route("/reset").get(UserController.postReset)
+router.route("/reset").get(UserController.reset)
 
 module.exports = router
