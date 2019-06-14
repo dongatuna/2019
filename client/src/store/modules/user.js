@@ -1,26 +1,39 @@
 import axios from 'axios'
 
 const state = {
-    user: false,
-    role: ""
-    
+    authed: false,
+    role: undefined,
+    username: undefined,
+    message: undefined    
 }
 
 const getters = {   
-    getUser: state => state.user,
-    getRole: state => state.role    
+    getUser: state => state.username,
+    getRole: state => state.role,
+    getMessage: state => state.message,
+    getStatus: state => state.authed      
 }
 
 const mutations = {
     IS_USER(state, payload){        
-        state.user = payload.success,
+        state.authed = payload.confirmed,
+        state.username = payload.username,
         state.role = payload.role
     },
 
+    MESSAGE(state, payload){
+        state.message = payload
+    },
+
+    REMOVE_MESSAGE (state){
+        state.message = ''
+    },
+
     REMOVE_USER (state) {
-        state.user = false,
-        state.role = ""
-        
+        state.authed = false,
+        state.role = undefined,
+        state.username = undefined,
+        state.message = undefined
     }
 }
 
@@ -31,13 +44,20 @@ const actions = {
             
             const response = await axios({
                 method: 'post',
-                url: '/user/signup',
+                url: 'http://localhost:3000/user/signup',
                 data: payload,
                 withCredentials: true,
-                headers: {"Content-Type": "application/json"}
+                headers: { "Content-Type" : "application/json" }
             })            
             debugger
-            commit('IS_USER', response.data)
+
+            if(response.data.hasOwnProperty('message')){
+                debugger
+                commit("MESSAGE", response.data.message)
+            }else{
+                commit('IS_USER', response.data.results)
+            }          
+            
         }catch(error){
             error
         }
@@ -45,22 +65,28 @@ const actions = {
 
     async signIn({commit}, payload){
         try{
+            debugger
             const response = await axios({
                 method: 'post',
-                url: 'http://localhost:3000//user/signin',
+                url: 'http://localhost:3000/user/signin',
                 data: payload,
                 withCredentials: true,
                 headers: {"Content-Type": "application/json"}
             })
 
-             debugger
-             commit('IS_USER', response.data )
+            debugger
+            if(response.data.hasOwnProperty('message')){
+                debugger
+                commit("MESSAGE", response.data.message)
+            }else{
+                commit('IS_USER', response.data.results)
+            }
         }catch(error){
             error
         }
     },
 
-    async checkUserStatus(){
+    async checkUserStatus({commit}){
         try{
             debugger
             await axios({
@@ -83,14 +109,78 @@ const actions = {
             debugger
             
             await axios({
-                    method: 'get',
-                    url: '/user/signout'  ,
-                    withCredentials: true,
-                    credentials: 'same-origin',
-                    headers: {"Content-Type": "application/json"}           
+                method: 'get',
+                url: 'http://localhost:3000/user/signout',
+                withCredentials: true,
+                headers: {"Content-Type": "application/json"}           
             })               
             
+            debugger
             commit('REMOVE_USER')
+
+        }catch(error){
+            error
+        }
+    },
+
+    async forgot({commit}, payload){
+        try{
+            debugger
+            
+            const res = await axios({
+                method: 'post',
+                url: 'http://localhost:3000/user/forgot',
+                data: payload,
+                withCredentials: true,
+                headers: { "Content-Type" : "application/json" }           
+            })               
+            
+            debugger
+            commit("MESSAGE", res.data.message)
+
+        }catch(error){
+            error
+        }
+    },
+
+    async reset({commit}, payload){
+        try{
+            debugger
+            
+            const response = await axios({
+                method: 'post',
+                url: `http://localhost:3000/user/reset/${payload.token}`,
+                data: payload.credentials,
+                withCredentials: true,
+                headers: {"Content-Type": "application/json"}           
+            })               
+            
+            debugger
+            if(response.data.hasOwnProperty('message')){
+                debugger
+                commit("MESSAGE", response.data.message)
+            }else{
+                commit('IS_USER', response.data.results)
+            }
+
+        }catch(error){
+            error
+        }
+    },
+
+
+    async addUser({commit}, payload){
+        try{
+            debugger
+            
+            const response = await axios({
+                method: 'post',
+                url: 'http://localhost:3000/user/confirm/'+payload  ,
+                withCredentials: true,
+                headers: {"Content-Type": "application/json"}           
+            })               
+            debugger
+            commit('IS_USER', response.data.results)
 
         }catch(error){
             error
@@ -99,4 +189,4 @@ const actions = {
 
 }
 
-export default { state, getters, mutations, actions}
+export default { state, getters, mutations, actions }

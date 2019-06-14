@@ -20,14 +20,7 @@ userSchema.pre('save', async function(next){
         //encrypt the submitted password
         const passwordHash = await bcrypt.hash(this.password, salt)
 
-        console.log("This is password hash ", passwordHash)
-        this.password = passwordHash
-
-        if(this.email==='ngatuna05@gmail.com'||this.email==='gatunan@gmail.com'){
-            console.log("We should get here...")
-            this.role = 'admin',
-            this.confirmed = true
-        }
+        this.password = passwordHash       
         
         next()
     }catch(error){
@@ -39,12 +32,11 @@ userSchema.pre('save', async function(next){
 userSchema.methods.isValidPassword = async function (newPassword) {
     try {
 
-         return await bcrypt.compare(newPassword, this.password)
+        return await bcrypt.compare(newPassword, this.password)
 
     } catch (error) {
       throw new Error(error)
     }
-  }
-  
+}
 
 module.exports = mongoose.model('User', userSchema)

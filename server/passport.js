@@ -46,9 +46,9 @@ passport.use(new LocalStrategy({
   }, async (email, password, done) => {
     try {
       // Find the user given the email
-      console.log("Here is the email...", email)
+      
       const user = await User.findOne({email })
-      console.log("Here is the user...", user)
+      
       // If not, handle it
       if (!user) {
         return done(null, false)

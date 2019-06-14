@@ -19,15 +19,24 @@
         <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Sign in</button>
 
         </form>
+        <p v-if="!getUser"><strong>Don't have an account? Sign up <router-link  v-bind:to="{name: 'signup'}"><a> here </a></router-link></strong></p>
+        <p v-if="!getUser"><router-link  v-bind:to="{name: 'forgot'}"><a>Forgot password </a></router-link></p>
       </div>
     </section>
 </template>
 <script>
 import { store } from "../../store/store"
+import { mapGetters } from "vuex"
 
 export default {
 
     props:['admin'],
+
+    computed:{
+        ...mapGetters([
+            "getUser", "getMessage"
+        ])
+    },
 
     data(){
         return{
@@ -45,7 +54,10 @@ export default {
             if(this.admin){
                     this.$router.push({path: '/admin'})
                 }else{
-                    this.$router.push({path: '/adminjobs'})
+                    if(this.getMessage){
+                        debugger
+                        this.$router.push({path: '/checkemail'})
+                    }else this.$router.push({path: '/adminjobs'})
             }
         }
     }

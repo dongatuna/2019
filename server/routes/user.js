@@ -19,6 +19,6 @@ router.route("/forgot").post(UserController.forgot)
 
 //router.route("/reset").get(UserController.reset)
 
-router.route("/reset").get(UserController.reset)
+router.route("/reset/:token").post(UserController.reset)
 
 module.exports = router

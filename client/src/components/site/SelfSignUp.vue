@@ -112,6 +112,7 @@ export default {
 
     data(){
         return{
+            course_id: this.$route.params.course_id,
             student: {
                 first: "",
                 last: "",

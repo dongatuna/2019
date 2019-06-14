@@ -31,19 +31,15 @@ module.exports = {
 
     forgot: async( req, res, next ) => {
         try{
-            //create a token
-           // const buf = await crypto.randomBytes(128)
-
-            const token = await crypto.randomBytes(128).toString('hex')
-
-            console.log("Here is the token: ", token)
+            //console.log(req.body.email)
 
             const user = await User.findOne({email: req.body.email})
 
+            const token = await crypto.randomBytes(128).toString('hex')
+
             if(!user){
                 return res.status(404).json({
-                    message: "The user does not exist",
-                    url: '/forgot'
+                    message: "The user does not exist."
                 })
             }
 
@@ -52,7 +48,7 @@ module.exports = {
 
             await user.save()
 
-            var msg = {
+            const msg = {
                 to: user.email,
                 from: 'jobs.at.excel@gmail.com',
                 subject: 'Excel Health Password Reset',
@@ -78,26 +74,12 @@ module.exports = {
         }
     },
 
-    // reset: async(req, res, next) => {
-    //     //does the user exist using the retrieved token and at this time - token expires?
-    //     const user = await User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } })
-
-    //     if(!user){
-    //         return res.status(404).json({
-    //             message: "Password reset token is invalid or has expired",
-    //             url: '/forgot'
-    //         })        
-    //     }
-
-    //     res.status(200).json({
-    //         message: "Enter new password",
-    //         url: "/reset"
-    //     })
-    // },
-
+     //This user is confirmed
     reset: async (req, res, next ) => {
         //does the user exist?
-        const user = await User.findOne({resetPasswordToken: req.params.token, confirmed: true, resetPasswordExpires:{ $gt: Date.now() }})
+        const user = await User.findOne({resetPasswordToken: req.params.token, resetPasswordExpires:{ $gt: Date.now() }})
+
+        console.log("Here is the user...", user)
 
         if(!user){
             return res.status(404).json({
@@ -106,37 +88,49 @@ module.exports = {
             })        
         }
 
-        const {password, password2} = req.body
+        const { password, password2 } = req.body
 
-        if(password === password2){
+        if( password === password2 ){
+
+            const reset_user = await User.findOneAndUpdate({email: user.email}, 
+                {
+                    $set:{ 
+                        confirmed: true,                                      
+                        resetPasswordToken: undefined,
+                        resetPasswordExpires: undefined
+                    }
+                },                                     
+                {
+                    new: true
+                }
+            )
+
+            const msg = {
+                to: reset_user.email,
+                from: 'jobs.at.excel@gmail.com',
+                subject: 'Password Reset Successful',
+                text: 'Hello,\n\n' +
+                'This is a confirmation that the password for your account ' + reset_user.email + ' has just been changed.\n'
+            }
+    
+            sgMail.send(msg)
+
+            const results = {
+                confirmed: reset_user.confirmed,
+                username: reset_user.email.split("@")[0],
+                role: reset_user.role
+            } 
             
-            user.resetPasswordToken = undefined
-            user.resetPasswordExpires = undefined
-        }else{
+            const token = signToken(reset_user)
+            //Send a cookie containing JWT
+            res.cookie("user_token", token , {/*secure: true,*/  httpOnly:true})
+
+            res.status(200).json({ results })
+        } else {
             return res.status(401).json({
-                message: "Your password and confirm password do not match.",
-                url: "/forgot"
+                message: "Your password and confirm password do not match."
             })
         }
-
-        await user.save()
-
-        var msg = {
-            to: user.email,
-            from: 'jobs.at.excel@gmail.com',
-            subject: 'Excel Health Password Reset',
-            text: 'Hello,\n\n' +
-            'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
-        }
-
-        console.log('What is the value here? ', sgMail.send(msg))
-
-        res.status(200).json({
-            message: "Please sign in using your email and new password.",
-            url: "/signin"
-        })
-
-
     },
 
     signUp: async(req, res, next) => {
@@ -154,38 +148,65 @@ module.exports = {
                     message: "The email is in use."
                 })
             }
+
+            const adminEmails = ['ngatuna05@gmail.com', 'gatunan@gmail.com']
          
-           
-            if( password === password2 ){
+            if(!adminEmails.includes(email)){
+                if( password === password2 ){          
+                    
+                    const user = new User({    
+                        email, 
+                        password                
+                    })
+
+                    user.resetPasswordToken = await crypto.randomBytes(128).toString('hex'),
+                    user.resetPasswordExpires = Date.now() + 3600000
+                   
+                    await user.save() 
+    
+                    //send an email to user token 
+                    var msg = {
+                        to: user.email,
+                        from: 'jobs.at.excel@gmail.com',
+                        subject: 'Confirm your email',
+                        text: 'Please confirm your email, by clicking on the following link, or pasting it on your browser to complete the process:\n\n' +
+                          'http://localhost:8080/confirm/' + user.resetPasswordToken + '\n\n' +
+                          'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+                    }
+    
+                    sgMail.send(msg)    
+    
+                    return res.status(200).json({
+                        message: 'Check your email for further instruction on how to complete signing up.'               
+                    })                
+                }  
+            }  else {
+                if( password === password2 ){          
+                    
+                    const user = new User({    
+                        email, 
+                        password,
+                        role: "admin",
+                        confirmed: true                
+                    })                 
+                   
+                    await user.save()     
                 
-                const user = new User({    
-                    email, 
-                    password                
-                })      
-               
-                
-                user.resetPasswordToken = await crypto.randomBytes(128).toString('hex'),
-                user.resetPasswordExpires = Date.now() + 3600000
-                console.log("User state1: ", user)
-                await user.save()
+                    const results = {
+                        confirmed: user.confirmed,
+                        username: user.email.split("@")[0],
+                        role: user.role
+                    } 
 
-                //send an email to user token 
-                var msg = {
-                    to: user.email,
-                    from: 'jobs.at.excel@gmail.com',
-                    subject: 'Confirm your email',
-                    text: 'Please confirm your email, by clicking on the following link, or pasting it on your browser to complete the process:\n\n' +
-                      'http://localhost:8080/confirm/' + user.resetPasswordToken + '\n\n' +
-                      'If you did not request this, please ignore this email and your password will remain unchanged.\n'
-                }
-
-                sgMail.send(msg)    
-
-                console.log("I am getting ....here....")
-                res.status(200).json({
-                    message: 'Check your email for further instruction on how to complete signing up.'               
-                })                
-            }        
+                    const token = signToken(user)
+                    //Send a cookie containing JWT
+                    res.cookie("user_token", token , {/*secure: true,*/  httpOnly:true})
+     
+                    res.status(200).json({
+                        results                       
+                    })                
+                }  
+            }                 
         }catch(error){
             res.status(404).json({
                 message: 'There was an error signing up',
@@ -201,13 +222,16 @@ module.exports = {
             //confirm that the token exists and that the token is not expired
             
             const user = await User.findOneAndUpdate({resetPasswordToken: req.params.token, resetPasswordExpires:{ $gt: Date.now() }}, 
-                                    {$set:{
-                                        confirmed: true,
-                                        resetPasswordToken:undefined,
-                                        resetPasswordExpires:undefined
-                                    }}, 
-                                    
-                                    {new: true}
+                            {
+                                $set:{
+                                    confirmed: true,
+                                    resetPasswordToken:undefined,
+                                    resetPasswordExpires:undefined
+                                }
+                            },                                     
+                            {
+                                new: true
+                            }
                         )
             
             console.log("Here is the updated user", user)                        
@@ -231,7 +255,10 @@ module.exports = {
             res.status(200).json({results})          
 
         }catch(err){
-
+            res.status.json({
+                message: "There has been an error adding your account.",
+                err
+            })
         }
     },
 
@@ -239,15 +266,40 @@ module.exports = {
         try{    
             //get the user from passport local method
             const user = req.user
-            //console.log("Is this is a user ", req.user)
-
-            if(!user.confirmed){
-                return res.status(400).json({
-                    message: "You account has not yet been authenticated.  ",
-                    url: "/forgot"
-                })
+            console.log("This is the user: ", user)
                 
-            }  
+            if(!user.confirmed){
+                const newResetPasswordToken = await crypto.randomBytes(128).toString('hex')
+                const newResetPasswordExpires = Date.now() + 3600000
+
+                const confirmed_user = await User.findOneAndUpdate({email: user.email}, 
+                            {
+                                $set:{                                       
+                                    resetPasswordToken: newResetPasswordToken,
+                                    resetPasswordExpires: newResetPasswordExpires
+                                }
+                            },                                     
+                            {
+                                new: true
+                            }
+                        )
+
+                 //send an email to user with a token 
+                const msg = {
+                    to: confirmed_user.email,
+                    from: 'jobs.at.excel@gmail.com',
+                    subject: 'Confirm your email',
+                    text: 'Please confirm your email, by clicking on the following link, or pasting it on your browser to complete the process:\n\n' +
+                      'http://localhost:8080/confirm/' + confirmed_user.resetPasswordToken + '\n\n' +
+                      'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+                }
+
+                sgMail.send(msg)    
+
+                return res.status(200).json({
+                    message: 'You never confirmed your account by logging into your email and finishing the sign up process.  Check your email to complete the sign up process.'               
+                }) 
+            }    
                       
             const token = signToken(user)
             console.log("Here...is the token ", token)

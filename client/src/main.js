@@ -36,7 +36,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) =>{
   if(to.matched.some(record => record.meta.requiresAdminAuth)){
-    if(store.getters.getRole==="admin"){
+    if(store.getters.getRole==="admin"&& store.getters.getStatus ){
       next()      
       return
     }
@@ -48,7 +48,7 @@ router.beforeEach((to, from, next) =>{
 
 router.beforeEach((to, from, next) =>{
   if(to.matched.some(record => record.meta.requiresAuth)){
-    if(store.getters.getRole==="user"){
+    if( store.getters.getRole==="user" && store.getters.getStatus ){
       next()      
       return
     }
