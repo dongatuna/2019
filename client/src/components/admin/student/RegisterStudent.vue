@@ -1,5 +1,4 @@
 <template>
-
     <section class="bg-light">
         <div class="container-fluid">
             <div class="row justify-content-center">

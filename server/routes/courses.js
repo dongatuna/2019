@@ -6,7 +6,7 @@ const passportConf = require('../passport')
 
 const passportJWT = passport.authenticate('jwt', {session: false})
 
-router.route('/').get(passportJWT, CourseController.getAllCourses)
+router.route('/').get(/*passportJWT,*/ CourseController.getAllCourses)
 router.route('/:course_id').get(CourseController.getCourse)
 router.route('/:course_id').post(CourseController.selfCourseSignUp)
 

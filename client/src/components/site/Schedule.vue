@@ -5,7 +5,7 @@
                 <div class="col-sm-12 col-md-4">
                     <h3 class="diplay">Select the course to view schedule</h3>
                     <hr><br>
-                     <select v-model="choices"  class="form-control form-control-lg">
+                     <select v-model="course_type"  class="form-control form-control-lg">
                         <option v-for="(choice, index) of choices" :key="index">{{choice}}</option>                               
                     </select>
                 </div>
@@ -65,6 +65,7 @@ export default {
 
     data(){
         return{
+            course_type: "",
             choices: ["CNA", "Adult CPR/FA", "Infant, Child, Adult CPR/FA", "Basic Life Support (BLS)"],
         }
     },

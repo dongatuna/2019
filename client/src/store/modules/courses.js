@@ -29,8 +29,8 @@ const mutations = {
                // debugger
                 state.courseIds.push(item.courseId)
 
-                state.courses.push(item);
-                state.sortedCourses[item.type].push(item);
+                state.courses.push(item)
+                state.sortedCourses[item.type].push(item)
             } 
            // console.info(state.sortedCourses)
         })               

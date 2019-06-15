@@ -92,7 +92,7 @@ module.exports = {
             }
             
             //get the req.body data
-            const {address, city, state, zip, tel, email, first, last, payments, notes} = req.body
+            const {tel, email, first, last, notes} = req.body
             
             const check = await Student.find({email})
 
@@ -105,7 +105,7 @@ module.exports = {
 
             const newStudent = new Student({
                 _id: mongoose.Types.ObjectId(),
-                address, city, state, zip, tel, email, first, last, registered, payments, notes
+                tel, email, first, last, notes
             })
 
             course.students.push(newStudent._id)
