@@ -43,7 +43,7 @@ const actions = {
     
     async getAllCourses({commit}){
         try{
-            const responses = await axios.get('/courses')
+            const responses = await axios.get('http://localhost:3000/courses')
             
             debugger
             commit("ADD_TO_COURSES", responses.data.courses)
@@ -56,7 +56,7 @@ const actions = {
     async getCourse({commit}, payload){
         try{
 
-            const response = await axios.get(`/courses/${payload}`)
+            const response = await axios.get(`http://localhost:3000/courses/${payload}`)
 
             debugger
             commit("ADD_COURSE", response.data.course)
@@ -71,7 +71,7 @@ const actions = {
 
             const response = await axios({
                 method: 'post',
-                url: `/courses`,
+                url: `http://localhost:3000/courses`,
                 data: payload,
                 headers:{                   
                     'Content-Type': 'application/json'                    
@@ -89,7 +89,7 @@ const actions = {
         try{
             const response = await axios({
                 method: 'delete',
-                url: `/courses/${course_id}`,
+                url: `http://localhost:3000/courses/${course_id}`,
                 data: payload,
                 headers:{                  
                     'Content-Type':'application/json'                    
@@ -108,7 +108,7 @@ const actions = {
         try{
             const response = await axios({
                 method: 'PATCH',
-                url: `/courses/update/${payload.course_id}`,
+                url: `http://localhost:3000/courses/update/${payload.course_id}`,
                 data: payload,
                 headers:{                    
                     'Content-Type':'application/json'                    
@@ -126,7 +126,7 @@ const actions = {
 
             const response = await axios({
                     method: 'post',
-                    url: `/courses/${payload.course_id}`,
+                    url: `http://localhost:3000/courses/${payload.course_id}`,
                     data: payload.student,
                     headers:{
                         'Content-Type':'application/json'                    
@@ -146,7 +146,7 @@ const actions = {
             debugger
             const response = await axios({
                 method: 'post',
-                url: `/courses/admin/${payload.course_id}`,
+                url: `http://localhost:3000/courses/admin/${payload.course_id}`,
                 data: payload.student,
                 headers:{
                    'Content-Type':'application/json'                    

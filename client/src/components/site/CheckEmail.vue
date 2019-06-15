@@ -2,7 +2,7 @@
     <section>        
         <div class="container mt-5 col-sm-10 col-md-6 col-lg-4 p-5">
             <div class="alert alert-success" role="alert">
-                <h4 class="alert-heading">Almost done signing up!</h4>
+                <h4 class="alert-heading">Almost done...!</h4>
                 <p>{{ getMessage }}</p>
                 <hr>
                 <p class="mb-0">Thanks.</p>
@@ -26,9 +26,6 @@ export default {
         return{            
             message: this.getMessage,            
         }
-    },
-
-  
-    
+    }   
 }
 </script>

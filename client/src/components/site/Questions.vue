@@ -2,12 +2,12 @@
   <section>
     <div class="container-fluid">
       <div class="row justify-content-center">
-        <div class="col-sm-8">
+        <div class="col-sm-6">
           <div class="float-right mb-3">          
-            <button class="btn btn-outline-primary btn-lg" type='submit' @click="getTest(11)">Take Exam</button>
+            <button class="btn btn-outline-primary btn-lg" type='submit' @click="getTest(70)">Take Exam</button>
           </div>
           <div>
-            <h5 class="lead"><strong>Theory questions for CNA and HCA written exam</strong></h5>     
+            <h5 class="lead"><strong>CNA and HCA written exam</strong></h5>     
          </div>
 
           <div v-for="(que,index) in questions" :key="index">
@@ -21,11 +21,12 @@
                 <tbody>
                   <tr v-for="(choice, choiceindex) of que.choices" :key="choiceindex">
                     <td>
-                      <input type ="radio" :name ="`${index}`" :value="choiceindex" v-model="answers[index]" required> ~ {{choice}}
+                      <strong>{{choices[choiceindex]}}: </strong> <input type ="radio" :name ="`${index}`" :value="choiceindex" v-model="answers[index]" required>~ {{choice}}
                     </td>
                   </tr>
                   <div v-if="graded && answers[index]!==que.answer">
-                    <i class="fas fa-times text-success"></i> <p class="text-danger">{{que.rationale}}</p>
+                    <i class="fas fa-times text-success"></i> <p class="text-danger">
+                     <i>The answer is {{choices[que.answer]}}. </i> {{que.rationale}}</p>
                   </div>  
                 </tbody>
                 <br>
@@ -59,16 +60,16 @@
             
           </nav>
         </div>
-            <div class="card col-sm-3" style="width: 18rem;">
-              <div class="card-header">
-                Featured
-              </div>
-              <ul class="list-group list-group-flush">
+          <div class="col-sm-2 py-8" >
+            
+              <ul class="list-group">
+                <li class="list-group-item active"><strong>Features</strong></li>
                 <li class="list-group-item">Find Jobs</li>
+                <li class="list-group-item">View Courses</li>
                 <li class="list-group-item">Skill Videos</li>
-                <li class="list-group-item">Our Courses</li>
+                
               </ul>
-            </div>
+          </div>           
       </div>      
     </div>
   </section>  
@@ -98,6 +99,7 @@ export default {
 
   data(){
       return{
+        choices: ['A', 'B', 'C', 'D'],
         questions: [],
         answers: [],
         graded: false,

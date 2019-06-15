@@ -1,8 +1,9 @@
 <template>
     <section>
-        <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-            <!-- <h5 v-if="getUser" class="my-0 mr-md-auto font-weight-normal"><router-link v-bind:to="{path: '/admin'}">Excel Health Careers Training</router-link></h5> -->
-            <h5 class="my-0 mr-md-auto font-weight-normal"><router-link v-bind:to="{name: 'home'}">Excel Health Careers Training</router-link></h5>
+        <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3  border-bottom shadow-sm">
+            <h5 v-if="getRole==='admin'" class="my-0 mr-md-auto font-weight-normal"><router-link v-bind:to="{path: '/admin'}">Excel Health Careers Training</router-link></h5> 
+            <h5 v-else-if="getRole==='user'" class="my-0 mr-md-auto font-weight-normal"><router-link v-bind:to="{path: '/adminjobs'}">Excel Health Careers Training</router-link></h5> 
+            <h5 v-else class="my-0 mr-md-auto font-weight-normal"><router-link v-bind:to="{name: 'home'}">Excel Health Careers Training</router-link></h5>
             <nav class="my-2 my-md-0 mr-md-3">
                 <router-link v-bind:to="{name: 'schedule'}"><a class="p-2 text-dark">Courses</a></router-link>      
                 <router-link v-bind:to="{name: 'jobs'}"><a class="p-2 text-dark">Jobs</a></router-link>
@@ -22,10 +23,10 @@
 import { store } from "../store/store"
 import { mapGetters } from "vuex"
 export default {
-
+//  
     computed:{
         ...mapGetters([
-            "getUser"
+            "getUser", "getRole"
         ])
     }
     

@@ -83,6 +83,14 @@ const Courses = {
         times: ''
     },
 
+    BLS:{
+        cost: 65,
+        length: '4.5 hours',
+        location: '', 
+        dates: '',
+        times: ''
+    },
+
     'Continuous Education Units': {
         cost: 90,
         length: '12 hours',

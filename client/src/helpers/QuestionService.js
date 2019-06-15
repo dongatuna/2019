@@ -40,7 +40,7 @@ class QuestionService {
             this.randomizeQuestions()
         } else {
 
-            this._test = this._test.slice(0 ,11)
+            this._test = this._test.slice(0 ,70)
         }
     }    
 
