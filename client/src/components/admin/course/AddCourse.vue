@@ -7,9 +7,9 @@
                 <div class="justify-content-center"> 
                     <div class="row ">
                         <div class="col-sm-12">
-                            <h3 class="diplay">Select the course to view schedule</h3>
+                            <h3 class="diplay">Select course to add dates</h3>
                             <hr><br>
-                            <select v-model="choices"  class="form-control form-control-lg">
+                            <select v-model="selected"  class="form-control form-control-lg">
                                 <option v-for="(choice, index) of choices" :key="index">{{choice}}</option>                               
                             </select>
                         </div>                
@@ -20,15 +20,15 @@
                             <p class='display-text'>Day Classes</p>
                             <div class="form-group">
                                 
-                                <input type="text" class="form-control" name="row11" v-model="courses.options[0].dates[0]">
+                                <input type="text" class="form-control" name="row11" v-model="courses[0].dates[0]">
                             </div>
                             <div class="form-group">
                                 
-                                <input type="text" class="form-control" name="row21" v-model="courses.options[0].dates[1]">
+                                <input type="text" class="form-control" name="row21" v-model="courses[0].dates[1]">
                             </div>
                             <div class="form-group">
                                 
-                                <input type="text" class="form-control" name="row31" v-model="courses.options[0].dates[2]">
+                                <input type="text" class="form-control" name="row31" v-model="courses[0].dates[2]">
                             </div>
                         </div>            
                         
@@ -36,15 +36,15 @@
                             <p class='display-text'>Evening Classes</p>
                             <div class="form-group">
                                 
-                                <input type="text" class="form-control" name="row12" v-model="courses.options[1].dates[0]">
+                                <input type="text" class="form-control" name="row12" v-model="courses[1].dates[0]">
                             </div>
                             <div class="form-group">
                                 
-                                <input type="text" class="form-control" name="row22" v-model="courses.options[1].dates[1]">
+                                <input type="text" class="form-control" name="row22" v-model="courses[1].dates[1]">
                             </div>
                             <div class="form-group">
                             
-                                <input type="text" class="form-control" name="row32" v-model="courses.options[1].dates[2]">
+                                <input type="text" class="form-control" name="row32" v-model="courses[1].dates[2]">
                             </div>
                         </div>
 
@@ -52,15 +52,15 @@
                             <p class='display-text'>Weekend Classes</p>
                             <div class="form-group">
                             
-                                <input type="text" class="form-control" name="row13" v-model="courses.options[2].dates[0]">
+                                <input type="text" class="form-control" name="row13" v-model="courses[2].dates[0]">
                             </div>
                             <div class="form-group">
                                 
-                                <input type="text" class="form-control" name="row23" v-model="courses.options[2].dates[1]">
+                                <input type="text" class="form-control" name="row23" v-model="courses[2].dates[1]">
                             </div>
                             <div class="form-group">
                             
-                                <input type="text" class="form-control" name="row33" v-model="courses.options[2].dates[2]">
+                                <input type="text" class="form-control" name="row33" v-model="courses[2].dates[2]">
                             </div>
                         </div>  
                     </div>
@@ -70,13 +70,9 @@
                     </div>                
                 </div>           
                                               
-            </div>
-
-                    
-            </form>
-                     
-        </div>    
-        
+                </div>                    
+            </form>                    
+        </div>            
     </section>   
 </template>
 
@@ -90,25 +86,23 @@ export default {
 
     data(){
         return{
+            selected: "",
             choices: ["CNA", "Adult CPR/FA", "Infant, Child, Adult CPR/FA", "Basic Life Support (BLS)"],
 
-            courses: {
-
-                options: [
-                    {name: "CNA", type: 'Day', dates: []},
-                    {name: "CNA", type: 'Evening', dates: []},
-                    {name: "CNA", type: 'Weekends', dates: []}
-                ]
-            }                      
+            courses: [
+                    {type: 'Day', dates: []},
+                    {type: 'Evening', dates: []},
+                    {type: 'Weekends', dates: []}
+            ]         
         }
     },
     //https://jsfiddle.net/tunom37u/4/
     methods:{
         addCourses(){
-            if(this.courses.options.length>0){
+            if(this.courses.length>0){
                 debugger
                          
-                this.$store.dispatch('addCourse', this.courses.options)     
+                this.$store.dispatch('addCourse', {name: this.selected, courses:this.courses})     
                 
                 this.$router.push({name:'course-schedule'})
             }

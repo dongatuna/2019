@@ -18,7 +18,7 @@
                     <td>{{student.first}} {{student.last}} </td>                    
                     <td>{{student.tel}}</td>
                     <td>{{student.email}}</td>
-                    <td><router-link v-bind:to="{path: `/course/${student.payments[0].course_id._id}`}">{{displayDates(student.payments[0].course_id.start_date)}} - {{displayDates(student.payments[0].course_id.end_date)}}</router-link></td>
+                    <td><router-link v-bind:to="{path: `/course/${student.payments[0].course_id._id}`}">{{ displayDates(student.payments[0].course_id.start_date) }} - {{displayDates(student.payments[0].course_id.end_date)}}</router-link></td>
                 </tr>    
             </tbody>
         </table>
@@ -68,9 +68,11 @@ export default {
     },
     
     methods:{
+
         dailyRegistrations(){
              this.$store.dispatch('getDailyRegistrations')    
         },
+
         displayDates(dates){
             
             const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']

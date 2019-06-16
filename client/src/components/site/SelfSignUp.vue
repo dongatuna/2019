@@ -74,7 +74,7 @@ export default {
      data(){
         return{
             sel_course: {},
-            //course_id: this.$route.params.course_id,
+            course_id: this.$route.params.course_id,
             student: {
                 first: "",
                 last: "",
@@ -93,7 +93,7 @@ export default {
     },   
 
     mounted(){
-         this.course_info(this.$route.params.course_id)
+         this.course_info(this.course_id)
     },
 
     methods: {
@@ -101,7 +101,7 @@ export default {
 
             if(this.student!==null){
                 debugger
-                this.$store.dispatch('selfCourseSignUp', {student: this.student, course_id})
+                this.$store.dispatch('selfCourseSignUp', {student: this.student, course_id:this.course_id})
             }
 
            this.$router.push({name: 'checkemail'})
@@ -120,10 +120,10 @@ export default {
                     const end_course_date = moment(this.sel_course.end_date).date()
                     const start_course_month = moment(this.sel_course.start_date).month()
                     const end_course_month = moment(this.sel_course.end_date).month()
-                    const type = this.sel_course.type
+                    const type = this.sel_course.type//
                     const name = this.sel_course.name
                     debugger
-                    this.course  = `${months[start_course_month]} ${start_course_date} - ${months[end_course_month]} ${end_course_date} ${name} ${type}`
+                    this.course  = `${months[start_course_month]} ${start_course_date} - ${months[end_course_month]} ${end_course_date} ${name} ${type.toLowerCase()}`
 
                     debugger
                     

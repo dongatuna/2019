@@ -18,6 +18,10 @@ module.exports = {
 
             const dbCourses = []
 
+            // req.body.reduce(course=>{
+
+            // }, [])
+
             for(let index= 0; index < courses_length; index++){
                 let type = courses[index].type
                 let name = courses[index].name
@@ -35,6 +39,7 @@ module.exports = {
 
                         console.log(`We are in the for loop # 2`)
                         if(dates[date_index]!=null){
+
                             let course_dates = dates[date_index].split(' ')
                                             
                             let today = new Date() ///new Date()
@@ -85,7 +90,7 @@ module.exports = {
                 return res.status(401).json({
                     message: 'No course with that ID',
                     request:{
-                        url: `To view courses for signing up, visit: http://localhost:3000/courses`,
+                        url: `To view courses for signing up, visit: http://localhost:8080/schedule`,
                         method: "GET"
                     }
                 })
@@ -113,10 +118,8 @@ module.exports = {
             await Promise.all([ newStudent.save(), course.save() ]) 
                
             res.status(200).json({
-                message: `The student has been added.`,
-                url: `localhost:3000/students/${newStudent._id}`,
-                newStudent, 
-                course
+                message: `You have successfully signed for the class.  Check your email for more information about what steps to take next.`,  
+                course, newStudent             
             })
 
         }catch(error){
