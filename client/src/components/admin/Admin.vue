@@ -60,9 +60,10 @@ export default {
    
     methods: {
 
-        logOut(){
-            this.$store.dispatch('logOut')
+       async logOut(){
+            await this.$store.dispatch('logOut')
 
+            debugger
             this.$router.push({name: 'home'})
         },
 

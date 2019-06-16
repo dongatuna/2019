@@ -1,6 +1,7 @@
 <template>
     <section>
         <div class="container mt-5 col-sm-10 col-md-6 col-lg-4 p-5">
+        
         <form class="form-signin" v-on:submit.prevent="signIn">
             <div class="text-center mb-4">        
             <h1 class="h3 mb-3 font-weight-normal">Sign in</h1>        

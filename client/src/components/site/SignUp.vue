@@ -6,11 +6,15 @@
                 {{message}}
                 </div>
             </div>
+
+            <div class="alert alert-info" role="alert">
+                <p class="text-dark">Looking to hire caregivers and CNAs?  Sign up below. <br> <small>To sign up for courses, click <a href="http://localhost:8080/schedule">here</a>.</small></p>
+            </div>
             
             <form class="form-signin" v-on:submit.prevent="signUp">
-                <div class="text-center mb-4">        
+            <div class="text-center mb-4">        
                 <h1 class="h3 mb-3 font-weight-normal">Sign up</h1>        
-            </div>
+            </div>            
 
             <div class="form-label-group">
                 <input type="text" class="form-control" placeholder="Email address" v-model="user.email" autofocus required>
