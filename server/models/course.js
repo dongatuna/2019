@@ -11,7 +11,7 @@ const courseSchema = mongoose.Schema({
     name: {type: String, required: true},
     type: {type:String, enum: ['Day', 'Evening', 'Weekends']},
     start_date: {type: Date, required: true},
-    end_date: {type: Date, required: true},
+    end_date: {type: Date},
     students: [{type: mongoose.Schema.Types.ObjectId, ref: "Student"} ]
 })
 

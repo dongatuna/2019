@@ -115,6 +115,10 @@ module.exports = {
 
             course.students.push(newStudent._id)
 
+            newStudent.payments.push({ 
+                course_id: req.params.course_id
+            })
+
             await Promise.all([ newStudent.save(), course.save() ]) 
                
             res.status(200).json({
