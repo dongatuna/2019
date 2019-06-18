@@ -86,7 +86,7 @@ export default {
 
     data(){
         return{
-            selected: "",
+            selected: "CNA",
             choices: ["CNA", "Adult CPR/FA", "Infant, Child, Adult CPR/FA", "Basic Life Support (BLS)"],
 
             courses: [

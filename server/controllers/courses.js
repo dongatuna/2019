@@ -9,59 +9,63 @@ const Student = require('../models/student')
 module.exports = {
 
     addCourse: async(req, res, next ) => {
-        try{
+        try{          
 
-            const courses  = req.body
-            console.log("COURSES ", courses)
-            const courses_length = courses.length
-            console.log("This is the courses' length...", courses_length)
+            console.log("REQ BODY COURSES", req.body.courses)
+            const name =  req.body.name
+            const course_length = req.body.courses.length
 
+            //console.log('name ', name, 'length ', course_length)
             const dbCourses = []
+            for (let course_index = 0; course_index < course_length; course_index++){
+                const type  = req.body.courses[course_index].type
 
-            // req.body.reduce(course=>{
+                const dates_length = req.body.courses[course_index].dates.length
 
-            // }, [])
+               // console.log('type ', type, 'dates length ', dates_length)
 
-            for(let index= 0; index < courses_length; index++){
-                let type = courses[index].type
-                let name = courses[index].name
+                if(dates_length>0){
 
-                console.log(`We are in the for loop # 1`)
+                    for(let dates_index = 0 ; dates_index < dates_length; dates_index++){
+                        
+                        //console.log("Will you console log? ", req.body.courses[course_index].dates[dates_index])
+                        const date = req.body.courses[course_index].dates[dates_index]
 
-                    if(courses[index].dates.length>0){
-                    
-                    console.log(`We are in the first if`)
-                    let dates = courses[index].dates
-                                    
-                    let dates_length = dates.length
-
-                    for(let date_index = 0; date_index <= dates_length; date_index++){
-
-                        console.log(`We are in the for loop # 2`)
-                        if(dates[date_index]!=null){
-
-                            let course_dates = dates[date_index].split(' ')
-                                            
-                            let today = new Date() ///new Date()
-
-                            let start_date = new Date(course_dates[0]+' '+course_dates[1]+', '+today.getFullYear())
-                
-                            let end_date = new Date(course_dates[3]+' '+course_dates[4]+', '+today.getFullYear())              
-                          
-                            console.log("start ", start_date, "end date ", end_date)
-                            let newCourse ={
-                                //_id: mongoose.Types.ObjectId(),
-                                name, type, start_date, end_date                     
-                            }
-
-                            dbCourses.push(newCourse)
+                        //console.log("Here is the date: ", date)
+    
+                        if(date){
+                        
+                            const course_dates = date.split(' ')
+        
+                            let today = new Date()
+        
+                            let start_date = new Date(course_dates[0] + ' ' + course_dates[1] + ', ' + today.getFullYear())           
                             
-                        }
+                             
+                            switch(course_dates.length){
+                                case 2:             
+        
+                                   dbCourses.push({name, type, start_date}) 
+                                
+                                    break
+                                
+                                case 5:
+        
+                                    let end_date = new Date(course_dates[3] + ' ' + course_dates[4] + ', ' + today.getFullYear()) 
+                                    
+                                   // console.log('name', name, 'type', type, 'start', start_date, 'end', end_date)
+                                    dbCourses.push({name,  type, start_date, end_date})
+        
+                                    break
+                            }
+                        }  
                     }
                 }
-            }     
-            console.log(dbCourses)
-            await Course.insertMany(dbCourses)
+            }
+
+           //console.log("Here are the db courses ", dbCourses)
+     
+           await Course.insertMany(dbCourses)
 
             res.status(201).json({
                 message:  `To view the course you have added, visit it  to see the course.`,

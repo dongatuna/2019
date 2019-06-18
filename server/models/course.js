@@ -8,11 +8,11 @@ sgMail.setApiKey("")
 
 const courseSchema = mongoose.Schema({
    // _id: mongoose.Schema.Types.ObjectId,    
-    name: {type: String, required: true},
+    name: {type: String, required: true, enum: ["CNA", "Adult CPR/FA", "Infant, Child, Adult CPR/FA", "Basic Life Support (BLS)"]},
     type: {type:String, enum: ['Day', 'Evening', 'Weekends']},
     start_date: {type: Date, required: true},
-    end_date: {type: Date},
-    students: [{type: mongoose.Schema.Types.ObjectId, ref: "Student"} ]
+    end_date: {type: Date, default: null},
+    students: [{type: mongoose.Schema.Types.ObjectId, ref: "Student", default: [] }]
 })
 
 /**

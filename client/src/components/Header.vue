@@ -11,8 +11,8 @@
                 <router-link v-bind:to="{name: 'questions'}"><a class="p-2 text-dark">Questions</a></router-link>
                 <router-link v-bind:to="{name: 'videos'}"><a class="p-2 text-dark">Videos</a></router-link>            
                 <router-link v-if="!getUser" v-bind:to="{name: 'signin'}"><a> Sign in </a></router-link> 
-                <router-link  v-if="!getUser" v-bind:to="{name: 'signup'}"><a>  Sign up </a></router-link>           
-                <!-- <a v-if="getUser" class="nav-link text-light text-capitalize font-weight-bold px-3">Sign out</a>                                             -->
+                <router-link v-if="!getUser" v-bind:to="{name: 'signup'}"><a>  Sign up </a></router-link>       
+                <!-- <router-link v-if="getUser" tag="href" :to="{path: '/signout'}"><a> Sign out</a></router-link>                                                            -->
             </nav>  
         </div>
     </section>

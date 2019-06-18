@@ -4,10 +4,11 @@ const state = {
     course: {},
     courses: [],
     courseIds:[],
-    sortedCourses: {
-        Day:[],
-        Evening:[],
-        Weekends:[] 
+    sortedCourses: {           
+        Day:  [],
+        Evening: [],
+        Weekends: []     
+            
     },
 }
 
@@ -23,13 +24,14 @@ const mutations = {
     ADD_COURSE: (state, payload) => state.course = payload,
     ADD_TO_COURSES(state, payload){
        // debugger
-        payload.forEach(item =>{
+        payload.forEach(item => {
 
             if(!state.courseIds.includes(item.courseId)){
                // debugger
                 state.courseIds.push(item.courseId)
 
                 state.courses.push(item)
+               // state.sortedCourses[item.name] = item.name
                 state.sortedCourses[item.type].push(item)
             } 
            // console.info(state.sortedCourses)
