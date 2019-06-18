@@ -5,49 +5,73 @@
                 <div class="col-sm-12 col-md-4">
                     <h3 class="diplay">Select the course to view schedule</h3>
                     <hr><br>
-                     <select v-model="selected"  class="form-control form-control-lg">
+                     <select v-model="selected" :on="sortCourses" class="form-control form-control-md" selected>
                         <option v-for="(choice, index) of choices" :key="index">{{choice}}</option>                               
                     </select>
                 </div>
                 
             </div>
             <br>
-            <div class="row justify-content-center">     
-           
-            <!-- <div class="row "> -->
-                
+            <div class="row justify-content-center">            
+               
                 <div class="col-md-2 col-sm-12">
                                  
-                    <ul class="list-group list-group-flush justify-content-between">
-                        <li class="list-group-item list-group-item-primary text-dark">Day Class <br> Mon - Fri <br> 3 weeks long <br> 9:00 a.m. - 3:00 p.m.</li>
-                        <li  class="list-group-item" v-for="course of getAllSortedCourses.Day" :key="course.courseId" >
+                    <ul v-if="selected ==='CNA'" class="list-group list-group-flush justify-content-between">
+                        <li class="list-group-item list-group-item-primary text-dark">Day Class <br> Mon - Fri <br> 3 weeks long <br> 9:00 a.m. - 3:00 p.m.</li>                        
+                        <li  class="list-group-item" v-for="course of dayCourses" :key="course.courseId" >
                             <router-link v-bind:to="{ path: `/register/${course.courseId}` }">{{displayDates(course.start_date)}} - {{displayDates(course.end_date)}}</router-link>
+                        </li>
+                    </ul>
+                    <ul v-else class="list-group list-group-flush justify-content-center">
+                        <li class="list-group-item list-group-item-primary text-dark">Day Class <br> 9:00 a.m. - 3:00 p.m.</li>                        
+                        <li  class="list-group-item text-center" v-for="course of dayCourses" :key="course.courseId" >
+                            <router-link v-bind:to="{ path: `/register/${course.courseId}` }">{{displayDates(course.start_date)}}</router-link>
                         </li>
                     </ul>
                 </div>
 
                 <div class="col-md-2 col-sm-12">
                                       
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item list-group-item-primary text-dark">Evening Class <br> Mon - Fri<br> 3 weeks long <br> 3:00 p.m. - 9:00 p.m.</li>
-                        <li  class="list-group-item" v-for="course of getAllSortedCourses.Evening" :key="course.courseId"  >
+                    <ul v-if="selected ==='CNA'" class="list-group list-group-flush justify-content-between">
+                        <li class="list-group-item list-group-item-primary text-dark">Evening Class <br> Mon - Fri <br> 3 weeks long <br> 3:00 p.m. - 9:00 p.m.</li>                        
+                        <li  class="list-group-item" v-for="course of eveningCourses" :key="course.courseId" >
                             <router-link v-bind:to="{ path: `/register/${course.courseId}` }">{{displayDates(course.start_date)}} - {{displayDates(course.end_date)}}</router-link>
                         </li>
                     </ul>
-                </div>
+                    <ul v-else class="list-group list-group-flush justify-content-center">
+                        <li class="list-group-item list-group-item-primary text-dark">Evening Class <br> 3:00 p.m. - 9:00 p.m.</li>                        
+                        <li  class="list-group-item text-center" v-for="course of eveningCourses" :key="course.courseId" >
+                            <router-link v-bind:to="{ path: `/register/${course.courseId}` }">{{displayDates(course.start_date)}}</router-link>
+                        </li>
+                    </ul>
+                </div> 
                 
                 <div class="col-md-2 col-sm-12">
                                      
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item list-group-item-primary text-dark">Weekend Class <br> Sat & Sun<br> 6 weekends long <br> 2:00 p.m. - 10:00 p.m.</li>
-                        <li  class="list-group-item" v-for="course of getAllSortedCourses.Weekends" :key="course.courseId" >
+                    <ul v-if="selected ==='CNA'" class="list-group list-group-flush justify-content-between">
+                        <li class="list-group-item list-group-item-primary text-dark">Weekend Class <br> Sat & Sun <br> 6 weekends long <br> 2:00 p.m. - 10:00 p.m.</li>                        
+                        <li  class="list-group-item" v-for="course of weekendCourses" :key="course.courseId" >
                             <router-link v-bind:to="{ path: `/register/${course.courseId}` }">{{displayDates(course.start_date)}} - {{displayDates(course.end_date)}}</router-link>
                         </li>
                     </ul>
+                    <ul v-else class="list-group list-group-flush justify-content-center">
+                        <li class="list-group-item list-group-item-primary text-dark">Weekend Class <br> 10:00 a.m. - 4:00 p.m.</li>                        
+                        <li class="list-group-item text-center" v-for="course of weekendCourses" :key="course.courseId" >
+                            <router-link v-bind:to="{ path: `/register/${course.courseId}` }">{{displayDates(course.start_date)}}</router-link>
+                        </li>
+                    </ul>
+                </div>            
+            </div>    
+            <br><br>
+            <div class="row justify-content-center">
+                <div class="col-sm-6">
+                    <hr>
+                    <div class="alert alert-secondary" role="alert">
+                        <p class="lead">Adult CPR/FA and BLS classes are not necessarily 6 hours long.</p>
+                    </div>
                 </div>
-            <!-- </div>  -->
-           
-            </div>              
+
+            </div>          
         </div>           
     </section>    
 </template>
@@ -67,12 +91,22 @@ export default {
         return{
             selected: "CNA",
             choices: ["CNA", "Adult CPR/FA", "Infant, Child, Adult CPR/FA", "Basic Life Support (BLS)"],
+            dayCourses: [],
+            eveningCourses: [],
+            weekendCourses: []
         }
     },
     computed: {
         ...mapGetters([
             "getCourseIds", "getAllCourses","getAllSortedCourses"
-        ])        
+        ]),
+        
+        sortCourses(){
+            this.dayCourses = this.getAllSortedCourses.Day.filter(course => course.name === this.selected)
+            this.eveningCourses  = this.getAllSortedCourses.Evening.filter(course => course.name === this.selected)
+            this.weekendCourses  = this.getAllSortedCourses.Weekends.filter(course => course.name === this.selected)
+           // console.log("Here is the courses ", course)
+        }
     },
 
     methods: {
@@ -85,11 +119,11 @@ export default {
             return `${months[course_month]} ${course_date}`
         },
 
-        transfer_student(course_id){
-            this.$store.dispatch('transferStudent', {old_course_id: this.getTransfer.course_id, new_course_id: course_id, student_id: this.getTransfer.student_id})
+        // transfer_student(course_id){
+        //     this.$store.dispatch('transferStudent', {old_course_id: this.getTransfer.course_id, new_course_id: course_id, student_id: this.getTransfer.student_id})
 
-            this.$router.push({path: `/course/${course_id}`})
-        },
+        //     this.$router.push({path: `/course/${course_id}`})
+        // },
 
     },    
 
