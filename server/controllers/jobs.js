@@ -5,40 +5,40 @@ const User = require('../models/user')
 module.exports = {
     
     postJob: async(req, res, next)=>{
-        try{
-            console.log('REQ FILES', req.files, 'req files', req.fileattachements)
-            console.log('here is the req body ', req.body)
-            const {userId, title, description, requirements, location, contact, fileattachements} = req.body
+        try{        
+            //get the req.body
+            const {title, description, requirements, location, contact} = req.body            
             
-            // const attachments = []
-            // fileattachements.forEach(attachment=>{
-            //     console.log(attachment)
-            //     attachments.push(attachment.path)
-            // })
+            //attachments are in the req.files
+            const fileattachments = []
+            req.files.forEach(attachment=>{
+                //console.log("single attachment...", attachment.path)
+                fileattachments.push(attachment.path)
+            })
             
-            const user = await User.findById(userId)
-
-           // console.log(user)
+            //find the poster or user
+            const user = await User.findById(req.user._id)
+          
+           // save job by user or poster
             if(user){
 
                 const job = new Job({
-                   // _id: mongoose.Types.ObjectId(),                    
+                    _id: mongoose.Types.ObjectId(),                    
                     contact,
                     description,
-                    fileattachements,
+                    fileattachments,
                     location, 
                     requirements,                                      
                     title,
-                    userId
+                    userId: req.user._id
                 })
     
                 await job.save()
-    
+                
+                console.log('Here is the job you saved...', job)
                 res.status(201).json({ job }) 
 
-            }else{
-                res.status(401).json({message: "You should first log in to create a job posting."})
-            }                              
+            }                        
         }catch(error){
             res.status(500).json({
                 message: "There has been an error saving your event",
@@ -76,15 +76,6 @@ module.exports = {
     allJobs: async(req, res, next)=>{        
         try{            
             const jobs = await Job.find({}).sort({createdAt: 'desc'}) /*.populate("userId", "name");*/
-
-            //Job.find({})
-            //.exec()
-            //.then(jobs=>{
-    
-            //}).error(err=>{
-              //  console.log(console.error();
-                //)
-            //})
 
             if(jobs.length <1){
                 return res.status(404).json({

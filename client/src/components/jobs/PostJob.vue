@@ -70,25 +70,24 @@ import { store } from "../../store/store"
 import {mapGetters} from 'vuex'
 export default {
     props:['edit'],
-    computed:{
-        ...mapGetters([        
-            "getUserId"
-        ])      
-    }, 
+    // computed:{
+    //     ...mapGetters([        
+    //         "getUserId"
+    //     ])      
+    // }, 
     
     data() {        
         return {     
                
             errors: [],    
             files: [],  
-            selectedFiles: "",                    
-            newJob: {                            
-                title: null,
-                description: null,
-                requirements: null,
-                location: null, 
+            //selectedFiles: "",                    
+            newJob: {    
                 contact: null,
-                                                          
+                description: null,
+                location: null,  
+                requirements: null,   
+                title: null,            
             }            
         };
     },
@@ -104,27 +103,35 @@ export default {
         onFileSelected(){
            // console.log("This is the event", event)this.$refs.file.files[0]
             this.files.push(this.$refs.files.files)
-            this.selectedFiles  = this.$refs.files.files
+           // this.selectedFiles  = this.$refs.files.files
         },
         checkForm() {
    
             this.errors = []
 
-            if (!this.newJob.title) {
-                this.errors['title'] = "Job title is required."
+            if (!this.newJob.contact) {
+                this.errors['contact'] = "Job contact is required."
             }
+
             if (!this.newJob.description) {
                 this.errors['description'] = "Job description is required."
             }
+
             if (!this.newJob.location) {
                 this.errors['location'] = "Job location is required."
-            }
+            }         
+
             if (!this.newJob.requirements) {
                 this.errors['requirements'] = "Job requirements is required."
             }
 
+            if (!this.newJob.title) {
+                this.errors['title'] = "Job title is required."
+            }           
+
             if (this.errors.length == 0 &&
                 this.newJob.title &&
+                this.newJob.contact &&
                 this.newJob.description &&
                 this.newJob.location &&
                 this.newJob.requirements
@@ -150,7 +157,7 @@ export default {
                         this.$store.commit('ADD_FILES', this.selectedFiles[0])                
                     }
                     debugger
-                    this.$store.commit('ADD_JOB',  this.newJob) 
+                    this.$store.commit('ADD_POST',  this.newJob) 
                     
                     this.$router.push({ name: 'previewJob' });
                 }
@@ -160,30 +167,33 @@ export default {
                 if (this.checkForm() && this.newJob !== null) {
                     
                     const formData = this.getFormData(this.newJob)
-                    //add attached files to the file state
-                    if(this.selectedFiles[0].length>0){                
-                        
-                        for(let i = 0; i < this.selectedFiles[0].length; i++){
-                            let file = this.selectedFiles[i]
+                    
+                    debugger
+                   // const file_length = this.files[]
+                    const uploaded = this.files[0]
+                    debugger
+                    if( uploaded.length > 0){                
+                        debugger
+                        Array.from(uploaded).forEach(file => {
+                           
+                            console.info("What is in the file? ", file)
                             debugger
 
-                            formData.append('fileattachements[' + i + ']', file  )
-                        }                      
-                        
-                        //this.$store.dispatch('ADD_FILES', this.selectedFiles[0])
-                                 
-                        
-                       formData.append( 'userId', this.getUserId  )
+                            formData.append('fileattachments', file  )
+
+                        })                     
 
                         
                         debugger
                         this.$store.dispatch('addPost', formData)
+
+                        this.$router.push({ name: 'previewJob' })
                     }else {
                         debugger
 
-                        this.$store.commit('ADD_JOB',  this.newJob) 
+                        this.$store.commit('ADD_POST',  this.newJob) 
                     
-                        this.$router.push({ name: 'previewJob' })
+                        //this.$router.push({ name: 'previewJob' })
                     }
                     
                     

@@ -2,6 +2,7 @@ import axios from 'axios'
 
 const state = {  
     posts: [] ,
+    post: {}
 }
 
 const getters = {
@@ -11,14 +12,16 @@ const getters = {
             - get the property length
     */
    
-    getPosts: state =>state.posts,     
+    getPosts: state =>state.posts, 
+    getPost: state =>state.post,      
     numberofPosts: state =>state.posts.length
 }
 
 const mutations = {
 
     POSTS:(state, payload)=>state.posts = payload,
-    ADD_POST:(state, payload)=>state.posts.unshift(payload)
+    ADD_POSTS:(state, payload)=>state.posts.unshift(payload),
+    ADD_POST:(state, payload)=>state.post = Object.assign(payload)
 }
 
 const actions = {

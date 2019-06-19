@@ -5,20 +5,20 @@
                 <div class="col-md-8 col-sm-10" >
                     <div class="card lead">
                         <div class="card-body">
-                            <h4 class="card-title py-3"><strong>{{getJob.title}}</strong></h4>                            
+                            <h4 class="card-title py-3"><strong>{{getPost.title}}</strong></h4>                            
                             
-                            <h5 class="card-subtitle py-1"><strong>Location: </strong><span class="text-muted">{{ getJob.location }}</span> </h5>
+                            <h5 class="card-subtitle py-1"><strong>Location: </strong><span class="text-muted">{{ getPost.location }}</span> </h5>
                             <br>
                             <h5 class="card-subtitle py-1 "><strong>Description </strong></h5>
                             <hr>
-                                <p class="card-text">{{ getJob.description }}</p>                            
+                                <p class="card-text">{{ getPost.description }}</p>                            
                             <hr>
                             <hr>
-                                <p class="card-text">{{ getJob.requirements }}</p>                            
+                                <p class="card-text">{{ getPost.requirements }}</p>                            
                             <hr>
 
-                            <div class="row justify-content-between m-3" v-if="getJob.jobfiles.length>0">
-                                <p v-for="(job, index) of getJob.eventfiles" :key="index">{{job}}</p>
+                            <div class="row justify-content-between m-3" v-if="getPost.fileattachments.length>0">
+                                <p v-for="(post, index) of getPost.fileattachments" :key="index">{{post.filename}}</p>
                             </div>
                             <hr>
 
@@ -44,9 +44,7 @@ export default {
   
     computed:{
         ...mapGetters([        
-            "getJob",
-            "getFiles",
-            "updatedUser"
+            "getPost"
         ])      
     }, 
     methods:{
@@ -57,7 +55,7 @@ export default {
         },
         addPost(){            
              
-            const formDBData = this.getFormData(this.getEvent)
+            const formDBData = this.getFormData(this.getPost)
             debugger
             if(this.getFiles.length>0){
                 

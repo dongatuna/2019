@@ -4,7 +4,6 @@ const JobController = require("../controllers/jobs")
 const passport = require('passport')
 const passportConf = require('../passport')
 const passportJWT = passport.authenticate('jwt', { session: false })
-
 const multer = require('multer');
 
 const storage = multer.diskStorage({
@@ -15,6 +14,7 @@ const storage = multer.diskStorage({
     filename: function(req, file, cb){
        // console.log("Please work....", req.body.userId);
         cb(null, new Date().toISOString().replace(/:/g, '-') + file.originalname)
+      //  cb(null, new Date().toISOString().replace(/:/g, '-') +'/'+ file.originalname  +'/'+ req.user._id +'/'+ req.body.title)
     }
 })
 
@@ -49,7 +49,7 @@ const upload = multer({
 
 //create a post
 //user needs to be authenticated
-router.route('/').post(passportJWT, upload.array('fileattachements'), JobController.postJob)
+router.route('/').post(passportJWT, upload.array('fileattachments'), JobController.postJob)
 
 //read many event
 router.route('/').get(JobController.allJobs)
