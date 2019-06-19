@@ -4,6 +4,7 @@ import CourseSchedule from '../../components/admin/course/CourseSchedules.vue'
 import EditCourse from '../../components/admin/course/EditCourse.vue'
 import DailyRegistrations from '../../components/admin/course/DailyRegistrations.vue'
 import ViewCourseStudents from '../../components/admin/course/ViewCourseStudents.vue'
+
 export default [
      
      {

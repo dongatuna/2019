@@ -195,7 +195,8 @@ module.exports = {
                     const results = {
                         confirmed: user.confirmed,
                         username: user.email.split("@")[0],
-                        role: user.role
+                        role: user.role,
+                        _id: user._id
                     } 
 
                     const token = signToken(user)
@@ -249,7 +250,8 @@ module.exports = {
             const results = {
                 confirmed: user.confirmed,
                 username: user.email.split("@")[0],
-                role: user.role
+                role: user.role,
+                _id: user._id
             }
 
             res.status(200).json({results})          
@@ -309,7 +311,8 @@ module.exports = {
             const results = {
                 confirmed: user.confirmed,
                 username: user.email.split("@")[0],
-                role: user.role
+                role: user.role,
+                _id: user._id
             }
 
             res.status(200).json({ results})

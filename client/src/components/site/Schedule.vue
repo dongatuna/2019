@@ -1,7 +1,7 @@
 <template>
     <section>
         <div class="container-fluid">    
-            <div class="row justify-content-center mb-3">
+            <div class="row justify-content-center mb-5">
                 <div class="col-sm-12 col-md-4">
                     <h3 class="diplay">Select the course to view schedule</h3>
                     <hr><br>
@@ -12,7 +12,7 @@
                 
             </div>
             <br>
-            <div class="row justify-content-center">            
+            <div class="row justify-content-center mb-3">            
                
                 <div class="col-md-2 col-sm-12">
                                  

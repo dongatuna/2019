@@ -67,13 +67,14 @@ const actions = {
 
     async addPost ({commit}, payload){
         try{
+            debugger
             const response = await axios({
                 method: 'post',
-                url: '/jobs', 
+                url: 'http://localhost:3000/jobs', 
                 data: payload,
-                headers: {'Content-Type':'application/json'}
+                headers: {'Content-Type':'multipart/form-data'}
             } )
-
+            debugger
             commit("ADD_POST", response.data);
         }catch(error){
             console.log(error)

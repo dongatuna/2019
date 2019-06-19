@@ -6,26 +6,30 @@ module.exports = {
     
     postJob: async(req, res, next)=>{
         try{
+            console.log('REQ FILES', req.files, 'req files', req.fileattachements)
+            console.log('here is the req body ', req.body)
+            const {userId, title, description, requirements, location, contact, fileattachements} = req.body
             
-            const {userId, description, requirements, location, fileattachements} = req.body
-            
-            const attachments = []
-            req.files.forEach(attachment=>{
-                attachments.push(attachment.path)
-            })
+            // const attachments = []
+            // fileattachements.forEach(attachment=>{
+            //     console.log(attachment)
+            //     attachments.push(attachment.path)
+            // })
             
             const user = await User.findById(userId)
 
+           // console.log(user)
             if(user){
 
                 const job = new Job({
-                    _id: mongoose.Types.ObjectId(),
-                    userId,
-                    title,
+                   // _id: mongoose.Types.ObjectId(),                    
+                    contact,
                     description,
-                    requirements,
-                    location,                
-                    fileattachements
+                    fileattachements,
+                    location, 
+                    requirements,                                      
+                    title,
+                    userId
                 })
     
                 await job.save()

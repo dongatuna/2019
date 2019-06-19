@@ -4,11 +4,13 @@ const state = {
     authed: false,
     role: undefined,
     username: undefined,
-    message: undefined    
+    message: undefined,
+    _id: undefined    
 }
 
 const getters = {   
     getUser: state => state.username,
+    getUserId: state => state._id,
     getRole: state => state.role,
     getMessage: state => state.message,
     getStatus: state => state.authed      
@@ -18,7 +20,8 @@ const mutations = {
     IS_USER(state, payload){        
         state.authed = payload.confirmed,
         state.username = payload.username,
-        state.role = payload.role
+        state.role = payload.role,
+        state._id = payload._id
     },
 
     MESSAGE(state, payload){
@@ -33,7 +36,8 @@ const mutations = {
         state.authed = false,
         state.role = undefined,
         state.username = undefined,
-        state.message = undefined
+        state.message = undefined,
+        _id = undefined  
     }
 }
 
@@ -88,15 +92,15 @@ const actions = {
 
     async checkUserStatus({commit}){
         try{
-            debugger
+          
             await axios({
                 method: 'get',
                 url: 'http://localhost:3000/user/status',                
                 withCredentials: true,
                 headers: {"Content-Type": "application/json"}
             })    
+      
             
-            debugger
             //commit('IS_USER' )
             
         }catch(error){
