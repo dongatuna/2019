@@ -110,8 +110,10 @@ const actions = {
 
     async logOut({commit}){
         try{
-            debugger
             
+            localStorage.clear()
+
+            debugger
             await axios({
                 method: 'get',
                 url: 'http://localhost:3000/user/signout',
@@ -120,7 +122,7 @@ const actions = {
             })               
             
             debugger
-            commit('REMOVE_USER')
+            //commit('REMOVE_USER')
 
         }catch(error){
             error

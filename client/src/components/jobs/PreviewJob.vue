@@ -1,24 +1,32 @@
 <template>
-    <section class="py-5 mt-5 bg-light">
+    <section class="bg-light">
         <div class="container-fluid">
-            <div class="row justify-content-center p-3">
-                <div class="col-md-8 col-sm-10" >
+            <div class="row justify-content-center">
+                <div class="col-sm-12" >
                     <div class="card lead">
                         <div class="card-body">
                             <h4 class="card-title py-3"><strong>{{getPost.title}}</strong></h4>                            
                             
                             <h5 class="card-subtitle py-1"><strong>Location: </strong><span class="text-muted">{{ getPost.location }}</span> </h5>
                             <br>
+                            <h5 class="card-subtitle py-1"><strong>Contact: </strong><span class="text-muted">{{ getPost.contact }}</span> </h5>
+                            <br>
                             <h5 class="card-subtitle py-1 "><strong>Description </strong></h5>
                             <hr>
                                 <p class="card-text">{{ getPost.description }}</p>                            
                             <hr>
+                            <h5 class="card-subtitle py-1 "><strong>Requirements </strong></h5>
                             <hr>
                                 <p class="card-text">{{ getPost.requirements }}</p>                            
                             <hr>
-
-                            <div class="row justify-content-between m-3" v-if="getPost.fileattachments.length>0">
-                                <p v-for="(post, index) of getPost.fileattachments" :key="index">{{post.filename}}</p>
+                            <!-- {{getFilesNames[0]}} {{files}} -->
+                            <h5 class="card-subtitle py-1 "><strong>Attachments </strong></h5><br>
+                            <div class="row m-3" v-if="getFilesNames.length>0">                           
+                                
+                                <p v-for="(file, index) of getFilesNames" :key="index">{{file}}</p>
+                            </div>
+                            <div v-else>
+                                <p>No attachments</p>
                             </div>
                             <hr>
 
@@ -41,13 +49,21 @@ import { store } from "../../store/store"
 import {mapGetters} from 'vuex'
 export default {   
     props: ['edit'],
-  
+
     computed:{
         ...mapGetters([        
-            "getPost"
+            "getPost", "getFiles", "getFilesNames"
         ])      
     }, 
+
+    data(){
+        return{
+            files: this.getFilesNames||[]
+        }
+    },
+
     methods:{
+      
         getFormData(obj) {
             const formData = new FormData()
             Object.keys(obj).forEach(key => formData.append(key, obj[key]))
@@ -55,33 +71,21 @@ export default {
         },
         addPost(){            
              
-            const formDBData = this.getFormData(this.getPost)
+            const formData = this.getFormData(this.getPost)
             debugger
-            if(this.getFiles.length>0){
-                
-                for(let key of this.getFiles){
-                    for(let singleFile of key){
-                        formDBData.append("eventfiles", singleFile)
-                    }                                                     
-                } 
+            if(this.getFiles.length>0){             
                 
                 Array.from(this.getFiles).forEach(file=>{
-                    formDBData.append("eventfiles", file)
-                })
-                let uploadedfiles = this.getFiles.length;
-                for (let e_file = 0; e_file < uploadedfiles; e_file++) {
-                    formDBData.append("eventfiles", this.getFiles[e_file])
-                }
-                debugger
-                //this.$store.dispatch('addDBEvent', formDBData)
+                    formData.append("fileattachments", file)
+                })              
             }
             
             debugger
-            this.$store.dispatch('addPost', formDBData)
+            this.$store.dispatch('addPost', formData)
             
             debugger
             
-            this.$router.push({path: '/admin'})
+            this.$router.push({path: '/adminjobs'})
         },
 
         editPost(){

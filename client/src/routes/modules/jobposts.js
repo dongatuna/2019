@@ -31,13 +31,13 @@ export default [
 
             {
                 path: '/postjob', name: "postJob", component: PostJob, props: {edit: false}, meta: { requiresAuth:true }                
-            }
+            }         
             
         ]
     },  
 
     {
-        path: '/jobs/:id', name:'viewJob', component: ViewJob
+        path: '/view/:id', name:'viewJob', component: ViewJob
     } 
        
 ]

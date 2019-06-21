@@ -1,8 +1,8 @@
 <template>
     <div class="container">    
-        <div class= "justify-content-between mb-3">
+        <div class= "justify-content-between m-3">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-10">
                     <h5 class="lead"> Your Job Postings </h5>
                 </div>
                 <!-- <div class="col-md-3">
@@ -22,14 +22,14 @@
                     <tbody v-for="(job, index) of getPosts" :key="index">                        
                         <tr class="justify-content-between">
                             <th scope="row"> {{index+1}} </th>
-                            <td><router-link v-bind:to="{path: '/jobs/'+job._id}"> {{job.title}} </router-link></td>                    
+                            <td><router-link v-bind:to="{path: '/view/'+job._id}"> {{job.title}} </router-link></td>                    
                             
                             <td> 
-                                <button class="btn btn-light btn-sm" v-on:click="repostJob(getUser._id)"
+                                <button class="btn btn-light btn-sm" v-on:click="rePost(job._id)"
                                         >Repost </button>  
-                                <button class="btn btn-light btn-sm" v-on:click="editJob(job._id)"
-                                        >View/Update </button>                                     
-                                <button class="btn btn-light btn-sm" v-on:click="deleteJob(job._id)"
+                                <button class="btn btn-light btn-sm" v-on:click="editPost(job._id)"
+                                        >Edit </button>                                     
+                                <button class="btn btn-light btn-sm" v-on:click="deletePost(job._id)"
                                         >Delete </button>        
                             </td>
                         </tr>    
@@ -70,28 +70,38 @@ export default {
 
     computed:{
         ...mapGetters([
-            "getCourse", "getUser", "getPosts"
+            "getCourse", "getUserId", "getPosts"
         ])
     },    
 
     
-    // mounted(){
-    //     debugger
-    //     this.$store.dispatch()
-        
-    // },
+    mounted(){     
+        debugger  
+        this.$store.dispatch("getUserPosts", this.getUserId)        
+    },
 
     methods:{
+
+        // getPostings(){
+        //     debugger
+        //     
+        // },
+
         editPost(id){
-            this.$store.dispatch("getPosts", id)
+
+            this.$store.dispatch("getPostById", id)
+
+            this.$router.push({path: "/editjob"})
         },
 
-        rePost(user_id){
+        rePost(id){
+            this.$store.dispatch("getPostById", id)
 
+            this.$router.push({path: '/previewjob'})
         },
 
         deletePost(id){
-
+            this.$store.dispatch("deletePost", id)
         }
     }
 }

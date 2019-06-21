@@ -48,19 +48,13 @@ export default {
             email: ''
         }
     },    
-
-    // watch:{
-    //     "$route":"dailyRegistrations"
-    // },
-
-    // created(){
-    //      debugger
-    //      this.dailyRegistrations()  
-    // },
-   
+       
     methods: {
 
        async logOut(){
+            this.$store.commit('RESET_STATE')
+            this.$store.commit('REMOVE_USER')
+
             await this.$store.dispatch('logOut')
 
             debugger

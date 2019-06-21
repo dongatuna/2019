@@ -39,15 +39,6 @@ export default {
         }
     },    
 
-    // watch:{
-    //     "$route":"dailyRegistrations"
-    // },
-
-    // created(){
-    //      debugger
-    //      this.dailyRegistrations()  
-    // },
-   
     methods: {
 
         logOut(){
@@ -57,10 +48,6 @@ export default {
         },
 
       
-        // dailyRegistrations(){
-        //     this.$store.dispatch('getDailyRegistrations')    
-        // },
-
         searchStudent(){
 
             this.$store.dispatch('searchStudent', {email: this.email})

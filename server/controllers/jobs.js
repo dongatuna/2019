@@ -1,6 +1,8 @@
 const mongoose = require('mongoose')
 const Job = require("../models/job")
 const User = require('../models/user')
+//const Student = require('../models/user')
+
 
 module.exports = {
     
@@ -45,73 +47,31 @@ module.exports = {
                 error
             })
         }
-    },
-
-    //read single job
-    readJobById: async(req, res, next)=>{
-        
-        try{            
-            const id = req.params.id;
-            const job = await Job.findById(id)/*.populate('userId', 'name')*/;
-
-            res.status(200).json({
-                message: "Here is the event you requested",
-                //Presenter: commEvent.userId.name,
-                job,
-                request: {
-                    message: "To see all the events, click the link below",
-                    type: "GET",
-                    url: 'http://localhost:3000/events'
-                }
-            })
-        }catch(error){
-            res.status(500).json({
-                message: "There has been an error in your request",
-                error
-            })
-        }
-    },
-
-    //read all the jobs
-    allJobs: async(req, res, next)=>{        
-        try{            
-            const jobs = await Job.find({}).sort({createdAt: 'desc'}) /*.populate("userId", "name");*/
-
-            if(jobs.length <1){
-                return res.status(404).json({
-                    message: "No jobs at this moment.  Check back later."
-                })
-            }
-
-            res.status(200).json({
-                jobs
-            })         
-
-        }catch(error){
-            res.status(500).json({
-                message:"There has been an error fetching the data",
-                error
-            })
-        }
-    },
+    },   
     
     //update a communityEvent
     updateJob: async(req, res, next)=>{
         
         try{
             
-            await Job.findByIdAndUpdate(req.params.id, req.value.body,{new: true})
+            console.log("Here is the req.body ", req.body)
+
+            const fileattachments = []
+            req.files.forEach(attachment=>{
+                //console.log("single attachment...", attachment.path)
+                fileattachments.push(attachment.path)
+            })
+            
+            req.body.fileattachments = fileattachments
+
+            console.log("Here is the req.body ", req.body)
+
+            const job = await Job.findByIdAndUpdate(req.params.id, req.body,{new: true})
             //console.log and check if communityEvent is ok
            
+            console.log("Here is the job ", job)
 
-            res.status(200).json({
-                request:{
-                    message:  "To see your updated event, click link below",
-                    type: "GET",
-                    link: "http://localhost:3000/events"+id
-                }
-            })
-
+            res.status(200).json({job})
         }catch(error){
             res.status(500).json({
                 message: "There has been an error updating the resume",
@@ -124,8 +84,8 @@ module.exports = {
     deleteJob: async(req, res, next)=>{
         
         try{
-            const id = req.params.id;
-            const result = await Job.remove({_id: id});
+           
+            const result = await Job.remove({_id: req.params.id})
 
             if(result.ok){
                 res.status(200).json({
@@ -149,20 +109,12 @@ module.exports = {
 
     jobsByUser: async(req, res, next)=>{
         try{
-            const jobs = await Job.find({userId: req.params.user_id}).sort({createdAt: 'desc'})
+            
+            const jobs = await Job.find({userId: req.params.id}).sort({createdAt: 'desc'})    
 
-            if(jobs.length<1){
-                return res.status(400).json({
-                    message: "You have no events you have created at this moment",
-                    request:{
-                        type: "GET",
-                        message: "Click on the link below to create an event",
-                        link: "http://localhost:3000/events"
-                    }            
-                })
-            }
-
-            res.status(200).json({ jobs })           
+            if(jobs.length>0){
+                res.status(200).json({ jobs })    
+            }                  
             
         }catch(error){
             res.status(500).json({
@@ -170,6 +122,44 @@ module.exports = {
                 error
             });
         }
-    }
+    },
+
+     //read single job
+     readJobById: async(req, res, next)=>{
+        
+        try{            
+            //const id = 
+            const job = await Job.findById(req.params.id)
+
+            if(job){
+                res.status(200).json({ job })
+            }
+            
+        }catch(error){
+            res.status(500).json({
+                message: "There has been an error in your request",
+                error
+            })
+        }
+    },
+
+    //read all the jobs
+    allJobs: async(req, res, next)=>{        
+        try{            
+            const jobs = await Job.find({}).sort({createdAt: 'desc'}) 
+
+            if(jobs.length > 0 ){
+                res.status(200).json({
+                    jobs
+                })   
+            }               
+
+        }catch(error){
+            res.status(500).json({
+                message:"There has been an error fetching the data",
+                error
+            })
+        }
+    },
 
 }
