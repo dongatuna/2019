@@ -50,6 +50,8 @@ export default {
 
     methods: {
         async signIn(){
+            this.$store.commit('REMOVE_USER')
+            
             await this.$store.dispatch("signIn", this.user)
             debugger
             if(this.admin){

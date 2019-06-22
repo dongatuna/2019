@@ -2,11 +2,11 @@
     <section>
         <div class="container-fluid">    
             <div class="row justify-content-center mb-5">
-                <div class="col-sm-12 col-md-4">
-                    <h3 class="diplay">Select the course to view schedule</h3>
-                    <hr><br>
-                     <select v-model="selected" :on="sortCourses" class="form-control form-control-md" selected>
-                        <option v-for="(choice, index) of choices" :key="index">{{choice}}</option>                               
+                <div class="col-sm-12 col-md-4 ">
+                    <h3 class="diplay text-center">Select the course to view schedule</h3>
+                    <hr>
+                     <select v-model="selected" :on="sortCourses" class="form-control form-control-md bg-danger text-white" selected>
+                        <option v-for="(choice, index) of choices" :key="index"><strong>{{choice}}</strong></option>                               
                     </select>
                 </div>
                 

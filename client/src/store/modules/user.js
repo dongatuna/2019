@@ -37,7 +37,7 @@ const mutations = {
         state.role = undefined,
         state.username = undefined,
         state.message = undefined,
-        _id = undefined  
+        state._id = undefined  
     }
 }
 
@@ -54,6 +54,7 @@ const actions = {
                 headers: { "Content-Type" : "application/json" }
             })            
             debugger
+            //commit('REMOVE_USER')
 
             if(response.data.hasOwnProperty('message')){
                 debugger
@@ -77,7 +78,7 @@ const actions = {
                 withCredentials: true,
                 headers: {"Content-Type": "application/json"}
             })
-
+           // commit('REMOVE_USER')
             debugger
             if(response.data.hasOwnProperty('message')){
                 debugger
@@ -112,7 +113,7 @@ const actions = {
         try{
             
             localStorage.clear()
-
+             commit('REMOVE_USER')
             debugger
             await axios({
                 method: 'get',
@@ -122,7 +123,7 @@ const actions = {
             })               
             
             debugger
-            //commit('REMOVE_USER')
+           
 
         }catch(error){
             error

@@ -1,27 +1,25 @@
 <template>
     <div class="container">    
         <div class= "justify-content-between m-3">
-            <div class="row">
-                <div class="col-md-10">
-                    <h5 class="lead"> Your Job Postings </h5>
-                </div>
-                <!-- <div class="col-md-3">
-                    <button class="btn btn-primary btn-md" v-on:click="addPost(getCourse._id)">Find Caregivers </button> 
-                </div> -->
+            <div class="row justify-content-between mb-4">
+              
+                <h5 class="lead"> Your Job Postings </h5>
+                <button class="btn btn-primary" type="submit" v-on:click="createPost()"><strong>Post Your Job Opening</strong> </button>
+              
             </div>
 
             <div v-if="getPosts.length>0">
                 <table class="table" >
                     <thead>
-                        <tr>
-                            <th scope="col">#</th>
+                        <tr class="justify-content-center">
+                            <!-- <th scope="col">#</th> -->
                             <th scope="col">Title</th>                   
                             <th scope="col">Manage</th> 
                         </tr>
                     </thead>
                     <tbody v-for="(job, index) of getPosts" :key="index">                        
-                        <tr class="justify-content-between">
-                            <th scope="row"> {{index+1}} </th>
+                        <tr class="justify-content-center">
+                            <!-- <th scope="row"> {{index+1}} </th> -->
                             <td><router-link v-bind:to="{path: '/view/'+job._id}"> {{job.title}} </router-link></td>                    
                             
                             <td> 
@@ -82,10 +80,9 @@ export default {
 
     methods:{
 
-        // getPostings(){
-        //     debugger
-        //     
-        // },
+        createPost(){
+            this.$router.push({ path: '/postjob' })
+        },
 
         editPost(id){
 

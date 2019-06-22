@@ -11,7 +11,7 @@
                     </ul>
                 </div>
 
-                <div class="p-3 col-md-6 col-sm-10">                    
+                <div class="p-3 col-md-6 col-sm-10">                      
                     
                     <router-view></router-view> 
                 </div>
@@ -30,7 +30,7 @@ export default {
     computed:{
         ...mapGetters([            
             "getStudent"
-        ])
+        ])       
     },
 
     data(){

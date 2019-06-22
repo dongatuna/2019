@@ -23,7 +23,8 @@
                             <h5 class="card-subtitle py-1 "><strong>Attachments </strong></h5><br>
                             <div class="row m-3" v-if="getFilesNames.length>0">                           
                                 
-                                <p v-for="(file, index) of getFilesNames" :key="index">{{file}}</p>
+                                <p v-for="(file, index) of getFilesNames" :key="index">
+                                    <ul><li>{{file}}</li></ul></p>
                             </div>
                             <div v-else>
                                 <p>No attachments</p>

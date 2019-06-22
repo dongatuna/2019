@@ -47,15 +47,15 @@
                             <label for="files"><strong>Share more about your job opening</strong></label>
                             <input type="file" multiple class="form-control-file" @change="onFileSelected()"  ref="files" id="jobfiles">
                         </div>   
-                        <!-- <div v-if="edit">
-                            <div class="row m-3" v-if="getFilesNames.length>0">                           
+                       <div v-if="edit" class="col-sm-12 mb-3">
+                            <div v-if="getPost.fileattachments.length>0">                           
                                 
-                            <p v-for="(file, index) of getFilesNames" :key="index">{{file}}</p>
-                        </div>
-                        <div v-else>
-                            <p>No attachments</p>
-                        </div>
-                        </div>   -->
+                                <p v-for="(file, index) of getPost.fileattachments" :key="index">{{file}}</p>
+                            </div>
+                            <div v-else>
+                                <p>No attachments</p>
+                            </div>
+                        </div>  
                         
                         <div class="col-sm-12 mb-3">
                             <ul v-for="(file, index) of files[0]" :key="index" class="list-group list-group-flush">
@@ -152,28 +152,46 @@ export default {
         - Add the event to mutation, ADD_EVENT
         - data has not been sent to server (unpersisted data)
         */
-        postJob() {            
+        postJob() {     
+            //Editing the post before saving it in the DB       
             if(this.edit){
-                this.newJob = Object.assign(this.getPost)
+                //assign getPost from the store to the new job
+                //this post exists in the DB
+                if(this.getPost._id) {
+                    this.newJob = Object.assign(this.getPost)
+                    debugger
 
-                const job_files = Array.from(this.files[0])
-
-                const files = job_files.concat(this.getFiles)
+                    if(this.newJob.fieattachments.length>0){
+                        
+                    }
+                }
+                debugger
+                //get the files that have been pushed into the data files array
+                if(this.files.length>0) { const job_files = Array.from(this.files[0]) }
+                debugger
+                //since, this is editing, there might be files in the vuex store
+                if(this.getFiles.length>0) { const attached_files = Array.from(this.getFiles) }
+                debugger
+                //if either, getFiles (in vuex store) or files in the data, concat them.  Concating with an empty array is not an issue
+                if(this.getFiles.length>0||this.files.length>0 ) {const files = job_files.concat(attached_files)}
 
                 debugger
-                if (this.checkForm() && this.newJob!==null) {
+                if (this.checkForm()) {
 
                     const formData = this.getFormData(this.newJob)
 
                     debugger
-                    if( files.length > 0 ){                
+                    if( this.getFiles.length>0||this.files.length>0 ){                
                         debugger
                         Array.from(files).forEach(file => {
                    
                             formData.append('fileattachments', file  )
-                        })                         
+                        })   
+                        
+                        
                     }
 
+                    //This checks if the editing is for a new or for a created post
                     if(this.newJob._id){
                         this.$store.dispatch('editPost', {data: formData, id: this.newJob._id})
                     }else{
@@ -184,7 +202,7 @@ export default {
                     
                 }
             } else{                
-
+                //Add the post for the first time
                 
                 if (this.checkForm() && this.newJob !== null) {
                     

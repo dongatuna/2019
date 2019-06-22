@@ -19,7 +19,7 @@ const getters = {
 
 const mutations = {
 
-    CLEAR_POST:(state, payload)=>state.post = {},
+    CLEAR_POST:(state)=>state.post = {},
     ADD_POSTS:(state, payload)=>state.posts=payload,
     ADD_POST:(state, payload)=>state.post = Object.assign(payload),
     ADD_FILES (state, payload){
@@ -66,7 +66,7 @@ const actions = {
                 url: "http://localhost:3000/jobs/"+payload,
                 headers: {"Content-Type":"application/json"}
             })
-
+            commit('RESET_STATE')
             debugger
             commit("ADD_POSTS", response.data.jobs)
         }catch(error){
@@ -81,6 +81,7 @@ const actions = {
                 url: 'http://localhost:3000/jobs',
                 headers: {"Content-Type":"application/json"}
             })
+            commit('RESET_STATE')
 
             commit("POSTS", response.data.jobs)
         }catch(error){
@@ -97,6 +98,7 @@ const actions = {
                 data: payload,
                 headers: {'Content-Type':'multipart/form-data'}
             } )
+            commit('RESET_STATE')
             debugger
             commit("ADD_POST", response.data)
         }catch(error){
@@ -128,7 +130,7 @@ const actions = {
                 data: payload.data,
                 headers: {'Content-Type':'multipart/form-data'}
             } )
-
+            commit('RESET_STATE')
             debugger
             commit("UPDATE_POST", response.data)
 

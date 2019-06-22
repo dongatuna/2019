@@ -73,6 +73,7 @@ module.exports = {
 
             res.status(200).json({job})
         }catch(error){
+            console.log('The req.body...', req)
             res.status(500).json({
                 message: "There has been an error updating the resume",
                 error
