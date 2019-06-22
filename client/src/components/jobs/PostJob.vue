@@ -82,7 +82,7 @@ export default {
     props:['edit'],
     computed:{
         ...mapGetters([        
-            "getPost", "getFiles"
+            "getPost", "getFiles", "getFilesNames"
         ])      
     }, 
     
@@ -153,79 +153,52 @@ export default {
         - data has not been sent to server (unpersisted data)
         */
         postJob() {     
+
+            if(this.checkForm()){
+                this.newJob = Object.assign(this.getPost)
+                const files = this.files[0]
             //Editing the post before saving it in the DB       
-            if(this.edit){
-                //assign getPost from the store to the new job
-                //this post exists in the DB
-                if(this.getPost._id) {
-                    this.newJob = Object.assign(this.getPost)
-                    debugger
+                if(this.edit){                    
+                    //this post exists in the DB
+                    if(this.newJob._id) {
 
-                    if(this.newJob.fieattachments.length>0){
+                        //assign getPost from the store to the new job   
+                        if(this.newJob.fileattachments.length>0||files.length > 0){
+                                            
+                            const uploaded_files = Array.from(files.concat(this.getFilesNames))
                         
-                    }
-                }
-                debugger
-                //get the files that have been pushed into the data files array
-                if(this.files.length>0) { const job_files = Array.from(this.files[0]) }
-                debugger
-                //since, this is editing, there might be files in the vuex store
-                if(this.getFiles.length>0) { const attached_files = Array.from(this.getFiles) }
-                debugger
-                //if either, getFiles (in vuex store) or files in the data, concat them.  Concating with an empty array is not an issue
-                if(this.getFiles.length>0||this.files.length>0 ) {const files = job_files.concat(attached_files)}
-
-                debugger
-                if (this.checkForm()) {
-
-                    const formData = this.getFormData(this.newJob)
-
-                    debugger
-                    if( this.getFiles.length>0||this.files.length>0 ){                
-                        debugger
-                        Array.from(files).forEach(file => {
-                   
-                            formData.append('fileattachments', file  )
-                        })   
+                            this.$store.commit('ADD_FILES', uploaded_files)                 
+                        }
                         
-                        
-                    }
-
-                    //This checks if the editing is for a new or for a created post
-                    if(this.newJob._id){
-                        this.$store.dispatch('editPost', {data: formData, id: this.newJob._id})
                     }else{
-                        this.$store.dispatch('addPost', formData)
-                    }    
+                        //this post is only in the vuex store, i.e., not in DB
+                        //const formData = this.getFormData(this.newJob)
+                        if(this.getFilesNames.length>0||files.length > 0){                                         
+                            
+                            const uploaded_files = Array.from(files.concat(this.getFilesNames))
+                            
+                            this.$store.commit('ADD_FILES', uploaded_files)                                  
+                        }                                                   
+                    }   
+                                    
 
-                    this.$router.push({ name: 'adminJob' })                   
+                } else{                
+                    //Add the post for the first time
                     
-                }
-            } else{                
-                //Add the post for the first time
-                
-                if (this.checkForm() && this.newJob !== null) {
-                    
-                    const files = this.files[0]
-                           
-                    debugger
-                    this.$store.commit('ADD_POST', this.newJob)
-
-                    if( files.length > 0){                
+                    if (this.newJob !== null) {
                         
-                        //Array.from(files).forEach(file => {
-                           
-                            //console.info("What is in the file? ", file)
+                        const files = this.files[0]
+                        if( files.length > 0){               
+                                                     
                             debugger
-                            //formData.append('fileattachments', file  )
 
                             this.$store.commit('ADD_FILES', files)
-                        //})         
-                    }
-
-                    this.$router.push({ name: 'previewJob' })
-             
-                }          
+                                    
+                        }               
+                    }          
+                }
+                this.$store.commit("ADD_POST", this.newJob) 
+                this.$router.push({ name: 'previewJob' })
             }
         }
     }
