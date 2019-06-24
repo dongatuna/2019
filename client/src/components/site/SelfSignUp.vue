@@ -1,34 +1,34 @@
 <template>
        <section class="bg-white">
-        <div class="container">
+        <div class="container-fluid">
             <div class="row justify-content-center">
-                <div class="col-sm-10">                    
-                    <h3 class="text-dark">{{course}} sign up form</h3>
+                <div class="col-sm-8">                    
+                    <h3 class="text-dark text-center">{{course}} sign up form</h3>
                     <br>
                     <!--BEGINNING OF THE FORM-->
-                    <form v-on:submit.prevent="selfSignUp" class="text-muted lead"  ref="form" >
+                    <form v-on:submit.prevent="selfSignUp" class="text-muted lead mt-4"  ref="form" >
                             <!--FIRST AND LAST NAMES-->
-                        <div class="row">
+                        <div class="row justify-content-center">
                             <div class="col-sm-4">                                
                                 <div class="form-group">
-                                    <label for="first">First Name:</label>                                   
+                                    <label for="first">First Name</label>                                   
                                     <input  type="text" class="form-control" name="first" v-model="student.first" required>
                                      
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    <label for="last">Last Name:</label>                                   
+                                    <label for="last">Last Name</label>                                   
                                     <input type="text" class="form-control" name="last" v-model="student.last" required>                                    
                                 </div>
                             </div>
                         </div>                               
                                                 
                           <!--EMAIL AND TELEPHONE-->
-                        <div class="row">
+                        <div class="row justify-content-center">
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    <label for="email">EMAIL:</label>                                    
+                                    <label for="email">Email</label>                                    
                                     <input type="email" class="form-control" name="email" v-model="student.email" required>                                      
                                 </div>
                             </div>
@@ -42,7 +42,7 @@
 
                         
                          <!--COMMENTS AND QUESTIONS-->
-                         <div class="row">
+                         <div class="row justify-content-center">
                             <div class="col-sm-8">
                                 <div class="form-group">
                                     <label for="comments">Comments</label>
@@ -51,10 +51,10 @@
                                 </div>
                             </div>
                          </div>
-                         <div class="row">
+                         <div class="row justify-content-center">
                             <div class="col-sm-8">     
                                            
-                            <button class="btn btn-primary btn-block py-3" type="submit"><strong>Sign Up</strong> </button>
+                            <button class="btn btn-primary btn-block py-3" type="submit"><strong>Sign up</strong> </button>
                           </div>
                          </div>
                     </form>
@@ -110,7 +110,7 @@ export default {
         course_info(id){ 
 
             this.getAllCourses.filter(course=>{
-                if(course.courseId ===  id){
+                if(course.course_id ===  id){
                     debugger
                     Object.assign(this.sel_course, course)
 
