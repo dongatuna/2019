@@ -22,24 +22,14 @@ const mutations = {
     CLEAR_POST:(state)=>state.post = {},
     ADD_POSTS:(state, payload)=>state.posts=payload,
     ADD_POST:(state, payload)=>state.post = Object.assign(payload),
-    ADD_FILES (state, payload){
-        Array.from(payload).forEach(file => {
-                           
-            //console.info("What is in the file? ", file)
-            debugger
-            //formData.append('fileattachments', file  )
-            
-            state.job_files.push(file)
-            state.file_names.push(file.name)
-            debugger
-        })   
-    },
-    REMOVE_POST (state) {
-        state.job_files = [],
-        state.file_names = [],
-        state.posts = [],
-        state.post = {}   
-    }
+    ADD_FILES: (state, payload) => state.job_files = payload,
+    
+    
+    //payload includes 
+    ADD_FILE_NAMES: (state, payload) => state.file_names = payload,
+
+    REMOVE_FILE_NAMES: (state) => state.file_names = [],
+    REMOVE_POST (state, payload) {state.posts = state.posts.filter(post => post._id !== payload) }
 }
 
 const actions = {
@@ -66,7 +56,7 @@ const actions = {
                 url: "http://localhost:3000/jobs/"+payload,
                 headers: {"Content-Type":"application/json"}
             })
-            commit('REMOVE_POST')
+           // commit('REMOVE_POST')
             debugger
             commit("ADD_POSTS", response.data.jobs)
         }catch(error){
@@ -81,7 +71,7 @@ const actions = {
                 url: 'http://localhost:3000/jobs',
                 headers: {"Content-Type":"application/json"}
             })
-            commit('REMOVE_POST')
+            //commit('REMOVE_POST')
 
             commit("POSTS", response.data.jobs)
         }catch(error){
@@ -98,7 +88,7 @@ const actions = {
                 data: payload,
                 headers: {'Content-Type':'multipart/form-data'}
             } )
-            commit('REMOVE_POST')
+            commit('CLEAR_POST')
             debugger
             commit("ADD_POST", response.data)
         }catch(error){
@@ -108,13 +98,16 @@ const actions = {
 
     async deletePost({commit}, payload){
         try{
-            const response = await axios( {            
+            // const response = 
+            await axios( {            
                 method: 'delete',
                 url: 'http://localhost:3000/jobs/'+ payload,
                 headers: {'Content-Type':'application/json'}
             } )
-
-            commit("REMOVE_POST", response.data)
+            
+            //state.posts.slice(index
+            //ommit("REMOVE_POST", response.data)
+            commit("REMOVE_POST", payload)
 
         }catch(error){
            console.log(error)
@@ -126,13 +119,13 @@ const actions = {
             debugger
             const response = await axios({
                 method: 'patch',
-                url: 'http://localhost:3000/jobs/'+payload.id,
-                data: payload.data,
+                url: 'http://localhost:3000/jobs',
+                data: payload,
                 headers: {'Content-Type':'multipart/form-data'}
             } )
-            commit('REMOVE_POST')
+           // commit('REMOVE_POST')
             debugger
-            commit("UPDATE_POST", response.data)
+            commit("ADD_POST", response.data)
 
         }catch(error){
             console.log(error)

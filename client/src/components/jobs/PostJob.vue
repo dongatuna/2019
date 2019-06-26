@@ -153,54 +153,72 @@ export default {
         - data has not been sent to server (unpersisted data)
         */
         postJob() {     
-            this.newPost = Object.assign(this.getPost)
+            debugger
+            const files = (this.files.length > 0) ? Array.from(this.files[0]):[]
+            debugger
+            const paths = []
+                       
             //this.newPost = this.getPost
-            if(this.checkForm()){
-               
-                console.info("This is the new post ", newPost)
+            if(this.edit){  
+                
+                if(this.getPost._id) {
+                    const {_id, title, contact, description, location, requirements, fileattachments } = this.getPost
+                    this.newPost = {_id, title, contact, description, location, requirements }
+                }else{
+                    const {title, contact, description, location, requirements } = this.getPost
+                    this.newPost = {title, contact, description, location, requirements }
+                }    
+
                 debugger
-                const files = this.files[0]
-            //Editing the post before saving it in the DB       
-                if(this.edit){                    
+
+                //Editing the post before saving it in the DB       
+                if(this.checkForm()){               
+                        
                     //this post exists in the DB
                     if(this.newPost._id) {
                         debugger
-                        console.info("Is this the problem ", this.getPost.fileattachments.length)
-                        //assign getPost from the store to the new job   
-                        if(this.newPost.fileattachments.length>0||files.length > 0){
-                            
-                            const uploaded_files = Array.from(files.concat(this.getFilesNames))
                         
-                            this.$store.commit('ADD_FILES', uploaded_files)                 
+                        //assign getPost from the store to the new job   
+                        if(files.length > 0){    
+
+                            this.$store.commit('ADD_FILES', files)
+
+                            files.forEach(file => this.getPost.fileattachments.push(file.name))       
+                                        
                         }
+
+                        this.$store.commit('ADD_FILE_NAMES', this.getPost.fileattachments)                       
                         
                     }else{
                         //this post is only in the vuex store, i.e., not in DB
                         //const formData = this.getFormData(this.newPost)
-                        if(this.getFilesNames.length>0||files.length > 0){                                         
+                        if(files.length > 0){                                    
                             
-                            const uploaded_files = Array.from(files.concat(this.getFilesNames))
-                            
-                            this.$store.commit('ADD_FILES', uploaded_files)                                  
-                        }                                                   
-                    }   
-                                    
-
-                } else{                
-                    //Add the post for the first time                    
-                    if (this.newPost !== null) {
-                        
-                        const files = this.files[0]
-                        if( files.length > 0){  
-
                             this.$store.commit('ADD_FILES', files)
-                                    
-                        }               
-                    }          
-                }
-                this.$store.commit("ADD_POST", this.newPost) 
-                this.$router.push({ name: 'previewJob' })
+
+                            files.forEach(file => this.getFilesNames.push(file.name))                
+                                                             
+                        } 
+                        
+                        this.$store.commit('ADD_FILE_NAMES', this.getFilesNames) 
+                    }   
+                }  
+            } else {                 
+                //Add the post for the first time    
+                //const files = this.files[0]||[]                
+                if (this.checkForm()) {                 
+                    
+                    if( files.length > 0){  
+
+                        this.$store.commit('ADD_FILES', files)
+                        debugger
+                                
+                    }               
+                }          
             }
+            this.$store.commit("ADD_POST", this.newPost) 
+            this.$router.push({ name: 'previewJob' })
+            
         }
     }
 }

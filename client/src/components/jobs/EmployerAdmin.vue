@@ -29,9 +29,16 @@ export default {
 
     computed:{
         ...mapGetters([            
-            "getStudent"
+            "getStudent",
+            "getCourse", "getUserId", "getPosts"
         ])       
     },
+
+    mounted(){     
+        debugger  
+        this.$store.dispatch("getUserPosts", this.getUserId)        
+    },
+
 
     data(){
         return{
@@ -45,15 +52,8 @@ export default {
             this.$store.dispatch('logOut')
 
             this.$router.push({name: 'home'})
-        },
-
-      
-        searchStudent(){
-
-            this.$store.dispatch('searchStudent', {email: this.email})
-        
-            this.$router.push({path: `/student_edit/${this.getStudent._id}`})
         }
+      
     }    
 }
 </script>

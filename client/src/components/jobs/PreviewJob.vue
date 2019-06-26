@@ -19,16 +19,18 @@
                             <hr>
                                 <p class="card-text">{{ getPost.requirements }}</p>                            
                             <hr>
-                            <!-- {{getFilesNames[0]}} {{files}} -->
+                            
+                             <!-- {{files}} -->
                             <h5 class="card-subtitle py-1 "><strong>Attachments </strong></h5><br>
                             <div class="row m-3" v-if="getFilesNames.length>0">                           
                                 
                                 <p v-for="(file, index) of getFilesNames" :key="index">
-                                    <ul><li>{{file}}</li></ul></p>
+                                    <ul><li>{{file}}</li></ul>
+                                </p>
                             </div>
-                            <div v-else>
+                            <!-- <div v-else>
                                 <p>No attachments</p>
-                            </div>
+                            </div> -->
                             <hr>
 
                             <div class="row justify-content-between m-3">
@@ -70,32 +72,39 @@ export default {
             Object.keys(obj).forEach(key => formData.append(key, obj[key]))
             return formData
         },
-        addPost(){            
-             
+
+        async addPost(){               
+            
             const formData = this.getFormData(this.getPost)
+
             debugger
-            if(this.getFiles.length>0){             
-                
-                Array.from(this.getFiles).forEach(file=>{
-                    formData.append("fileattachments", file)
-                })              
-            }
-            
-            debugger
-            this.$store.dispatch('addPost', formData)
-            
-            debugger
-            
+            if(this.getFiles.length > 0 ) this.getFiles.forEach(file => formData.append("fileattachments", file)) 
+
+             debugger
+            (this.getPost._id) ? await this.$store.dispatch('editPost', formData) : await this.$store.dispatch('addPost', formData)  
+           debugger
+
+           await this.$store.dispatch("getUserPosts", this.getUserId)
+
             this.$router.push({path: '/adminjobs'})
+            //this.$router.push({name: 'listJobs'})
         },
 
         editPost(){
-            this.$router.push({path: '/editjob'})
+            
+            // if(this.getPost._id){
+            //     this.$store.dispatch("getPostById", this.getPost._id)
+            // }
+            
+            // else {
+
+            // }
+           
+
+            this.$router.push({path: "/editjob"})
         }
     }
     
 }
 </script>
 
-<style>
-</style>

@@ -8,7 +8,7 @@
               
             </div>
 
-            <div v-if="getPosts.length>0">
+            <div v-if="getPosts.length > 0">
                 <table class="table" >
                     <thead>
                         <tr class="justify-content-center">
@@ -72,11 +72,11 @@ export default {
         ])
     },    
 
-    
     mounted(){     
         debugger  
         this.$store.dispatch("getUserPosts", this.getUserId)        
     },
+    
 
     methods:{
 
@@ -97,8 +97,14 @@ export default {
             this.$router.push({path: '/previewjob'})
         },
 
-        deletePost(id){
-            this.$store.dispatch("deletePost", id)
+        async deletePost(id){
+            await this.$store.dispatch("deletePost", id)
+
+            //this.$store.dispatch("getUserPosts", this.getUserId)   
+
+           this.$router.push({path: '/adminjobs'})
+           //this.$router.push({name: 'listJobs'})
+
         }
     }
 }

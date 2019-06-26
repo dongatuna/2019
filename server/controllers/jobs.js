@@ -53,8 +53,8 @@ module.exports = {
     updateJob: async(req, res, next)=>{
         
         try{
-            
-            console.log("Here is the req.body ", req.body)
+           
+            console.log("Here is the req.body ", req.body, 'req.files', req.files)
 
             const fileattachments = []
             req.files.forEach(attachment=>{
@@ -64,9 +64,7 @@ module.exports = {
             
             req.body.fileattachments = fileattachments
 
-            console.log("Here is the req.body ", req.body)
-
-            const job = await Job.findByIdAndUpdate(req.params.id, req.body,{new: true})
+            const job = await Job.findByIdAndUpdate(req.body._id, req.body, {new: true})
             //console.log and check if communityEvent is ok
            
             console.log("Here is the job ", job)
@@ -75,7 +73,7 @@ module.exports = {
         }catch(error){
             console.log('The req.body...', req)
             res.status(500).json({
-                message: "There has been an error updating the resume",
+                message: "There has been an error editing your job post.",
                 error
             })
         }

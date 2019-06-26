@@ -19,7 +19,7 @@ const storage = multer.diskStorage({
 })
 
 const fileFilter = (req, file, cb)=>{
-
+    
     const acceptedFormats = ['application/msword', 'application/x-mswrite', 
     'text/plain', 'application/pdf', 'image/jpeg', 'image/png' ]
     /*accepted formats:
@@ -41,7 +41,7 @@ const fileFilter = (req, file, cb)=>{
 
 const upload = multer({
     storage,
-    limits: {fileSize: 1000000000},
+    limits: {fileSize: 10000000000},
     fileFilter,
     
 })
@@ -56,7 +56,7 @@ router.route('/').get(JobController.allJobs)
 
 //update a post
 //user needs to be authenticated
-router.route('/:id').patch(passportJWT, upload.array('fileattachements'),  JobController.updateJob)
+router.route('/').patch(passportJWT, upload.array('fileattachments'),  JobController.updateJob)
 
 //read posts by a single user
 router.route('/:id').get(JobController.jobsByUser)

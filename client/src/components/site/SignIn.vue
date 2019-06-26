@@ -8,7 +8,7 @@
         </div>
 
         <div class="form-label-group">
-            <input type="email" class="form-control" placeholder="Email address" v-model="user.email" autofocus required>
+            <input type="email" class="form-control" placeholder="Email address" v-model.trim="user.email" autofocus required>
             <label for="inputEmail">Email</label>
         </div>
 
@@ -51,8 +51,10 @@ export default {
     methods: {
         async signIn(){
             this.$store.commit('REMOVE_USER')
-            
-            await this.$store.dispatch("signIn", this.user)
+
+            const email = this.user.email.toLowerCase()
+            debugger
+            await this.$store.dispatch("signIn", {email, password:this.user.password})
             debugger
             if(this.admin){
                     this.$router.push({path: '/admin'})

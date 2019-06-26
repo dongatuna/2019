@@ -9,7 +9,7 @@ const jobSchema = mongoose.Schema({
     description: {type:String, required: true},
     requirements: {type:String, required: true},
     location: {type: String, required: true},
-    fileattachments: [String]
+    fileattachments: [{type: String, dropDups: true, unique: true}]
 })
 
-module.exports = mongoose.model("Job", jobSchema);
+module.exports = mongoose.model("Job", jobSchema)
