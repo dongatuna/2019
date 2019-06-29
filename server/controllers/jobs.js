@@ -54,16 +54,27 @@ module.exports = {
         
         try{
            
-            console.log("Here is the req.body ", req.body, 'req.files', req.files)
+            //console.log("Here is the req files ", req.files)
+            console.log("Here is the req paths ", req.body.paths)
+            // req.body.paths.forEach(path =>console.log("Here is a single path ", path))
+            // req.body.paths = req.body.paths.split()
+            // req.body.paths = req.body.paths.split('   ')
+
+            //console.log("Here is the req paths ", req.body.paths)
 
             const fileattachments = []
             req.files.forEach(attachment=>{
-                //console.log("single attachment...", attachment.path)
+                console.log("single attachment...", attachment.path)
                 fileattachments.push(attachment.path)
             })
             
-            req.body.fileattachments = fileattachments
+            req.body.fileattachments = fileattachments.concat(req.body.paths)
+            //remove empty strings
+            req.body.fileattachments = req.body.fileattachments.filter(entry => entry.trim() != '' )
+           // req.body.paths = null            
+            console.log("Here are the attachments...",  req.body.fileattachments )
 
+            console.log(req.body)
             const job = await Job.findByIdAndUpdate(req.body._id, req.body, {new: true})
             //console.log and check if communityEvent is ok
            
@@ -71,7 +82,7 @@ module.exports = {
 
             res.status(200).json({job})
         }catch(error){
-            console.log('The req.body...', req)
+            console.log('The error...', error)
             res.status(500).json({
                 message: "There has been an error editing your job post.",
                 error

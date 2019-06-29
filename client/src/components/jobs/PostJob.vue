@@ -2,7 +2,7 @@
     <section class="bg-light ">
         <div class="container-fluid">
             <div class="row justify-content-center">
-                <div class="col-md-10 col-sm-10">                   
+                <div class="col-sm-10">                   
                     <h4 class="text-dark display-5" v-if="edit">Edit Job Post</h4> 
                     <h4 class="text-dark display-5" v-else>Share Your Job Opening</h4>
                     <form v-on:submit.prevent="postJob" class=" lead" ref="form" enctype="multipart/form-data" novalidate>
@@ -40,6 +40,7 @@
                             <label for="contact"><strong>Job Opening Contact</strong></label>
                             <input v-if="edit" type="text" class="form-control" name="contact" id="contact" v-model="getPost.contact">
                             <input v-else type="text" class="form-control" name="contact" id="contact" v-model="newPost.contact">
+                            <span class="text-danger" v-if="(errors['contact'])"><small>{{errors['contact']}}</small></span>  
                             
                         </div>
                         
@@ -47,24 +48,29 @@
                             <label for="files"><strong>Share more about your job opening</strong></label>
                             <input type="file" multiple class="form-control-file" @change="onFileSelected()"  ref="files" id="jobfiles">
                         </div>   
-                        <div v-if="edit" class="col-sm-12 mb-3">
-                            <div v-if="getPost.fileattachments.length>0">                           
-                                
-                                <p v-for="(file, index) of getPost.fileattachments" :key="index">{{file}}</p>
+                        <div class="m-3">
+                            <div v-if='edit'>
+                                <div v-if="getPost.fileattachments.length > 0">                           
+                                    <ul v-for="(file, index) of getPost.fileattachments" :key="index" class="list-group list-group-flush">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center"><small>{{file}}</small>
+                                            <span class="badge badge-danger badge-pill"><a @click.prevent="removeAttachment(index)">X</a></span></li> 
+                                        
+                                    </ul>                                
+                                </div>
                             </div>
-                            <div v-else>
-                                <p>No attachments</p>
-                            </div>
-                        </div>  
+                             
+                             
+                         
                         
-                        <div class="col-sm-12 mb-3">
-                            <ul v-for="(file, index) of files[0]" :key="index" class="list-group list-group-flush">
-                                <li class="list-group-item d-flex justify-content-between align-items-center">{{file.name}}
-                                    <!-- <span class="badge badge-danger badge-pill"><a @click.prevent="removeFile(index)">X</a></span> -->
-                                </li>                        
-                            </ul> 
-                        </div>  
-                     
+                            <div v-if="files.length > 0">
+                                <ul v-for="(file, index) of files[0]" :key="index" class="list-group list-group-flush">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center"><small>{{file.name}}</small>
+                                        <!-- <span class="badge badge-danger badge-pill"><a @click.prevent="removeFile(index)">X</a></span> -->
+                                        <span class="badge badge-danger badge-pill"><a @click.prevent="removeFile(index)">X</a></span>
+                                    </li>                        
+                                </ul> 
+                            </div>  
+                        </div> 
                         <button v-if="edit" class="btn btn-primary btn-block py-3" type="submit"><strong>Update Job</strong> </button>
                         <button v-else class="btn btn-primary btn-block py-3" type="submit"><strong>Create Job</strong> </button>
                         
@@ -82,37 +88,54 @@ export default {
     props:['edit'],
     computed:{
         ...mapGetters([        
-            "getPost", "getFiles", "getFilesNames"
-        ])      
+            "getPost",   "getFiles", "getFilesNames"
+        ])
     }, 
     
     data() {        
         return {     
                
             errors: [],    
-            files: [],  
+            files: [], 
+            paths: [], 
             newPost: {    
                 contact: null,
                 description: null,
                 location: null,  
                 requirements: null,   
-                title: null,            
+                title: null, 
+                fileattachments: [],
+                paths:[]           
             }            
         }
     },
 
+   
     methods: {
+        removeFile( num){
+            
+            this.files.splice(num, 1)
+           
+            //this.files.push(files)
 
-        getFormData(obj) {
-            const formData = new FormData()
-            Object.keys(obj).forEach(key => formData.append(key, obj[key]))
-            return formData
+            this.files
+            //this.$store.commit('ADD_FILE_NAMES', files)  
+
+            //this.files = files
         },
-        
+
+        removeAttachment( num){
+            
+            this.getPost.fileattachments.splice(num, 1)
+
+            this.$store.commit('ADD_FILE_NAMES', this.getPost.fileattachments)  
+        },
+
         onFileSelected(){
            // console.log("This is the event", event)this.$refs.file.files[0]
             this.files.push(this.$refs.files.files)          
         },
+
         checkForm() {
    
             this.errors = []
@@ -142,7 +165,8 @@ export default {
                 this.newPost.contact &&
                 this.newPost.description &&
                 this.newPost.location &&
-                this.newPost.requirements
+                this.newPost.requirements &&
+                this.newPost.paths
             ){
                 return true
             }
@@ -153,72 +177,24 @@ export default {
         - data has not been sent to server (unpersisted data)
         */
         postJob() {     
-            debugger
-            const files = (this.files.length > 0) ? Array.from(this.files[0]):[]
-            debugger
-            const paths = []
-                       
-            //this.newPost = this.getPost
-            if(this.edit){  
-                
-                if(this.getPost._id) {
-                    const {_id, title, contact, description, location, requirements, fileattachments } = this.getPost
-                    this.newPost = {_id, title, contact, description, location, requirements }
-                }else{
-                    const {title, contact, description, location, requirements } = this.getPost
-                    this.newPost = {title, contact, description, location, requirements }
-                }    
-
-                debugger
-
-                //Editing the post before saving it in the DB       
-                if(this.checkForm()){               
-                        
-                    //this post exists in the DB
-                    if(this.newPost._id) {
-                        debugger
-                        
-                        //assign getPost from the store to the new job   
-                        if(files.length > 0){    
-
-                            this.$store.commit('ADD_FILES', files)
-
-                            files.forEach(file => this.getPost.fileattachments.push(file.name))       
-                                        
-                        }
-
-                        this.$store.commit('ADD_FILE_NAMES', this.getPost.fileattachments)                       
-                        
-                    }else{
-                        //this post is only in the vuex store, i.e., not in DB
-                        //const formData = this.getFormData(this.newPost)
-                        if(files.length > 0){                                    
-                            
-                            this.$store.commit('ADD_FILES', files)
-
-                            files.forEach(file => this.getFilesNames.push(file.name))                
-                                                             
-                        } 
-                        
-                        this.$store.commit('ADD_FILE_NAMES', this.getFilesNames) 
-                    }   
-                }  
-            } else {                 
-                //Add the post for the first time    
-                //const files = this.files[0]||[]                
-                if (this.checkForm()) {                 
-                    
-                    if( files.length > 0){  
-
-                        this.$store.commit('ADD_FILES', files)
-                        debugger
-                                
-                    }               
-                }          
-            }
-            this.$store.commit("ADD_POST", this.newPost) 
-            this.$router.push({ name: 'previewJob' })
             
+            const files = (this.files.length > 0) ? Array.from(this.files[0]) : [] 
+            
+
+            this.newPost = this.edit ? Object.assign(this.getPost) : this.newPost      
+
+            //Editing the post before saving it in the DB       
+            if(this.checkForm()){    
+                
+                if(files.length > 0 ){    
+
+                    this.$store.commit('ADD_FILES', files)                                       
+                }   
+
+                this.$store.commit('CLEAR_POST')
+                this.$store.commit("ADD_POST", this.newPost) 
+                this.$router.push({ name: 'previewJob' }) 
+            }             
         }
     }
 }

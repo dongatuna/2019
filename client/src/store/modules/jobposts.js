@@ -15,6 +15,7 @@ const getters = {
     numberofPosts: state =>state.posts.length,
     getFiles: state =>state.job_files,
     getFilesNames: state =>state.file_names
+    //filePaths
 }
 
 const mutations = {
@@ -26,9 +27,9 @@ const mutations = {
     
     
     //payload includes 
-    ADD_FILE_NAMES: (state, payload) => state.file_names = payload,
-
-    REMOVE_FILE_NAMES: (state) => state.file_names = [],
+    //ADD_FILE_NAMES: (state, payload) => state.file_names = payload,
+    //ADD_EXISTING_FILE_NAMES: (state, payload) => state.file_names = payload,
+    //REMOVE_FILE_NAMES: (state) => state.file_names = [],
     REMOVE_POST (state, payload) {state.posts = state.posts.filter(post => post._id !== payload) }
 }
 
@@ -73,7 +74,7 @@ const actions = {
             })
             //commit('REMOVE_POST')
 
-            commit("POSTS", response.data.jobs)
+            commit("ADD_POSTS", response.data.jobs)
         }catch(error){
             console.log(error)
         }

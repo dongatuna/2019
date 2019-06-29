@@ -22,15 +22,23 @@
                             
                              <!-- {{files}} -->
                             <h5 class="card-subtitle py-1 "><strong>Attachments </strong></h5><br>
-                            <div class="row m-3" v-if="getFilesNames.length>0">                           
+                             <div class="m-3">
+
+                                      
+                                <div v-if="getPost.fileattachments.length > 0">                                                    
+                                    <ul v-for="(file, index) of getPost.fileattachments" :key="index" class="list-group list-group-flush">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center"><small>{{file}}</small></li> 
+                                    </ul>
+                                </div>
                                 
-                                <p v-for="(file, index) of getFilesNames" :key="index">
-                                    <ul><li>{{file}}</li></ul>
-                                </p>
-                            </div>
-                            <!-- <div v-else>
-                                <p>No attachments</p>
-                            </div> -->
+                            
+                            
+                            <div v-if ="getFiles.length > 0 ">
+                                <ul v-for="(file, index) of getFiles" :key="index" class="list-group list-group-flush">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center"><small>{{file.name}}</small></li>                        
+                                </ul> 
+                            </div>  
+                        </div> 
                             <hr>
 
                             <div class="row justify-content-between m-3">
@@ -61,9 +69,13 @@ export default {
 
     data(){
         return{
-            files: this.getFilesNames||[]
+            files: this.getFiles
         }
     },
+
+    // mounted(){
+    //     return this.getPost
+    // },
 
     methods:{
       
@@ -73,18 +85,26 @@ export default {
             return formData
         },
 
-        async addPost(){               
+        async addPost(){         //this.getPost.fileattachments
+            
+            //const length = this.getPost.fileattachments.length
+
+            if(this.getPost._id){
+                //const paths = this.getPost.fileattachments 
+            
+               // this.getPost.fileattachments.forEach(item => this.getPost.paths.push(item))
+                this.getPost.paths = this.getPost.fileattachments 
+                this.getPost.fileattachments = []
+
+                console.log("Paths...", this.getPost.paths)
+                //this.getPost.paths = this.getPost.fileattachments 
+            }          
             
             const formData = this.getFormData(this.getPost)
 
-            debugger
-            if(this.getFiles.length > 0 ) this.getFiles.forEach(file => formData.append("fileattachments", file)) 
+            if(this.getFiles.length > 0 ){ this.getFiles.forEach(file => formData.append("fileattachments", file)) } 
 
-             debugger
-            (this.getPost._id) ? await this.$store.dispatch('editPost', formData) : await this.$store.dispatch('addPost', formData)  
-           debugger
-
-           await this.$store.dispatch("getUserPosts", this.getUserId)
+            this.getPost._id ? await this.$store.dispatch('editPost', formData) : await this.$store.dispatch('addPost', formData)                  
 
             this.$router.push({path: '/adminjobs'})
             //this.$router.push({name: 'listJobs'})
