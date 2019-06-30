@@ -128,3 +128,8 @@ export default {
 }
 </script>
 
+<style scoped>
+.card-text {
+    white-space: pre-wrap;
+}
+</style>
