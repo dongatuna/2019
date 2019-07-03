@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const jobSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
@@ -9,8 +9,9 @@ const jobSchema = mongoose.Schema({
     description: {type:String, required: true},
     requirements: {type:String, required: true},
     location: {type: String, required: true},
-    fileattachments: [String],
+    //fileattachments: [String],
     paths: [String]
+    //display: {type: Boolean, required: true, default: false}
 })
 
 module.exports = mongoose.model("Job", jobSchema)

@@ -2,7 +2,7 @@
   <section>
     <div class="container-fluid">
       <div class="row justify-content-center">
-        <div class="col-sm-6">
+        <div class="col-sm-4">
           <div class="float-right mb-3">          
             <button class="btn btn-outline-primary btn-lg" type='submit' @click="getTest(70)">Take Exam</button>
           </div>
@@ -60,7 +60,7 @@
             
           </nav>
         </div>
-          <div class="col-sm-2 py-8" >
+          <!-- <div class="col-sm-2 py-8" >
             
               <ul class="list-group">
                 <li class="list-group-item active"><strong>Features</strong></li>
@@ -69,7 +69,7 @@
                 <li class="list-group-item">Skill Videos</li>
                 
               </ul>
-          </div>           
+          </div>            -->
       </div>      
     </div>
   </section>  

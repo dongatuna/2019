@@ -1,7 +1,7 @@
 <template>
      <footer class="pt-4 m-5 p-5 border-top">
-    <div class="row">
-      
+    <div class="row ">
+      <div class="container d-flex flex-column flex-md-row align-items-center">
       <div class="col-6 col-md">
         <h5>Contact Us</h5>
         <ul class="list-unstyled text-small">
@@ -27,6 +27,7 @@
           <li><a class="text-muted" href="#">Des Moines WA 98198</a></li>        
         </ul>
       </div>
+    </div>
     </div>
   </footer>
 </template>

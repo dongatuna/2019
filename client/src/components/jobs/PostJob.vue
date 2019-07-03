@@ -46,23 +46,24 @@
                         
                         <div class="form-group text-info">
                             <label for="files"><strong>Share more about your job opening</strong></label>
-                            <input type="file" multiple class="form-control-file" @change="onFileSelected()"  ref="files" id="jobfiles">
+                            <input type="file" multiple class="form-control-file" @change="onFileSelected()" name="fileattachments" ref="files" id="jobfiles">
                         </div>   
                         <div class="m-3">
                             <div v-if='edit'>
-                                <div v-if="getPost.fileattachments.length > 0">                           
-                                    <ul v-for="(file, index) of getPost.fileattachments" :key="index" class="list-group list-group-flush">
-                                        <li class="list-group-item d-flex justify-content-between align-items-center"><small>{{file}}</small>
+                                <div v-if="getPost.paths.length > 0">                           
+                                    <ul v-for="(file, index) of getPost.paths" :key="index" class="list-group list-group-flush">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <small>
+                                                <!-- <div v-if="file[index]!=='' "> -->
+                                                    {{file}}
+                                                <!-- </div>                                             -->
+                                            </small>
                                             <span class="badge badge-danger badge-pill"><a @click.prevent="removeAttachment(index)">X</a></span></li> 
                                         
                                     </ul>                                
                                 </div>
-                            </div>
-                             
-                             
-                         
-                        
-                            <div v-if="files.length > 0">
+                            </div>                     
+                            <div v-if="files.length > 0 ">
                                 <ul v-for="(file, index) of files[0]" :key="index" class="list-group list-group-flush">
                                     <li class="list-group-item d-flex justify-content-between align-items-center"><small>{{file.name}}</small>
                                         <!-- <span class="badge badge-danger badge-pill"><a @click.prevent="removeFile(index)">X</a></span> -->
@@ -126,9 +127,11 @@ export default {
 
         removeAttachment( num){
             
-            this.getPost.fileattachments.splice(num, 1)
+            this.getPost.paths.splice(num, 1, undefined)
 
-            this.$store.commit('ADD_FILE_NAMES', this.getPost.fileattachments)  
+            
+
+            this.$store.commit('ADD_POST', this.getPost)  
         },
 
         onFileSelected(){

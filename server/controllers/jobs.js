@@ -8,14 +8,18 @@ module.exports = {
     
     postJob: async(req, res, next)=>{
         try{        
+            console.log('Here is the req.files ', req.files)
+            console.log('Here is the req.body ', req.body)
             //get the req.body
             const {title, description, requirements, location, contact} = req.body            
             
             //attachments are in the req.files
-            const fileattachments = []
+            const paths = []
+                //   fileattachments = []
+
             req.files.forEach(attachment=>{
                 //console.log("single attachment...", attachment.path)
-                fileattachments.push(attachment.path)
+                paths.push(attachment.path)
             })
             
             //find the poster or user
@@ -28,9 +32,10 @@ module.exports = {
                     _id: mongoose.Types.ObjectId(),                    
                     contact,
                     description,
-                    fileattachments,
+                    paths,
                     location, 
-                    requirements,                                      
+                    requirements,
+                   // fileattachments ,                                    
                     title,
                     userId: req.user._id
                 })
@@ -49,30 +54,24 @@ module.exports = {
         }
     },   
     
-    //update a communityEvent
+    //update a job
     updateJob: async(req, res, next)=>{
         
         try{
            
-            //console.log("Here is the req files ", req.files)
-            console.log("Here is the req paths ", req.body.paths)
-            // req.body.paths.forEach(path =>console.log("Here is a single path ", path))
-            // req.body.paths = req.body.paths.split()
-            // req.body.paths = req.body.paths.split('   ')
+            console.log("Here is the req files ", req.files)
+            console.log("Here is the req paths ", req.body)
+           
+           // const files = 
+            //const paths = req.body.paths
+            const url_paths = []    
 
-            //console.log("Here is the req paths ", req.body.paths)
-
-            const fileattachments = []
             req.files.forEach(attachment=>{
                 console.log("single attachment...", attachment.path)
-                fileattachments.push(attachment.path)
+                url_paths.push(attachment.path)
             })
-            
-            req.body.fileattachments = fileattachments.concat(req.body.paths)
-            //remove empty strings
-            req.body.fileattachments = req.body.fileattachments.filter(entry => entry.trim() != '' )
-           // req.body.paths = null            
-            console.log("Here are the attachments...",  req.body.fileattachments )
+
+            paths = req.body.paths     
 
             console.log(req.body)
             const job = await Job.findByIdAndUpdate(req.body._id, req.body, {new: true})

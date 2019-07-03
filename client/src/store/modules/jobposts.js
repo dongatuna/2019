@@ -23,7 +23,7 @@ const mutations = {
     CLEAR_POST:(state)=>state.post = {},
     ADD_POSTS:(state, payload)=>state.posts=payload,
     ADD_POST:(state, payload)=>state.post = Object.assign(payload),
-    ADD_FILES: (state, payload) => state.job_files = payload,
+    ADD_FILES: (state, payload) => state.job_files = payload, //this is the formdata file object
     
     
     //payload includes 

@@ -8,7 +8,6 @@ const state = {
         Day:  [],
         Evening: [],
         Weekends: []     
-            
     },
 }
 

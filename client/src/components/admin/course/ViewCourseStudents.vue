@@ -133,6 +133,7 @@ export default {
         }, 
 
         viewCourseStudents(){
+            
             this.$store.dispatch('getCourse', this.$route.params.course_id)
         }
     }

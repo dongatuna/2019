@@ -96,6 +96,7 @@ export default {
             weekendCourses: []
         }
     },
+    
     computed: {
         ...mapGetters([
             "getCourseIds", "getAllCourses","getAllSortedCourses"
@@ -117,14 +118,7 @@ export default {
             const course_month = moment(dates).month()
 
             return `${months[course_month]} ${course_date}`
-        },
-
-        // transfer_student(course_id){
-        //     this.$store.dispatch('transferStudent', {old_course_id: this.getTransfer.course_id, new_course_id: course_id, student_id: this.getTransfer.student_id})
-
-        //     this.$router.push({path: `/course/${course_id}`})
-        // },
-
+        }
     },    
 
     mounted(){

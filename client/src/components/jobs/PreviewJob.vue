@@ -25,8 +25,8 @@
                              <div class="m-3">
 
                                       
-                                <div v-if="getPost.fileattachments.length > 0">                                                    
-                                    <ul v-for="(file, index) of getPost.fileattachments" :key="index" class="list-group list-group-flush">
+                                <div v-if="getPost.paths.length > 0">                                                    
+                                    <ul v-for="(file, index) of getPost.paths" :key="index" class="list-group list-group-flush">
                                         <li class="list-group-item d-flex justify-content-between align-items-center"><small>{{file}}</small></li> 
                                     </ul>
                                 </div>
@@ -85,22 +85,20 @@ export default {
             return formData
         },
 
-        async addPost(){         //this.getPost.fileattachments
+        async addPost(){         
             
-            //const length = this.getPost.fileattachments.length
-
-            if(this.getPost._id){
-                //const paths = this.getPost.fileattachments 
-            
-               // this.getPost.fileattachments.forEach(item => this.getPost.paths.push(item))
-                this.getPost.paths = this.getPost.fileattachments 
-                this.getPost.fileattachments = []
-
-                console.log("Paths...", this.getPost.paths)
-                //this.getPost.paths = this.getPost.fileattachments 
-            }          
             
             const formData = this.getFormData(this.getPost)
+
+            if(this.getPost._id){
+                
+                formData.append('paths', JSON.stringify(this.getPost.paths))
+               
+            }          
+            
+            //const attachments = formData.getAll('fileattachments')
+
+           // if(attachments.length > 0) formData.delete('fileattachments')
 
             if(this.getFiles.length > 0 ){ this.getFiles.forEach(file => formData.append("fileattachments", file)) } 
 

@@ -148,9 +148,7 @@ export default {
     computed: {
         ...mapGetters([
             "getStudent"
-        ]),
-
-        
+        ]),        
     },  
 
  
