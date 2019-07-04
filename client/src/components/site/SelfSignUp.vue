@@ -3,10 +3,10 @@
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-sm-6">                    
-                    <h3 class="text-dark text-center">{{course}} sign up form</h3>
+                    <h3 class="text-dark text-center">{{course}} class sign up form</h3>
                     <br>
                     <!--BEGINNING OF THE FORM-->
-                    <form ref="form" class="credit-card-inputs" >
+                    <form ref="form" >
                             <!--FIRST AND LAST NAMES-->
                         <div class="row justify-content-center">
                             <div class="col-sm-4">                                
@@ -50,41 +50,20 @@
                                     <textarea class="form-control" name="comments" cols="10" rows="2" placeholder="Enter your comments or questions"  v-model="student.comments"></textarea>
                                 </div>          
                             </div>
-                        </div>
-                        <!-- <div class="row justify-content-center"> -->
-                            <!-- <span class="border border-dark"> -->
-                            <!-- <div class="col-sm-8"> -->
-                                    <!-- <div ref="card"></div>-->
-                                    <!-- <button v-on:click="register">Register</button>  -->
-                                     <!-- <button class="btn btn-primary btn-block py-3" type="submit"><strong>Sign up</strong> </button> --> 
-                            <!-- </div> -->
-                            <!-- </span> -->
-                        <!-- </div> -->
-
-                         <div class="form-row">
-    <label for="card-element">
-      Credit or debit card
-    </label>
-    <div id="card-element">
-      <!-- A Stripe Element will be inserted here. -->
-    </div>
-
-    <!-- Used to display form errors. -->
-    <div id="card-errors" role="alert"></div>
-  </div>
+                        </div>                    
  
                         <div class="row justify-content-center">
                             <div class="col-sm-8 p-3 bg-light">     
                                 <p class="text-center lead text-danger"><strong> Classes fill up fast.  Register now and secure your spot immediately. </strong></p>
-                                <br>
-                                <div ref="card" class="m-3" ></div>              
-                                <button class="btn btn-primary btn-block py-3" type="submit"><strong>Pay $ {{registration}}.00 to register</strong> </button> 
+                                
+                                <div ref="card" class="credit-card-inputs mb-2"  ></div>               
+                                <button class="btn btn-primary btn-block py-3" type="submit" v-on:click="register"><strong>Pay $ {{registration}}.00 to register</strong> </button> 
                             </div>
                         </div>
 
-                        <hr>
+                       {{getAllCourses}}
 
-                        <div class="row justify-content-end">
+                        <div class="row justify-content-center">
                             <div class="col-sm-8 bg-white">     
                                 <!-- <p class="text-center text-center"> Add me to the waitlist. </p> -->
                                 <br>                                             
@@ -102,31 +81,36 @@
 
 <script>
 
+
+import Keys from '../../helpers/courses'
+    // let stripe = Stripe(`${Keys.stripeKeys.publishable_key}`),
+    //     elements = stripe.elements(),
+    //     card = undefined
+ 
+
+    // var style = {
+    //     base: {
+    //         color: '#32325d',
+    //         fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+    //         fontSmoothing: 'antialiased',
+    //         fontSize: '16px',
+    //         '::placeholder': {
+    //         color: '#aab7c4'
+    //         }
+    //     },
+        
+    //     invalid: {
+    //         color: '#fa755a',
+    //         iconColor: '#fa755a'
+    //     }
+    // }
 import { store } from "../../store/store"
 import {mapGetters} from "vuex"
 import moment from 'moment'
-import Keys from '../../helpers/courses'
-
-    let stripe = Stripe(`${Keys.stripeKeys.publishable_key}`),
-        elements = stripe.elements(),
-        card = undefined
-
-    // let style = {
-    //     base: {
-    //         border: '5px solid #D8D8D8',
-    //         borderRadius: '4px',
-    //         color: "#000",
-    //     },
-
-    //     invalid: {
-    //         color:'red'
-    //     }           
-    // }
-
 
 export default {
 
-     data(){
+    data(){
         return{
             errors: [],
             sel_course: {},
@@ -153,7 +137,7 @@ export default {
     created(){                   
 
         this.getAllCourses.filter(course => {
-            if(course.courseId=== this.$route.params.course_id){
+            if(course.courseId === this.$route.params.course_id){
                 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
                 const start_course_date = moment(course.start_date).date()
                 const end_course_date = moment(course.end_date).date()
@@ -164,16 +148,13 @@ export default {
                 
                 if(course.end_date){
                     this.registration = Keys.Costs[course.name]
-                    this.course = `${months[start_course_month]} ${start_course_date} - ${months[end_course_month]} ${end_course_date} ${name} ${type}`  
+                    this.course = `${months[start_course_month]} ${start_course_date} - ${months[end_course_month]} ${end_course_date} ${name} ${type.toLowerCase()}`  
                     
                 }else{
-                    this.course = `${months[start_course_month]} ${start_course_date} ${name} ${type}` 
+                    this.course = `${months[start_course_month]} ${start_course_date} ${name} ${type.toLowerCase()}` 
                 
                     this.registration = Keys.Costs[course.name]
                 }
-
-                             
-
             }       
         })
         
@@ -182,26 +163,33 @@ export default {
        
     },
 
-    mounted(){
-        card = elements.create('card')
-        card.mount(this.$refs.card)
-    },
+    // mounted(){
+    //     let stripe = Stripe(`${Keys.stripeKeys.publishable_key}`),
+    //         elements = stripe.elements(),
+    //         card = elements.create('card', style)
+    //     card.mount(this.$refs.card)
+    // },
     
     methods: {
 
         async register(){
-            const {token, error} = await stripe.createToken(card)           
+            //try{
+
+                // alert('what is stripe ', stripe)  
+                // debugger
+                // const {token, error} = await stripe.createToken(card)                       
             
-            // Access the token with result.token
-            let self = this
+                // let self = this
 
-            if (error) {
-                self.hasCardErrors = true
-                self.$forceUpdate() // Forcing the DOM to update so the Stripe Element can update.
-                return
-            }
+                // if (error) {
+                //     self.hasCardErrors = true
+                //     self.$forceUpdate() // Forcing the DOM to update so the Stripe Element can update.
+                //     return
+                // }
 
-            this.$store.dispatch('checkOut', token)
+                // debugger
+                // alert('This is the token ', token)
+         
             
         },
 
@@ -251,6 +239,33 @@ export default {
 </script>
 
 <style>
-.credit-card-inputs{
-  border: 2px solid green;
-}
+
+    .credit-card-inputs{
+        box-sizing: border-box;
+        border: 2px solid green;
+        height: 40px;
+
+        padding: 10px 12px;
+
+    /* border: 1px solid transparent; */
+        border-radius: 4px;
+        background-color: white;
+
+        box-shadow: 0 1px 3px 0 #e6ebf1;
+        -webkit-transition: box-shadow 150ms ease;
+        transition: box-shadow 150ms ease;
+    }
+
+    .credit-card-inputs--focus {
+        box-shadow: 0 1px 3px 0 #cfd7df;
+    }
+
+    .credit-card-inputs--invalid {
+        border-color: #fa755a;
+    }
+
+    .credit-card-inputs--webkit-autofill {
+        background-color: #fefde5 !important;
+    }
+
+</style>

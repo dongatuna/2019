@@ -122,6 +122,7 @@ export default {
     },    
 
     mounted(){
+        //this.$store.commit('REMOVE_COURSES')
         this.$store.dispatch('getAllCourses')
         debugger
     },

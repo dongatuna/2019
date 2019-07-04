@@ -21,8 +21,8 @@ const getters = {
 
 const mutations = {
     ADD_COURSE: (state, payload) => state.course = payload,
-    ADD_TO_COURSES(state, payload){
-       // debugger
+    ADD_TO_COURSES(state, payload){  
+
         payload.forEach(item => {
 
             if(!state.courseIds.includes(item.courseId)){
@@ -38,14 +38,21 @@ const mutations = {
     },
     ADD_COURSES:(state, payload) => state.courses.push(payload),
     REMOVE_COURSE: (state, payload) => state.courses.splice(state.courses.indexOf(payload), 1)
+    // REMOVE_COURSES(state) {
+       
+    //      state.courses = state.courseIds = state.sortedCourses.Day =  state.sortedCourses.Evening = state.sortedCourses.Weekends = []
+    // }      
+    
 }
 
 const actions = {
     
     async getAllCourses({commit}){
         try{
+            
             const responses = await axios.get('http://localhost:3000/courses')
             
+            //commit('REMOVE_COURSES')
             debugger
             commit("ADD_TO_COURSES", responses.data.courses)
 

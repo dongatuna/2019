@@ -45,7 +45,7 @@ module.exports = {
                             switch(course_dates.length){
                                 case 2:             
         
-                                   dbCourses.push({name, type, start_date}) 
+                                    dbCourses.push({name, type, start_date}) 
                                 
                                     break
                                 
@@ -249,9 +249,11 @@ module.exports = {
         try{
 
             const today = new Date()
+            console.log("This is today ", today)
+            const courses = await Course.find({ start_date: {$gte: today}}).sort({start_date:'ascending'})
 
-            const courses = await Course.find({start_date:{$gte: today}}).sort({start_date:'ascending'})
-
+           // console.log("This is today ", courses.start_date)
+            courses.forEach(course => console.log(`start date: ${course.start_date}`))
            // console.log("Courses length", courses.length)
             if(courses.length>0){
                 res.status(200).json({
