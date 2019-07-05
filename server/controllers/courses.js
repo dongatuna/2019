@@ -1,6 +1,8 @@
 const mongoose = require('mongoose')
 const Course = require('../models/course')
 const Student = require('../models/student')
+const config = require ('../config')
+const stripe = require('stripe')(config.STRIPE.KEY)
 // const moment = require('moment')
 // const Months = require('../helpers/months')
 // const {Courses} = require('../helpers/courses')
@@ -83,6 +85,7 @@ module.exports = {
     //add a student to a course - course MUST be created
     selfCourseSignUp: async(req, res, next ) => {
         try{
+
             //get the course id
             const course_id = req.params.course_id
 
@@ -101,29 +104,135 @@ module.exports = {
             }
             
             //get the req.body data
-            const {tel, email, first, last, notes} = req.body
+            const {stripeToken, student, amount} = req.body
+
+            console.log("This is the req body ", req.body)
+
+            const {first, last, email, tel, comments} = student
+
+            console.log('first ', first, 'email ', email)
+
+            const existingStudent = await Student.find({email})                    
             
-            const check = await Student.find({email})
+            if(stripeToken && amount){
 
-           //check if the email exists - if it does, the user contacts administrator 
-            if(check.length > 0){
-                return res.status(401).json({
-                    message: `${email} is in use.  Call administrator (206.271.1946) to sign up over the phone or in person.`
+                console.log('we are getting here ', stripeToken, 'and ', amount)
+                //first create the customer
+                const customer = await stripe.customers.create({             
+                    email,
+                    name: first + ' ' + last,
+                    phone: tel,
+                    source: stripeToken
                 })
+
+                console.log('Please freaking work....', customer)                
+
+                // if(err){
+                //     console.log('Here is the error message: ', err.message)
+                //     return error
+                // }
+    
+                const charge = await stripe.charges.create({
+                    description: `${course.start_date} ${course.type} ${course.name} class`,
+                    amount: amount*100,
+                    currency: 'usd',
+                    customer: customer.id,
+                    //source: stripeToken
+                })
+
+                console.log('Does this charge ?', charge)
+
+                
+                // if(error){
+                //     console.log('Here is the error message: ', error.message)
+                //     return error
+                // }            
+
+                console.log("There is....new", existingStudent)
+
+                if(existingStudent.length > 0 ){
+                    
+                    course.students.push(existingStudent._id)
+
+                    existingStudent.payments.push({
+                        course_id: req.params.course_id,
+                        paymentId: charge.id,
+                        amount
+                    })
+
+                    await Promise.all([ existingStudent.save(), course.save() ]) 
+
+                    return res.status(200).json({
+                        message: 'You have successfully signed up for your class.'
+                    })
+
+                }else{
+                    const newStudent = new Student({
+                        _id: mongoose.Types.ObjectId(),
+                        tel, email, first, last, comments,                        
+                    })
+                    
+                    course.students.push(newStudent._id)
+    
+                    newStudent.payments.push({ 
+                        course_id: req.params.course_id,
+                        paymentId: charge.id,
+                        amount
+                    }) 
+
+                    await Promise.all([ newStudent.save(), course.save() ]) 
+
+                    return res.status(200).json({
+                        message: 'You have successfully signed up for your class.'
+                    })
+                }                                  
+            } else {
+
+                console.log("There is....existing", existingStudent)
+
+                if(existingStudent.length>0){
+                    
+                    course.students.push(existingStudent._id)
+
+                    existingStudent.payments.push({
+                        course_id: req.params.course_id
+                    })
+
+                    await Promise.all([ existingStudent.save(), course.save() ]) 
+
+                    return res.status(200).json({
+                        message: 'You have successfully signed up for your class.'
+                    })
+
+                }else{
+                    const newStudent = new Student({
+                        _id: mongoose.Types.ObjectId(),
+                        tel, email, first, last, comments,                        
+                    })
+                    
+                    course.students.push(newStudent._id)
+    
+                    newStudent.payments.push({ 
+                        course_id: req.params.course_id,
+                        paymentId: charge.id
+                    }) 
+
+                    await Promise.all([ newStudent.save(), course.save() ]) 
+                }                                  
             }
+            
 
-            const newStudent = new Student({
-                _id: mongoose.Types.ObjectId(),
-                tel, email, first, last, notes
-            })
+           
+            
 
-            course.students.push(newStudent._id)
+            
+            
+            
 
-            newStudent.payments.push({ 
-                course_id: req.params.course_id
-            })
+            
 
-            await Promise.all([ newStudent.save(), course.save() ]) 
+            
+            
                
             res.status(200).json({
                 message: `You have successfully signed for the class.  Check your email for more information about what steps to take next.`,  

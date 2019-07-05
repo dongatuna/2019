@@ -12,8 +12,8 @@ const Costs = {
 }
 
 const stripeKeys = {
-    publishable_key: 'pk_test_zwLWLeKt17zDAH0loG0TZbgN',
-    secret_key: 'sk_test_8FKHH34P5YD8HuxPT136mz2X'
+    publishable_key: "pk_test_FgBE9JjMUDZGe7i1k6KvBKEv",
+    //secret_key: 'sk_test_8FKHH34P5YD8HuxPT136mz2X'
 }
 
 

@@ -135,11 +135,11 @@ const actions = {
 
     async selfCourseSignUp({commit}, payload){
         try{
-
+            debugger
             const response = await axios({
                     method: 'post',
                     url: `http://localhost:3000/courses/${payload.course_id}`,
-                    data: payload.student,
+                    data: payload.data,
                     headers:{
                         'Content-Type':'application/json'                    
                   }

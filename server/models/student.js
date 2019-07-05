@@ -10,20 +10,21 @@ const studentSchema = mongoose.Schema({
     tel: {type: String, required: true},
     first: {type: String, required: true},
     last: {type: String, required: true},        
-    contacted : {type: Boolean, default: false},
+    contacted: {type: Boolean, default: false},
     birthdate: {type: Date},
     createdAt: {type: Date, default: Date.now},
     //payments should be an array
     payments: [
         {
-            amount: {type: Number }, 
+            amount: { type: Number , default: null}, 
             course_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Course'},
+            paymentId: {type: String},
             //mode: {type: String, enum:['Cash','Card', 'Check/Money Order']},
             //"received by":{type: String, enum:['dongatuna', 'ngigiwagatuna', 'tacomaadmin', 'desmoinesadmin']},
             date: {type: Date, default: Date.now}                  
         }
     ],
-    notes: {type: String, default: ""},
+    comments: {type: String, default: ""},
     registered: {type: Boolean, default: false} 
 })
 

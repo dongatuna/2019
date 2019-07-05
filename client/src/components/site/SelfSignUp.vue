@@ -13,13 +13,14 @@
                                 <div class="form-group">
                                     <label for="first">First Name</label>                                   
                                     <input  type="text" class="form-control" name="first" v-model="student.first">
-                                     
+                                    <span class="text-danger" v-if="(errors['first'])"><small>{{errors['first']}}</small></span> 
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="last">Last Name</label>                                   
-                                    <input type="text" class="form-control" name="last" v-model="student.last">                                    
+                                    <input type="text" class="form-control" name="last" v-model="student.last">  
+                                    <span class="text-danger" v-if="(errors['last'])"><small>{{errors['last']}}</small></span>                                  
                                 </div>
                             </div>
                         </div>                               
@@ -29,13 +30,15 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="email">Email</label>                                    
-                                    <input type="email" class="form-control" name="email" v-model="student.email">                                      
+                                    <input type="email" class="form-control" name="email" v-model="student.email">  
+                                    <span class="text-danger" v-if="(errors['email'])"><small>{{errors['email']}}</small></span>                                     
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="tel">Telephone</label>                                 
-                                    <input type="tel" class="form-control" name="tel" v-model="student.tel">                                    
+                                    <input type="tel" class="form-control" name="tel" v-model="student.tel"> 
+                                    <span class="text-danger" v-if="(errors['tel'])"><small>{{errors['tel']}}</small></span>                                    
                                 </div>
                             </div>
                         </div>
@@ -71,9 +74,10 @@
 
                        
 
-                        <div class="row justify-content-center mt-4">
-                            <div class="col-sm-8 bg-white">                                                                                 
-                                <button class="btn btn-secondary py-3" type="submit" v-on:click="addToWaitlist"><strong>Add me to the waitlist. </strong> </button> 
+                        <div class="row justify-content-center mt-2">
+                            <div class="col-sm-8 bg-white"> 
+                                <p>Still undecided? </p>                                                                                
+                                <button class="btn btn-secondary py-3" type="submit" v-on:click="addToWaitlist"><strong>Add me to the waitlist </strong> </button> 
                             </div>
                         </div>
 
@@ -168,28 +172,31 @@ export default {
                     this.registration = Keys.Costs[course.name]
                 }
             }       
-        })
-        
-        // card = elements.create('card')
-        // card.mount(this.$refs.card)  
-       
+        })   
     },
 
     mounted(){
-        // let stripe = Stripe(`${Keys.stripeKeys.publishable_key}`),
-        //     elements = stripe.elements(),
-        //     card = elements.create('card', style)
-        // card.mount(this.$refs.card)
-        // Add an instance of the card Element into the `card-element` <div>.
+        
         card.mount('#card-element')
-
-
     },
     
     methods: {
 
         addToWaitlist(){
             alert('we are coding on 4th of July...')
+
+            if(this.checkForm()){
+
+                const student_payment = {stripeToken: null, student: this.student, amount: null }
+                
+                const course_id = this.$route.params.course_id
+
+                const payload = {data: student_payment, course_id}
+                this.$store.dispatch('selfCourseSignUp', payload)
+
+                this.$router.push({name: 'home'})      
+
+            }              
         },
 
         cardErrors(e){
@@ -205,30 +212,31 @@ export default {
 
         async register(){
             
+            if(this.checkForm()){
 
-                // alert('what is stripe ', stripe)  
-                // debugger
                 const {token, error} = await stripe.createToken(card)                      
+                                        
+                let self = this
+
+                if (error) {
+                    self.hasCardErrors = true
+                    self.$forceUpdate() // Forcing the DOM to update so the Stripe Element can update.
+                    return
+                }
+
+                const student_payment = {stripeToken: token.id, student: this.student, amount: this.registration }
                 
-                // if(error){
-                //     let cardErrors = this.$refs['card-errors']
-                //      cardErrors.textContent = error.message
-                // } 
+                const course_id = this.$route.params.course_id
 
-                // alert('Here is the stupid token>..', token)
-            
-                // let self = this
-
-                // if (error) {
-                //     self.hasCardErrors = true
-                //     self.$forceUpdate() // Forcing the DOM to update so the Stripe Element can update.
-                //     return
-                // }
+                const payload = {data: student_payment, course_id}
 
                 debugger
-                alert('This is the token ', token)
-         
-            
+                this.$store.dispatch('selfCourseSignUp', payload)
+
+                this.$router.push({name: 'home'})    
+                //alert('This is the token ', token)      
+
+            }              
         },
 
         checkForm() {
@@ -269,48 +277,14 @@ export default {
             }
 
             this.$router.push({name: 'checkemail'})
-        }
-
-       
-    }
-    
+        } 
+    }  
 }
 </script>
 
 <style>
 
-    /* .credit-card-inputs{
-        box-sizing: border-box;
-        border: 2px solid green;
-        height: 40px;
-
-        padding: 10px 12px;
-
-    /* border: 1px solid transparent; */
-        /* border-radius: 4px;
-        background-color: white;
-
-        box-shadow: 0 1px 3px 0 #e6ebf1;
-        -webkit-transition: box-shadow 150ms ease;
-        transition: box-shadow 150ms ease;
-    }
-
-    .credit-card-inputs--focus {
-        box-shadow: 0 1px 3px 0 #cfd7df;
-    } */
-
-    /* .credit-card-inputs--invalid {
-        border-color: #fa755a;
-    }
-
-    .credit-card-inputs--webkit-autofill {
-        background-color: #fefde5 !important;
-    } */ 
-
-    /**
- * The CSS shown here will not be introduced in the Quickstart guide, but shows
- * how you can use CSS to style your Element's container.
- */
+   
 .StripeElement {
   box-sizing: border-box;
 
