@@ -55,19 +55,25 @@
                         <div class="row justify-content-center">
                             <div class="col-sm-8 p-3 bg-light">     
                                 <p class="text-center lead text-danger"><strong> Classes fill up fast.  Register now and secure your spot immediately. </strong></p>
-                                
-                                <div ref="card" class="credit-card-inputs mb-2"  ></div>               
-                                <button class="btn btn-primary btn-block py-3" type="submit" v-on:click="register"><strong>Pay $ {{registration}}.00 to register</strong> </button> 
+                                <label for="card-element">
+                                    Credit or debit card
+                                </label>
+                                <div id="card-element" ref="card-element" @change="cardErrors(event)">
+                                <!-- A Stripe Element will be inserted here. -->
+                                </div>
+
+                                <!-- Used to display form errors. -->
+                                <div id="card-errors" ref="card-errors" role="alert"></div>
+                                <!-- <div ref="card" class="credit-card-inputs mb-2"  ></div>                -->
+                                <button class="btn btn-primary btn-block p-3 mt-3" type="submit" v-on:click.prevent="register"><strong>Pay $ {{registration}}.00 to register</strong> </button> 
                             </div>
                         </div>
 
-                       {{getAllCourses}}
+                       
 
-                        <div class="row justify-content-center">
-                            <div class="col-sm-8 bg-white">     
-                                <!-- <p class="text-center text-center"> Add me to the waitlist. </p> -->
-                                <br>                                             
-                                <button class="btn btn-secondary py-3" type="submit"><strong>Add me to the waitlist. </strong> </button> 
+                        <div class="row justify-content-center mt-4">
+                            <div class="col-sm-8 bg-white">                                                                                 
+                                <button class="btn btn-secondary py-3" type="submit" v-on:click="addToWaitlist"><strong>Add me to the waitlist. </strong> </button> 
                             </div>
                         </div>
 
@@ -79,36 +85,43 @@
     </section>
 </template>
 
+<script src="https://js.stripe.com/v3/"></script>
 <script>
-
-
-import Keys from '../../helpers/courses'
-    // let stripe = Stripe(`${Keys.stripeKeys.publishable_key}`),
-    //     elements = stripe.elements(),
-    //     card = undefined
- 
-
-    // var style = {
-    //     base: {
-    //         color: '#32325d',
-    //         fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-    //         fontSmoothing: 'antialiased',
-    //         fontSize: '16px',
-    //         '::placeholder': {
-    //         color: '#aab7c4'
-    //         }
-    //     },
-        
-    //     invalid: {
-    //         color: '#fa755a',
-    //         iconColor: '#fa755a'
-    //     }
-    // }
+import Keys from '../../helpers/courses'    
 import { store } from "../../store/store"
 import {mapGetters} from "vuex"
 import moment from 'moment'
 
+    let stripe = Stripe(`${Keys.stripeKeys.publishable_key}`),
+        elements = stripe.elements()
+        //card = undefined 
+
+    let style = {
+        base: {
+            color: '#32325d',
+            fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+            fontSmoothing: 'antialiased',
+            fontSize: '16px',
+            '::placeholder': {
+            color: '#aab7c4'
+            }
+        },
+        
+        invalid: {
+            color: '#fa755a',
+            iconColor: '#fa755a'
+        }
+    }
+
+    // Create an instance of the card Element.
+    let card = elements.create('card', {style})
+
+    // Add an instance of the card Element into the `card-element` <div>.
+    //card.mount('#card-element')
+
 export default {
+
+   // el: '#card-element',
 
     data(){
         return{
@@ -130,8 +143,7 @@ export default {
     computed: {
          ...mapGetters([        
             "getAllCourses"
-        ])  
-        
+        ])          
     },       
 
     created(){                   
@@ -163,21 +175,47 @@ export default {
        
     },
 
-    // mounted(){
-    //     let stripe = Stripe(`${Keys.stripeKeys.publishable_key}`),
-    //         elements = stripe.elements(),
-    //         card = elements.create('card', style)
-    //     card.mount(this.$refs.card)
-    // },
+    mounted(){
+        // let stripe = Stripe(`${Keys.stripeKeys.publishable_key}`),
+        //     elements = stripe.elements(),
+        //     card = elements.create('card', style)
+        // card.mount(this.$refs.card)
+        // Add an instance of the card Element into the `card-element` <div>.
+        card.mount('#card-element')
+
+
+    },
     
     methods: {
 
+        addToWaitlist(){
+            alert('we are coding on 4th of July...')
+        },
+
+        cardErrors(e){
+
+            let cardErrors = this.$refs['card-errors']
+
+            if (e.error) {
+                cardErrors.textContent = e.error.message
+            } else {
+                cardErrors.textContent = ''
+            }
+        },
+
         async register(){
-            //try{
+            
 
                 // alert('what is stripe ', stripe)  
                 // debugger
-                // const {token, error} = await stripe.createToken(card)                       
+                const {token, error} = await stripe.createToken(card)                      
+                
+                // if(error){
+                //     let cardErrors = this.$refs['card-errors']
+                //      cardErrors.textContent = error.message
+                // } 
+
+                // alert('Here is the stupid token>..', token)
             
                 // let self = this
 
@@ -187,13 +225,13 @@ export default {
                 //     return
                 // }
 
-                // debugger
-                // alert('This is the token ', token)
+                debugger
+                alert('This is the token ', token)
          
             
         },
 
-         checkForm() {
+        checkForm() {
    
             this.errors = []
 
@@ -222,6 +260,7 @@ export default {
                 return true
             }
         },
+
         selfSignUp () {
 
             if(this.checkForm()){
@@ -240,7 +279,7 @@ export default {
 
 <style>
 
-    .credit-card-inputs{
+    /* .credit-card-inputs{
         box-sizing: border-box;
         border: 2px solid green;
         height: 40px;
@@ -248,7 +287,7 @@ export default {
         padding: 10px 12px;
 
     /* border: 1px solid transparent; */
-        border-radius: 4px;
+        /* border-radius: 4px;
         background-color: white;
 
         box-shadow: 0 1px 3px 0 #e6ebf1;
@@ -258,14 +297,47 @@ export default {
 
     .credit-card-inputs--focus {
         box-shadow: 0 1px 3px 0 #cfd7df;
-    }
+    } */
 
-    .credit-card-inputs--invalid {
+    /* .credit-card-inputs--invalid {
         border-color: #fa755a;
     }
 
     .credit-card-inputs--webkit-autofill {
         background-color: #fefde5 !important;
-    }
+    } */ 
+
+    /**
+ * The CSS shown here will not be introduced in the Quickstart guide, but shows
+ * how you can use CSS to style your Element's container.
+ */
+.StripeElement {
+  box-sizing: border-box;
+
+  height: 40px;
+
+  padding: 10px 12px;
+
+  /* border: 1px solid transparent; */
+  border: 2px solid green;
+  border-radius: 4px;
+  background-color: white;
+
+  box-shadow: 0 1px 3px 0 #e6ebf1;
+  -webkit-transition: box-shadow 150ms ease;
+  transition: box-shadow 150ms ease;
+}
+
+.StripeElement--focus {
+  box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+.StripeElement--invalid {
+  border-color: #fa755a;
+}
+
+.StripeElement--webkit-autofill {
+  background-color: #fefde5 !important;
+}
 
 </style>

@@ -4,7 +4,6 @@
  */
 
 const Costs = {
-
     "CNA": 75,       
     'Adult CPR/FA': 80,    
     "Infant, Child, Adult CPR/FA": 110,
