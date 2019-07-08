@@ -40,13 +40,13 @@ const mutations = {
     REMOVE_COURSE: (state, payload) => state.courses.splice(state.courses.indexOf(payload), 1),
     REMOVE_COURSES(state) {
        
-         state.courses =  []
-         state.courseIds = []
-         state.sortedCourses.Day =  []
-         state.sortedCourses.Evening = []
-         state.sortedCourses.Weekends = []
-    }      
-    
+        state.courses =  []
+        state.courseIds = []
+        state.sortedCourses.Day =  []
+        state.sortedCourses.Evening = []
+        state.sortedCourses.Weekends = []
+        
+    }          
 }
 
 const actions = {

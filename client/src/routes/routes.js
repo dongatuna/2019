@@ -28,6 +28,5 @@ export default [
     {path: '/signin', name: 'signin', component: SignIn, props:{admin: false}},
     {path: '/signup', name: 'signup', component: SignUp, props:{admin: false}},
     {path: '/checkemail', name: 'checkemail', component: CheckEmail},
-    {path: '/videos', name: 'videos', component: Videos}
-   
+    {path: '/videos', name: 'videos', component: Videos}   
 ]

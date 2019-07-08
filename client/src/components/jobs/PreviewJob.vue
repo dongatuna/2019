@@ -2,7 +2,7 @@
     <section class="bg-light">
         <div class="container-fluid">
             <div class="row justify-content-center">
-                <div class="col-sm-12" >
+                <div class="col-sm-10" >
                     <div class="card lead">
                         <div class="card-body">
                             <h4 class="card-title py-3"><strong>{{getPost.title}}</strong></h4>                            
