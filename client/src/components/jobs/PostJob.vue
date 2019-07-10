@@ -45,32 +45,32 @@
                         </div>
                         
                         <div class="form-group text-info">
-                            <label for="files"><strong>Share more about your job opening</strong></label>
-                            <input type="file" multiple class="form-control-file" @change="onFileSelected()" name="fileattachments" ref="files" id="jobfiles">
+                            <!-- <label for="files"><strong>Share more about your job opening</strong></label>
+                            <input type="file" multiple class="form-control-file" @change="onFileSelected()" name="fileattachments" ref="files" id="jobfiles"> -->
                         </div>   
                         <div class="m-3">
-                            <div v-if='edit'>
+                            <!-- <div v-if='edit'>
                                 <div v-if="getPost.paths.length > 0">                           
                                     <ul v-for="(file, index) of getPost.paths" :key="index" class="list-group list-group-flush">
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                             <small>
-                                                <!-- <div v-if="file[index]!=='' "> -->
+                                                <div v-if="file[index]!=='' ">
                                                     {{file}}
-                                                <!-- </div>                                             -->
+                                                </div>                                           
                                             </small>
                                             <span class="badge badge-danger badge-pill"><a @click.prevent="removeAttachment(index)">X</a></span></li> 
                                         
                                     </ul>                                
                                 </div>
-                            </div>                     
-                            <div v-if="files.length > 0 ">
+                            </div>                      -->
+                            <!-- <div v-if="files.length > 0 ">
                                 <ul v-for="(file, index) of files[0]" :key="index" class="list-group list-group-flush">
                                     <li class="list-group-item d-flex justify-content-between align-items-center"><small>{{file.name}}</small>
-                                        <!-- <span class="badge badge-danger badge-pill"><a @click.prevent="removeFile(index)">X</a></span> -->
+                                       <span class="badge badge-danger badge-pill"><a @click.prevent="removeFile(index)">X</a></span> 
                                         <span class="badge badge-danger badge-pill"><a @click.prevent="removeFile(index)">X</a></span>
                                     </li>                        
                                 </ul> 
-                            </div>  
+                            </div>   -->
                         </div> 
                         <button v-if="edit" class="btn btn-primary btn-block py-3" type="submit"><strong>Update Job</strong> </button>
                         <button v-else class="btn btn-primary btn-block py-3" type="submit"><strong>Create Job</strong> </button>
@@ -87,6 +87,7 @@ import { store } from "../../store/store"
 import {mapGetters} from 'vuex'
 export default {
     props:['edit'],
+
     computed:{
         ...mapGetters([        
             "getPost",   "getFiles", "getFilesNames"
@@ -202,3 +203,5 @@ export default {
     }
 }
 </script>
+
+

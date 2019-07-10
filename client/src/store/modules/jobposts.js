@@ -13,24 +13,22 @@ const getters = {
     getPosts: state =>state.posts, 
     getPost: state =>state.post,      
     numberofPosts: state =>state.posts.length,
-    getFiles: state =>state.job_files,
-    getFilesNames: state =>state.file_names
+    //getFiles: state =>state.job_files,
+    //getFilesNames: state =>state.file_names
     //filePaths
 }
 
 const mutations = {
 
+    CLEAR_POSTS: (state) => state.posts = [],
     CLEAR_POST:(state)=>state.post = {},
     ADD_POSTS:(state, payload)=>state.posts=payload,
-    ADD_POST:(state, payload)=>state.post = Object.assign(payload),
-    ADD_FILES: (state, payload) => state.job_files = payload, //this is the formdata file object
-    
-    
-    //payload includes 
-    //ADD_FILE_NAMES: (state, payload) => state.file_names = payload,
-    //ADD_EXISTING_FILE_NAMES: (state, payload) => state.file_names = payload,
-    //REMOVE_FILE_NAMES: (state) => state.file_names = [],
-    REMOVE_POST (state, payload) {state.posts = state.posts.filter(post => post._id !== payload) }
+    REMOVE_POST(state, payload){state.posts.filter(post =>{
+        return post._id !== payload
+    })},
+   ADD_POST:(state, payload)=>state.post = Object.assign(payload),
+   // ADD_FILES: (state, payload) => state.job_files = payload, //this is the formdata file object
+
 }
 
 const actions = {
@@ -72,7 +70,8 @@ const actions = {
                 url: 'http://localhost:3000/jobs',
                 headers: {"Content-Type":"application/json"}
             })
-            //commit('REMOVE_POST')
+            
+            commit('CLEAR_POSTS')
 
             commit("ADD_POSTS", response.data.jobs)
         }catch(error){
@@ -106,8 +105,8 @@ const actions = {
                 headers: {'Content-Type':'application/json'}
             } )
             
-            //state.posts.slice(index
-            //ommit("REMOVE_POST", response.data)
+            commit('CLEAR_POST')
+
             commit("REMOVE_POST", payload)
 
         }catch(error){

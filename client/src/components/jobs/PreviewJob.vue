@@ -21,8 +21,8 @@
                             <hr>
                             
                              <!-- {{files}} -->
-                            <h5 class="card-subtitle py-1 "><strong>Attachments </strong></h5><br>
-                             <div class="m-3">
+                            <!-- <h5 class="card-subtitle py-1 "><strong>Attachments </strong></h5><br> -->
+                             <!-- <div class="m-3">
 
                                       
                                 <div v-if="getPost.paths.length > 0">                                                    
@@ -38,7 +38,7 @@
                                     <li class="list-group-item d-flex justify-content-between align-items-center"><small>{{file.name}}</small></li>                        
                                 </ul> 
                             </div>  
-                        </div> 
+                        </div>  -->
                             <hr>
 
                             <div class="row justify-content-between m-3">
@@ -86,37 +86,39 @@ export default {
         },
 
         async addPost(){         
-            
-            
+
             const formData = this.getFormData(this.getPost)
 
-            if(this.getPost._id){
+            // if(this.getPost._id){
                 
-                formData.append('paths', JSON.stringify(this.getPost.paths))
+            //     formData.append('paths', JSON.stringify(this.getPost.paths))
                
-            }          
+            // }          
             
-            //const attachments = formData.getAll('fileattachments')
+           // const attachments = formData.getAll('fileattachments')
 
-           // if(attachments.length > 0) formData.delete('fileattachments')
+            // if(attachments.length > 0) formData.delete('fileattachments')
 
-            if(this.getFiles.length > 0 ){ this.getFiles.forEach(file => formData.append("fileattachments", file)) } 
+            // if(this.getFiles.length > 0 ){ this.getFiles.forEach(file => formData.append("fileattachments", file)) } 
 
             this.getPost._id ? await this.$store.dispatch('editPost', formData) : await this.$store.dispatch('addPost', formData)                  
 
-            this.$router.push({path: '/adminjobs'})
-            //this.$router.push({name: 'listJobs'})
+            //this.$router.push({path: '/adminjobs'})
+
+            //this.$router.push({name: 'listJobs'})      
+            
+            
         },
 
         editPost(){
             
-            // if(this.getPost._id){
-            //     this.$store.dispatch("getPostById", this.getPost._id)
-            // }
+            if(this.getPost._id){
+                this.$store.dispatch("getPostById", this.getPost._id)
+            }
             
-            // else {
+            else {
 
-            // }
+            }
            
 
             this.$router.push({path: "/editjob"})
@@ -127,7 +129,9 @@ export default {
 </script>
 
 <style scoped>
+
 .card-text {
     white-space: pre-wrap;
 }
+
 </style>

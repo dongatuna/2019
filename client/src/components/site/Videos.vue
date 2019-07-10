@@ -20,17 +20,7 @@
                                 </tr>                             
                             </tbody>
                         </table>
-                    </div>
-                    <div class="col-md-2 " >
-                
-                        <ul class="list-group">
-                            <li class="list-group-item active"><strong>Features</strong></li>
-                            <li class="list-group-item">Find Jobs</li>
-                            <li class="list-group-item">View Courses</li>
-                            <li class="list-group-item">Written Exams</li>
-                            
-                        </ul>
-                    </div>
+                    </div>               
                 
                 </div> 
                

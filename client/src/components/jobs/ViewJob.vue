@@ -92,5 +92,9 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.card-text {
+    white-space: pre-wrap;
+}
+
 </style>

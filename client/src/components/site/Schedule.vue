@@ -62,12 +62,36 @@
                     </ul>
                 </div>            
             </div>    
-            <br><br>
+            
             <div class="row justify-content-center">
-                <div class="col-sm-6">
+                <div class="col-sm-12 col-md-6">
                     <hr>
-                    <div class="alert alert-secondary" role="alert">
-                        <p class="lead">Adult CPR/FA and BLS classes are not necessarily 6 hours long.</p>
+                    <div class="alert alert-info" role="alert">
+                        <div v-if="selected !=='CNA'" >
+
+                            <p class="lead text-dark">Please note:</p>
+                            <ul class="lead text-dark">                                
+                                <li>Adult CPR/FA AED and BLS courses are not necessarily 6 hours long</li>
+                                <li>Infant, Child and Adult CPR/FA courses are likely to extend past 6 hours</li>
+                                <li>Skill testing is 30 minutes long.  Make arrangement by calling 206 271 1946</li>
+                            </ul>
+                        </div>
+
+                        <div v-else>
+                            <p class="lead text-dark">CNA course requirements include:</p>
+                            <ul class="lead text-dark">
+                                <li>TB Test Results less than 1 year old</li>
+                                <li>Valid ID</li>                                
+                                <li>$ 600.00 tuition cost</li>
+                                <li>Pass math and English entrance exam or unofficial college transcript showing at least 30 credits </li>
+                                <li>Functioning email address</li>
+                            </ul>
+                            
+                        </div>
+
+                        <p class="lead">Keep your receipts carefully.  Some or all of the trainings costs are reimbursable.  Inquire around because some employers help with training costs upfront.</p>
+
+                        
                     </div>
                 </div>
 
@@ -129,3 +153,10 @@ export default {
 
 }
 </script>
+
+<style scoped>
+.course-info  {
+    white-space: pre-wrap;
+}
+</style>
+

@@ -56,7 +56,7 @@ const actions = {
             
             const responses = await axios.get('http://localhost:3000/courses')
             
-            //commit('REMOVE_COURSES')
+            commit('REMOVE_COURSES')
             debugger
             commit("ADD_TO_COURSES", responses.data.courses)
 

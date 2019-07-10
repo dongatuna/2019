@@ -22,6 +22,10 @@ export default [
             },
 
             {
+                path: '/checkout', name: "checkout", component: Courses, meta: { requiresAuth:true }              
+            },
+
+            {
                 path: '/editjob', name: "editJob", component: PostJob, props:{edit: true}, meta: {requiresAuth:true }
             },
 
@@ -31,10 +35,18 @@ export default [
 
             {
                 path: '/postjob', name: "postJob", component: PostJob, props: {edit: false}, meta: { requiresAuth:true }                
-            }         
+            },
+            
+            {
+                path: '/receipt', name: "receipt", component: Courses, meta: { requiresAuth:true }              
+            },
+
+            
             
         ]
     },  
+
+
 
     {
         path: '/view/:id', name:'viewJob', component: ViewJob
