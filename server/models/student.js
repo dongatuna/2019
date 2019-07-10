@@ -13,7 +13,7 @@ const studentSchema = mongoose.Schema({
     contacted: {type: Boolean, default: false},
     birthdate: {type: Date},
     createdAt: {type: Date, default: Date.now},
-    //payments should be an array
+    customerId: {type: String},
     payments: [
         {
             amount: { type: Number , default: null}, 

@@ -104,140 +104,177 @@ module.exports = {
             }
             
             //get the req.body data
-            const {stripeToken, student, amount} = req.body
+            const {stripeToken, student, amount, user_course} = req.body
 
-            console.log("This is the req body ", req.body)
+            const {first, last, email, tel, comments} = student        
 
-            const {first, last, email, tel, comments} = student
-
-            console.log('first ', first, 'email ', email)
-
-            const existingStudent = await Student.find({email})                    
+            //check to see if there is a student with that email address
+            const existingStudent = await Student.findOne({email})                 
             
-            if(stripeToken && amount){
+            console.log("Here is the existing student...", existingStudent)
 
-                console.log('we are getting here ', stripeToken, 'and ', amount)
-                //first create the customer
-                const customer = await stripe.customers.create({             
-                    email,
-                    name: first + ' ' + last,
-                    phone: tel,
-                    source: stripeToken
-                })
-
-                console.log('Please freaking work....', customer)                
-
-                // if(err){
-                //     console.log('Here is the error message: ', err.message)
-                //     return error
-                // }
-    
-                const charge = await stripe.charges.create({
-                    description: `${course.start_date} ${course.type} ${course.name} class`,
-                    amount: amount*100,
-                    currency: 'usd',
-                    customer: customer.id,
-                    //source: stripeToken
-                })
-
-                console.log('Does this charge ?', charge)
-
+            switch(existingStudent!==null){
                 
-                // if(error){
-                //     console.log('Here is the error message: ', error.message)
-                //     return error
-                // }            
+                case true:
 
-                console.log("There is....new", existingStudent)
+                    console.log("Here is the existing student...", existingStudent.customerId)
+                    //check if payment data has been received
+                    if(stripeToken && amount){
+                        //check if the existing student has a customer id, i.e, has paid in the past
+                        if(existingStudent.customerId){
+                            console.log("Here is the customer id: ", existingStudent.customerId)
+                            //retrieve the customer from stripe API
+                            const customer = await stripe.customers.retrieve(existingStudent.customerId)
 
-                if(existingStudent.length > 0 ){
-                    
-                    course.students.push(existingStudent._id)
+                            console.log("Here is the customer...", customer)
+                            //create a new payment source for the above customer
+                            //this way, we keep history of payment
+                            await stripe.customers.createSource(
+                                customer.id,
+                                {
+                                    source: stripeToken
+                                }
+                            )
 
-                    existingStudent.payments.push({
-                        course_id: req.params.course_id,
-                        paymentId: charge.id,
-                        amount
-                    })
+                            console.log('We are creating a new source...')
+                            //use the customer to create a NEW charge
+                            const charge = await stripe.charges.create({
+                                description: user_course,
+                                amount: amount*100,
+                                currency: 'usd',
+                                customer: customer.id                                
+                            })        
+                            
+                            console.log('Here is the charge ', charge)
+                            //if the user exists and wants to sign up for a new course
+                            if(!course.students.includes(existingStudent._id)){
+                                course.students.push(existingStudent._id)
+                                await course.save()
+                            }                            
+                            
+                            //add the charge id to the student payments array
+                            existingStudent.payments.push({
+                                course_id, paymentId: charge.id, amount
+                            })
 
-                    await Promise.all([ existingStudent.save(), course.save() ]) 
+                            await existingStudent.save()                            
 
-                    return res.status(200).json({
-                        message: 'You have successfully signed up for your class.'
-                    })
+                            return res.status(200).json({
+                                message: 'You payment has been received and you have been successfully signed up.'
+                            })
 
-                }else{
-                    const newStudent = new Student({
-                        _id: mongoose.Types.ObjectId(),
-                        tel, email, first, last, comments,                        
-                    })
-                    
-                    course.students.push(newStudent._id)
+                        }
+
+                        //if the existing customer has not made any payment and lacks stripe's customer id
+                        //create a new custoemer using the stripe token
+                        const customer = await stripe.customers.create({             
+                            email,
+                            name: first + ' ' + last,
+                            phone: tel,
+                            source: stripeToken
+                        })
+
+                        //create a new charge using the above newly created customer
+                        const charge = await stripe.charges.create({
+                            description: user_course,
+                            amount: amount*100,
+                            currency: 'usd',
+                            customer: customer.id,
+                            //source: stripeToken
+                        })
+                        //get the charge id and save it us customerId
+                        //const customerId = charge.customer
+                       
+                        existingStudent.customerId = customer.id
+                        
+                        //add the payment to new students payments array
+                        existingStudent.payments.push({ 
+                            course_id: req.params.course_id,
+                            paymentId: charge.id,
+                            amount
+                        }) 
+                        //save the newstudent and the course object
+                        await Promise.all([ existingStudent.save(), course.save() ]) 
+
+                        return res.status(200).json({
+                            message: 'You have successfully signed up for your class.'
+                        })                       
+                    } else {
+                        
+                        if(!course.students.includes(existingStudent._id)){
+                            course.students.push(existingStudent._id)                          
+                        }
+
+                        existingStudent.payments.push({ 
+                            course_id: req.params.course_id                           
+                        })                       
+
+                        await Promise.all([ existingStudent.save(), course.save() ]) 
+
+                        return res.status(200).json({
+                            message: 'You have successfully signed up for your class.'
+                        })
+                    }
+                case false:
+
+                    if(stripeToken && amount){
+
+                        const customer = await stripe.customers.create({             
+                            email,
+                            name: first + ' ' + last,
+                            phone: tel,
+                            source: stripeToken
+                        })
+
+                        const charge = await stripe.charges.create({
+                            description: user_course,
+                            amount: amount*100,
+                            currency: 'usd',
+                            customer: customer.id
+                            //source: stripeToken
+                        })
+                       
+                        const customerId = customer.id
+                        //not an existing student who makes no payment
+                        const newStudent = new Student({
+                            _id: mongoose.Types.ObjectId(),
+                            tel, email, first, last, comments, customerId                        
+                        })
+                        
+                        course.students.push(newStudent._id)
+        
+                        newStudent.payments.push({ 
+                            course_id: req.params.course_id,
+                            paymentId: charge.id,
+                            amount
+                        }) 
     
-                    newStudent.payments.push({ 
-                        course_id: req.params.course_id,
-                        paymentId: charge.id,
-                        amount
-                    }) 
+                        await Promise.all([ newStudent.save(), course.save() ]) 
 
-                    await Promise.all([ newStudent.save(), course.save() ]) 
+                        return res.status(200).json({
+                            message: 'You have successfully signed up for your class.'
+                        })  
+                        
 
-                    return res.status(200).json({
-                        message: 'You have successfully signed up for your class.'
-                    })
-                }                                  
-            } else {
-
-                console.log("There is....existing", existingStudent)
-
-                if(existingStudent.length>0){
+                    }else{
+                        const newStudent = new Student({
+                            _id: mongoose.Types.ObjectId(),
+                            tel, email, first, last, comments                       
+                        })
                     
-                    course.students.push(existingStudent._id)
+                        course.students.push(newStudent._id)
+        
+                        newStudent.payments.push({ 
+                            course_id: req.params.course_id                           
+                        }) 
 
-                    existingStudent.payments.push({
-                        course_id: req.params.course_id
-                    })
+                        await Promise.all([ newStudent.save(), course.save() ]) 
 
-                    await Promise.all([ existingStudent.save(), course.save() ]) 
-
-                    return res.status(200).json({
-                        message: 'You have successfully signed up for your class.'
-                    })
-
-                }else{
-                    const newStudent = new Student({
-                        _id: mongoose.Types.ObjectId(),
-                        tel, email, first, last, comments,                        
-                    })
-                    
-                    course.students.push(newStudent._id)
-    
-                    newStudent.payments.push({ 
-                        course_id: req.params.course_id,
-                        paymentId: charge.id
-                    }) 
-
-                    await Promise.all([ newStudent.save(), course.save() ]) 
-                }                                  
-            }
-            
-
-           
-            
-
-            
-            
-            
-
-            
-
-            
-            
-               
-            res.status(200).json({
-                message: `You have successfully signed for the class.  Check your email for more information about what steps to take next.`,  
-                course, newStudent             
-            })
+                        return res.status(200).json({
+                            message: 'You have successfully signed up for your class.'
+                        })
+                    }
+            }           
 
         }catch(error){
             res.status(500).json({
