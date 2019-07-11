@@ -1,22 +1,22 @@
 <template>
-    <section class="bg-dark" >
+    <section class="bg-light" >
         <div class="container-fluid">
             <div class="row justify-content-center">
-                <div class="col-md-12">                    
+                <div class="col-sm-10 col-md-12">                    
                     <h3 class="text-dark text-center">Job Posting Checkout</h3>
                     <br>
                     <!--BEGINNING OF THE FORM-->
                     <form ref="form" >
                             <!--FIRST AND LAST NAMES-->
                         <div class="row justify-content-center">
-                            <div class="col-sm-4">                                
+                            <div class="col-sm-5">                                
                                 <div class="form-group">
                                     <label for="first">First Name</label>                                   
                                     <input  type="text" class="form-control" name="first" v-model="poster.first">
                                     <span class="text-danger" v-if="(errors['first'])"><small>{{errors['first']}}</small></span> 
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-5">
                                 <div class="form-group">
                                     <label for="last">Last Name</label>                                   
                                     <input type="text" class="form-control" name="last" v-model="poster.last">  
@@ -27,14 +27,14 @@
                                                
                           <!--EMAIL AND TELEPHONE-->
                         <div class="row justify-content-center">
-                            <div class="col-sm-4">
+                            <div class="col-sm-5">
                                 <div class="form-group">
                                     <label for="email">Email</label>                                    
                                     <input type="email" class="form-control" name="email" v-model="poster.email">  
                                     <span class="text-danger" v-if="(errors['email'])"><small>{{errors['email']}}</small></span>                                     
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-5">
                                 <div class="form-group">
                                     <label for="tel">Telephone</label>                                 
                                     <input type="tel" class="form-control" name="tel" v-model="poster.tel"> 
@@ -44,7 +44,7 @@
                         </div>                                    
  
                         <div class="row justify-content-center">
-                            <div class="col-sm-8 p-3 bg-light">     
+                            <div class="col-sm-10 p-3 bg-light">     
                                 
                                 <label for="card-element">
                                     Credit or debit card
@@ -102,7 +102,7 @@ export default {
 
     computed:{
         ...mapGetters([
-            "getUserId"
+            "getUserId", "getPost"
         ])
     },
 
@@ -140,6 +140,7 @@ export default {
             
             if(this.checkForm()){
 
+                debugger
                 const {token, error} = await stripe.createToken(card)                      
                                         
                 let self = this

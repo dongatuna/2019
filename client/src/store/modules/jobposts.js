@@ -88,11 +88,12 @@ const actions = {
                 method: 'post',
                 url: 'http://localhost:3000/jobs', 
                 data: payload,
-                headers: {'Content-Type':'multipart/form-data'}
+                // headers: {'Content-Type':'multipart/form-data'}
+                headers: {'Content-Type':'application/json'}
             } )
             commit('CLEAR_POST')
             debugger
-            commit("ADD_POST", response.data)
+            commit("ADD_POST", response.data.job)
         }catch(error){
             console.log(error)
         }
@@ -108,9 +109,6 @@ const actions = {
                 url: 'http://localhost:3000/jobs/'+ payload,
                 headers: {'Content-Type':'application/json'}
             })
-            
-                       
-
         }catch(error){
            console.log(error)
         }
@@ -123,7 +121,8 @@ const actions = {
                 method: 'patch',
                 url: 'http://localhost:3000/jobs',
                 data: payload,
-                headers: {'Content-Type':'multipart/form-data'}
+                headers: {'Content-Type':'application/json'}
+                //headers: {'Content-Type':'multipart/form-data'}
             } )
            // commit('REMOVE_POST')
             debugger

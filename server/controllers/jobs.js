@@ -26,16 +26,21 @@ module.exports = {
                 source: stripeToken
             })
 
+            console.log("customer ", customer)
+
             //create a new charge using the above newly created customer
             const charge = await stripe.charges.create({
-                description: {'job posting':  title },
+                description: title,
                 amount: 2500,
                 currency: 'usd',
                 customer: customer.id               
             })
             
+            console.log("charge ", charge)
           
             if(charge){
+
+                console.log("charge PPPP")
                 //find the poster or user
                 const user = await User.findById(req.user._id)
 

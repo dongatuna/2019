@@ -39,8 +39,7 @@
                                 </ul> 
                             </div>  
                         </div>  -->
-                            <hr>
-
+                            
                             <div class="row justify-content-between m-3">
                                 <button class="btn btn-secondary col-md-3 col-sm-10" type="submit" v-on:click="editPost">Edit</button> 
                                 <button class="btn btn-primary col-md-3 col-sm-10" type="submit" v-on:click="addPost">Post</button>

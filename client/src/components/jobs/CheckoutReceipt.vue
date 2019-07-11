@@ -3,9 +3,11 @@
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-sm-10" >
-                    <p class="post-payment-text">
-                        Thanks for posting on our site.  You can see the job posting you createted <a href = "localhost:8080/view/" + getPost._id>here</a>. 
-                                                  
+                    <p>
+                        Thanks for posting on our site.  You can see the job posting you createted <router-link :to="{path: `/view/${getPost._id}`}">here</router-link>. 
+                    </p>
+                    {{getPost._id}}
+                    <p>                              
                         Click <router-link v-bind:to="{path: '/adminjobs'}">here </router-link>to go back to your admin panel where you can:
                             <ol>
                                 <li>create a new posting </li>
@@ -30,11 +32,11 @@ export default {
         ])
     }, 
     
-    data(){
-        return{
-            postId: this.getPost._id
-        }
-    }
+    // data(){
+    //     return{
+    //         postId: this.getPost.job._id
+    //     }
+    // }
 }
 </script>
 
