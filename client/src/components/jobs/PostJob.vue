@@ -17,7 +17,7 @@
                             <label for="description"><strong>Description</strong></label>
                             <textarea v-if="edit" class="form-control" name="description" cols="30" rows="15" v-model="getPost.description"></textarea>
                             <textarea v-else class="form-control" name="description" cols="30" rows="15" v-model="newPost.description"
-                            placeholder="Include description, day and times of this job opening"></textarea>
+                            placeholder="Include a description of the job, day and times of this job opening, pay, benefits, etc."></textarea>
                             <span class="text-danger" v-if="(errors['description'])"><small>{{errors['description']}}</small></span>  
                         </div>    
 
@@ -25,7 +25,7 @@
                             <label for="description"><strong>Requirements</strong></label>
                             <textarea v-if="edit" class="form-control" name="requirements" cols="30" rows="15" v-model="getPost.requirements"></textarea>
                             <textarea v-else class="form-control" name="requirements" cols="30" rows="5" v-model="newPost.requirements"
-                            placeholder="Include job requirements and indicate whether you provide training assistance and resources"></textarea>
+                            placeholder="Include job requirements and indicate whether you provide assistance helping prospects meet your requirements etc."></textarea>
                             <span class="text-danger" v-if="(errors['requirements'])"><small>{{errors['requirements']}}</small></span>  
                         </div> 
                         
@@ -48,7 +48,7 @@
                             <!-- <label for="files"><strong>Share more about your job opening</strong></label>
                             <input type="file" multiple class="form-control-file" @change="onFileSelected()" name="fileattachments" ref="files" id="jobfiles"> -->
                         </div>   
-                        <div class="m-3">
+                        <!-- <div class="m-3"> -->
                             <!-- <div v-if='edit'>
                                 <div v-if="getPost.paths.length > 0">                           
                                     <ul v-for="(file, index) of getPost.paths" :key="index" class="list-group list-group-flush">
@@ -71,7 +71,7 @@
                                     </li>                        
                                 </ul> 
                             </div>   -->
-                        </div> 
+                        <!-- </div>  -->
                         <button v-if="edit" class="btn btn-primary btn-block py-3" type="submit"><strong>Update Job</strong> </button>
                         <button v-else class="btn btn-primary btn-block py-3" type="submit"><strong>Create Job</strong> </button>
                         
@@ -106,39 +106,39 @@ export default {
                 location: null,  
                 requirements: null,   
                 title: null, 
-                fileattachments: [],
-                paths:[]           
+                // fileattachments: [],
+                // paths:[]           
             }            
         }
     },
 
    
     methods: {
-        removeFile( num){
+        // removeFile( num){
             
-            this.files.splice(num, 1)
+        //     this.files.splice(num, 1)
            
-            //this.files.push(files)
+        //     //this.files.push(files)
 
-            this.files
-            //this.$store.commit('ADD_FILE_NAMES', files)  
+        //     this.files
+        //     //this.$store.commit('ADD_FILE_NAMES', files)  
 
-            //this.files = files
-        },
+        //     //this.files = files
+        // },
 
-        removeAttachment( num){
+        // removeAttachment( num){
             
-            this.getPost.paths.splice(num, 1, undefined)
+        //     this.getPost.paths.splice(num, 1, undefined)
 
             
 
-            this.$store.commit('ADD_POST', this.getPost)  
-        },
+        //     this.$store.commit('ADD_POST', this.getPost)  
+        // },
 
-        onFileSelected(){
-           // console.log("This is the event", event)this.$refs.file.files[0]
-            this.files.push(this.$refs.files.files)          
-        },
+        // onFileSelected(){
+        //    // console.log("This is the event", event)this.$refs.file.files[0]
+        //     this.files.push(this.$refs.files.files)          
+        // },
 
         checkForm() {
    
@@ -169,8 +169,9 @@ export default {
                 this.newPost.contact &&
                 this.newPost.description &&
                 this.newPost.location &&
-                this.newPost.requirements &&
-                this.newPost.paths
+                this.newPost.requirements
+                
+                //&& this.newPost.paths
             ){
                 return true
             }
@@ -182,7 +183,7 @@ export default {
         */
         postJob() {     
             
-            const files = (this.files.length > 0) ? Array.from(this.files[0]) : [] 
+           // const files = (this.files.length > 0) ? Array.from(this.files[0]) : [] 
             
 
             this.newPost = this.edit ? Object.assign(this.getPost) : this.newPost      
@@ -190,10 +191,10 @@ export default {
             //Editing the post before saving it in the DB       
             if(this.checkForm()){    
                 
-                if(files.length > 0 ){    
+                // if(files.length > 0 ){    
 
-                    this.$store.commit('ADD_FILES', files)                                       
-                }   
+                //     this.$store.commit('ADD_FILES', files)                                       
+                // }   
 
                 this.$store.commit('CLEAR_POST')
                 this.$store.commit("ADD_POST", this.newPost) 

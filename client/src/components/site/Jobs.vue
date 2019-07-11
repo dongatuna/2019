@@ -7,7 +7,7 @@
         </div> -->
 
         <div class="row justify-content-center">
-            <div class="col-sm-6">
+            <div class="col-sm-10 col-md-6">
                 <div v-if="getPosts.length>0">
                 <table class="table" >
                     <thead>
@@ -24,15 +24,10 @@
                     </tbody>
                 </table>
                 </div>
-                <div v-else>
-                    <div class="card">
-                        <h3 class="card-header">Create a job posting and find CNAs and Caregivers</h3>
-                        <div class="card-body">
-                            <h5 class="card-title">Reach the right people</h5>
-                            <p class="card-text">The right audience will know and apply to your job opening.  Our site is used by CNAs, CNA and caregiver students, recent graduates preparing for state exam, their friends and acquaintances.</p>
-                            <router-link v-bind:to="{path: '/signup'}" class="btn btn-primary">Find Caregivers</router-link>
-                        </div>
-                    </div>
+                <div class="mt-5" v-else>
+                   <h5>Our website is just a baby :'(...and so no jobs have been posted yet.  Check back in a few...</h5>
+                   <!-- <br> -->
+                   <p class="lead">In the meantime, you can review some theory questions, watch skill videos, or sign up for a course.</p>
                 </div>
 
             </div>
@@ -48,7 +43,19 @@ import { store } from "../../store/store"
 import {mapGetters} from "vuex"
 import moment from "moment"
 
-export default {
+
+//  Besides our past, current, and prospective students, who number in the thousands, our site is a resource and is used by caregivers and CNAs in the whole of WA.  Our site is used by those
+//  * preparing for WA NAC/HCA state exams, recertifying their CPR/FAs, and searching for their first/additional works.
+//  * 
+//  * FOR $ 25: 
+//  *  - Your post will be seen by exactly the audience you want to reach:
+//  *      * people with intention to work as HCA or NAC soon
+//  *      * people preparing for HCA or NAC state license exam
+//  *      * people renewing their certificates such as CPR
+//  *  - Your job is shareable through Facebook and Email
+//  *  - Our current and former students receive email notification about job openings posted in our site
+
+export default {   
 
     data(){
         return{

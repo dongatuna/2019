@@ -1,5 +1,5 @@
 <template>
-     <footer class="pt-4 m-5 p-5 border-top">
+  <footer class="pt-4 m-5 p-5 border-top">
     <div class="row ">
       <div class="container d-flex flex-column flex-md-row align-items-center">
       <div class="col-6 col-md">

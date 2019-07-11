@@ -35,21 +35,22 @@
                         <div class="py-2 text-right">                    
                             <p class="px-3"><strong>Share on: </strong></p>
 
-                            <!-- <div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" 
+                           <div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" 
                             data-layout="button" data-size="large">
-                            <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" 
-                            class="fb-xfbml-parse-ignore">Share</a></div> -->
+                            <a target="_blank" href=" https://www.facebook.com/sharer/sharer.php?u=https://www.dttcnat.com/"
+                            class="fb-xfbml-parse-ignore"><i class="fab fa-facebook-f fa-2x mx-3"></i></a></div>
 
                             <!-- Your share button code -->
-                            <div class="fb-share-button" 
-                                data-href="http://cnn.com" 
+                            <!-- <div class="fb-share-button" 
+                            https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse
+                                data-href="http://cnn.com"
                                 data-layout="button">
-                            </div>
+                            </div> -->
 
 
 
 
-                            <a href="#"><i class="far fa-envelope fa-2x text-secondary mx-3"></i></a>
+                            <!-- <a href="#"><i class="far fa-envelope fa-2x text-secondary mx-3"></i></a> -->
                                                       
                         </div>                    
                     </div>
@@ -75,16 +76,20 @@ import { mapGetters } from 'vuex'
 import { store } from "../../store/store"
 
 export default {
+
     data(){
         return{
-            id: this.$route.params.id
+            id: this.$route.params.id,
+            url: 'localhost:8080/view/'+this.$route.params.id,
         }
     },
+
     computed:{
         ...mapGetters([
             "getPost"
         ])
     },
+
     created(){
         this.$store.dispatch("getPostById", this.id)
     }

@@ -7,6 +7,7 @@
                 <h5 v-else class="my-0 mr-md-auto font-weight-normal"><router-link v-bind:to="{name: 'home'}">Excel Health Careers Training</router-link></h5>
                 <nav class="my-2 my-md-0 mr-md-3">
                     <router-link v-bind:to="{name: 'schedule'}"><a class="p-2 text-dark">Courses</a></router-link>
+                     <router-link v-bind:to="{name: 'whypost'}"><a class="p-2 text-dark">Why recruit here?</a></router-link>
                     <router-link v-bind:to="{name: 'jobs'}"><a class="p-2 text-dark">Jobs</a></router-link>
                     <!-- <router-link v-bind:to="{name: 'requirements'}"><a class="p-2 text-dark">Requirement</a></router-link> -->
                     <router-link v-bind:to="{name: 'questions'}"><a class="p-2 text-dark">Questions</a></router-link>

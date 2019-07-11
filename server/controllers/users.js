@@ -173,6 +173,8 @@ module.exports = {
                           'http://localhost:8080/confirm/' + user.resetPasswordToken + '\n\n' +
                           'If you did not request this, please ignore this email and your password will remain unchanged.\n'
                     }
+
+                    console.log("What is this message? ", msg)
     
                     sgMail.send(msg)    
     

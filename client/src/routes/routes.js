@@ -12,6 +12,7 @@ import Forgot from '../components/site/ForgotPW.vue'
 import Reset from '../components/site/ResetPW.vue'
 import Confirm from '../components/site/Confirm.vue'
 import CheckEmail from '../components/site/CheckEmail.vue'
+import WhyPost from '../components/site/WhyPost.vue'
 
 
 export default [
@@ -28,5 +29,6 @@ export default [
     {path: '/signin', name: 'signin', component: SignIn, props:{admin: false}},
     {path: '/signup', name: 'signup', component: SignUp, props:{admin: false}},
     {path: '/checkemail', name: 'checkemail', component: CheckEmail},
-    {path: '/videos', name: 'videos', component: Videos}   
+    {path: '/videos', name: 'videos', component: Videos},
+    {path: '/whypost', name: 'whypost', component: WhyPost}  
 ]

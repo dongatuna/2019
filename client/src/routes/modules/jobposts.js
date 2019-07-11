@@ -4,6 +4,8 @@ import ViewJob from '../../components/jobs/ViewJob.vue'
 import ListJobs from '../../components/jobs/ListUserJobs.vue'
 import AdminJobs from '../../components/jobs/EmployerAdmin.vue'
 import Courses from '../../components/jobs/Courses.vue'
+import Checkout from '../../components/jobs/Checkout.vue'
+import CheckoutReceipt from '../../components/jobs/CheckoutReceipt.vue'
 
 export default [   
 
@@ -22,7 +24,7 @@ export default [
             },
 
             {
-                path: '/checkout', name: "checkout", component: Courses, meta: { requiresAuth:true }              
+                path: '/checkout', name: "checkout", component: Checkout, meta: { requiresAuth:true }              
             },
 
             {
@@ -38,10 +40,8 @@ export default [
             },
             
             {
-                path: '/receipt', name: "receipt", component: Courses, meta: { requiresAuth:true }              
-            },
-
-            
+                path: '/receipt', name: "receipt", component: CheckoutReceipt, meta: { requiresAuth:true }              
+            }            
             
         ]
     },  

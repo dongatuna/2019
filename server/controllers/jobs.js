@@ -1,6 +1,8 @@
 const mongoose = require('mongoose')
 const Job = require("../models/job")
 const User = require('../models/user')
+const config = require ('../config')
+const stripe = require('stripe')(config.STRIPE.KEY)
 //const Student = require('../models/user')
 
 
@@ -8,44 +10,51 @@ module.exports = {
     
     postJob: async(req, res, next)=>{
         try{        
-            console.log('Here is the req.files ', req.files)
+            
             console.log('Here is the req.body ', req.body)
             //get the req.body
-            const {title, description, requirements, location, contact} = req.body            
+            const {stripeToken, poster, post} = req.body   
             
-            //attachments are in the req.files
-            const paths = []
-                //   fileattachments = []
+            const {email, first, last, tel } = poster
 
-            req.files.forEach(attachment=>{
-                //console.log("single attachment...", attachment.path)
-                paths.push(attachment.path)
+            const { contact, description, location, requirements, title } = post
+
+            const customer = await stripe.customers.create({             
+                email,
+                name: first + ' ' + last,
+                phone: tel,
+                source: stripeToken
+            })
+
+            //create a new charge using the above newly created customer
+            const charge = await stripe.charges.create({
+                description: {'job posting':  title },
+                amount: 2500,
+                currency: 'usd',
+                customer: customer.id               
             })
             
-            //find the poster or user
-            const user = await User.findById(req.user._id)
           
-           // save job by user or poster
-            if(user){
+            if(charge){
+                //find the poster or user
+                const user = await User.findById(req.user._id)
 
-                const job = new Job({
-                    _id: mongoose.Types.ObjectId(),                    
-                    contact,
-                    description,
-                    paths,
-                    location, 
-                    requirements,
-                   // fileattachments ,                                    
-                    title,
-                    userId: req.user._id
-                })
-    
-                await job.save()
-                
-                console.log('Here is the job you saved...', job)
-                res.status(201).json({ job }) 
+                // save job by user or poster
+                if(user){
 
-            }                        
+                    const job = new Job({
+                        _id: mongoose.Types.ObjectId(),                    
+                        contact, description, location, requirements, title,
+                        userId: req.user._id,
+                        chargeId: charge.id
+                    })
+        
+                    await job.save()
+                    
+                    console.log('Here is the job you saved...', job)
+                    res.status(201).json({ job }) 
+                }
+            }                                  
         }catch(error){
             res.status(500).json({
                 message: "There has been an error saving your event",
@@ -62,18 +71,18 @@ module.exports = {
             console.log("Here is the req files ", req.files)
             console.log("Here is the req paths ", req.body)
            
-           // const files = 
-            //const paths = req.body.paths
-            const url_paths = []    
+        //    // const files = 
+        //     //const paths = req.body.paths
+        //     const url_paths = []    
 
-            req.files.forEach(attachment=>{
-                console.log("single attachment...", attachment.path)
-                url_paths.push(attachment.path)
-            })
+        //     req.files.forEach(attachment=>{
+        //         console.log("single attachment...", attachment.path)
+        //         url_paths.push(attachment.path)
+        //     })
 
-            paths = req.body.paths     
+        //     paths = req.body.paths     
 
-            console.log(req.body)
+        //     console.log(req.body)
             const job = await Job.findByIdAndUpdate(req.body._id, req.body, {new: true})
             //console.log and check if communityEvent is ok
            

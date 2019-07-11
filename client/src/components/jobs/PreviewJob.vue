@@ -69,7 +69,7 @@ export default {
 
     data(){
         return{
-            files: this.getFiles
+            //files: this.getFiles
         }
     },
 
@@ -77,46 +77,19 @@ export default {
     //     return this.getPost
     // },
 
-    methods:{
-      
-        getFormData(obj) {
-            const formData = new FormData()
-            Object.keys(obj).forEach(key => formData.append(key, obj[key]))
-            return formData
-        },
+    methods:{    
+        
 
-        async addPost(){         
-
-            const formData = this.getFormData(this.getPost)
-
-            // if(this.getPost._id){
-                
-            //     formData.append('paths', JSON.stringify(this.getPost.paths))
-               
-            // }          
+        async addPost(){ 
             
-           // const attachments = formData.getAll('fileattachments')
-
-            // if(attachments.length > 0) formData.delete('fileattachments')
-
-            // if(this.getFiles.length > 0 ){ this.getFiles.forEach(file => formData.append("fileattachments", file)) } 
-
-            this.getPost._id ? await this.$store.dispatch('editPost', formData) : await this.$store.dispatch('addPost', formData)                  
-
-            //this.$router.push({path: '/adminjobs'})
-
-            //this.$router.push({name: 'listJobs'})      
-            
-            
+            this.$router.push({name: "checkout"})           
         },
 
         editPost(){
             
             if(this.getPost._id){
                 this.$store.dispatch("getPostById", this.getPost._id)
-            }
-            
-            else {
+            }else {
 
             }
            

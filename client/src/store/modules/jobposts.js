@@ -23,10 +23,12 @@ const mutations = {
     CLEAR_POSTS: (state) => state.posts = [],
     CLEAR_POST:(state)=>state.post = {},
     ADD_POSTS:(state, payload)=>state.posts=payload,
-    REMOVE_POST(state, payload){state.posts.filter(post =>{
-        return post._id !== payload
-    })},
-   ADD_POST:(state, payload)=>state.post = Object.assign(payload),
+    // REMOVE_POST(state, payload){state.posts.filter(post => {
+    //     debugger
+    //     return post._id!== payload
+    // })},
+    REMOVE_POST: (state, payload) => state.posts.splice(state.posts.indexOf(payload), 1),
+    ADD_POST:(state, payload)=>state.post = Object.assign(payload),
    // ADD_FILES: (state, payload) => state.job_files = payload, //this is the formdata file object
 
 }
@@ -37,7 +39,7 @@ const actions = {
         try{
             const response = await axios({
                 method: 'get',
-                url: "http://localhost:3000/jobs/read/"+payload,
+                url: "http://localhost:3000/jobs/read/" + payload,
                 headers: {"Content-Type":"application/json"}
             })
 
@@ -98,16 +100,16 @@ const actions = {
 
     async deletePost({commit}, payload){
         try{
-            // const response = 
+            debugger
+            commit('REMOVE_POST', payload)
+            debugger
             await axios( {            
                 method: 'delete',
                 url: 'http://localhost:3000/jobs/'+ payload,
                 headers: {'Content-Type':'application/json'}
-            } )
+            })
             
-            commit('CLEAR_POST')
-
-            commit("REMOVE_POST", payload)
+                       
 
         }catch(error){
            console.log(error)

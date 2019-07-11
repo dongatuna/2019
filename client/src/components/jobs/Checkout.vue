@@ -1,8 +1,8 @@
 <template>
-    <section class="bg-white">
+    <section class="bg-dark" >
         <div class="container-fluid">
             <div class="row justify-content-center">
-                <div class="col-sm-6">                    
+                <div class="col-md-12">                    
                     <h3 class="text-dark text-center">Job Posting Checkout</h3>
                     <br>
                     <!--BEGINNING OF THE FORM-->
@@ -71,7 +71,7 @@
 <script>
 import Keys from '../../helpers/courses'    
 import { store } from "../../store/store"
-import {mapGetters} from "vuex"
+import {mapGetters, mapActions} from "vuex"
 
     let stripe = Stripe(`${Keys.stripeKeys.publishable_key}`),
         elements = stripe.elements()
@@ -114,7 +114,8 @@ export default {
                 last: "",
                 email: "",
                 tel: ""
-            }
+            }, 
+           // registration: 25
         }
     },
 
@@ -126,7 +127,16 @@ export default {
     
     methods: {
 
+        // getFormData(obj) {
+        //     const formData = new FormData()
+        //     Object.keys(obj).forEach(key => formData.append(key, obj[key]))
+        //     return formData
+        // },
+        
+
         async post(){
+
+            //const formData = this.getFormData(this.getPost)                    
             
             if(this.checkForm()){
 
@@ -138,18 +148,16 @@ export default {
                     self.hasCardErrors = true
                     self.$forceUpdate() // Forcing the DOM to update so the Stripe Element can update.
                     return
-                }
+                }              
 
-                const student_payment = {stripeToken: token.id, student: this.student, amount: this.registration, user_course: this.course }
-                
-                const course_id = this.$route.params.course_id
+                const payload =  {stripeToken: token.id, poster: this.poster, post: this.getPost}
 
-                const payload = {data: student_payment, course_id}
+                this.getPost._id ? await this.$store.dispatch('editPost', this.getPost) : await this.$store.dispatch('addPost', payload)
 
                 debugger
-                this.$store.dispatch('selfCourseSignUp', payload)
+                //await this.$store.dispatch('addPost', payload)              
 
-                this.$router.push({name: 'course-confirmation'})    
+                this.$router.push({name: 'receipt'})    
                 //alert('This is the token ', token)      
 
             }              

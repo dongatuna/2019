@@ -36,12 +36,12 @@
             </div>
             <div v-else>
                 <div class="card">
-                    <h3 class="card-header">Create a job posting and find CNAs and Caregivers</h3>
+                    <h3 class="card-header">Find CNAs and caregivers</h3>
                     <div class="card-body">
-                        <h5 class="card-title">Reach the right people</h5>
-                        <p class="card-text">The right audience will know and apply to your job opening.  Our site is used by CNAs, CNA and caregiver students, recent graduates preparing for state exam, their friends and acquaintances.
+                        <h5 class="card-title">Reach the right audience</h5>
+                        <p class="card-text">Create a job posting for the right audience - this audience will share, know and apply for your job opening.  Our site is used by licensed HCAs, NARs and CNAs, CNA and caregiver students, recent graduates preparing for state exam, their friends and acquaintances.
 
-                            <br> <br> On the other hand, if you have a prospective hire or an employee in need of (re)-training, you are at the right place.  
+                            <br> <br> On the other hand, if you have a prospective hire or an employee in need of (re)training, you are at the right place.  
                         </p>
                         <router-link v-bind:to="{path: '/postjob'}" class="btn btn-primary">Find Caregivers</router-link>
                     </div>
@@ -98,12 +98,15 @@ export default {
         },
 
         async deletePost(id){
+
+            this.$store.commit("CLEAR_POST")
+
             await this.$store.dispatch("deletePost", id)
 
             //this.$store.dispatch("getUserPosts", this.getUserId)   
 
-           this.$router.push({path: '/adminjobs'})
-           //this.$router.push({name: 'listJobs'})
+            this.$router.push({path: '/adminjobs'})
+            //this.$router.push({name: 'listJobs'})
 
         }
     }

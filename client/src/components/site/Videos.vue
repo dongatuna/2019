@@ -3,7 +3,7 @@
         <div class="container-fluid">
             <div >
                 <div class="row justify-content-around">
-                    <h5>Select</h5>
+                    <h5>For your first visit, bear with us, videos can take a sec or two to load... :-( </h5>
                 </div>
                 <div class="row justify-content-center">
                     

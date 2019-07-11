@@ -224,8 +224,10 @@ export default {
                     self.$forceUpdate() // Forcing the DOM to update so the Stripe Element can update.
                     return
                 }
-
-                const student_payment = {stripeToken: token.id, student: this.student, amount: this.registration, user_course: this.course }
+                //if the token exists
+                if(token){
+                    const student_payment = {stripeToken: token.id, student: this.student, amount: this.registration, user_course: this.course }
+                }
                 
                 const course_id = this.$route.params.course_id
 

@@ -5,7 +5,7 @@ const state = {
     courses: [],
     courseIds:[],
     sortedCourses: {           
-        Day:  [],
+        Day: [],
         Evening: [],
         Weekends: []     
     },
@@ -36,6 +36,7 @@ const mutations = {
            // console.info(state.sortedCourses)
         })               
     },
+
     ADD_COURSES:(state, payload) => state.courses.push(payload),
     REMOVE_COURSE: (state, payload) => state.courses.splice(state.courses.indexOf(payload), 1),
     REMOVE_COURSES(state) {
