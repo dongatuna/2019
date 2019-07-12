@@ -3,8 +3,8 @@
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-sm-10">                   
-                    <h4 class="text-dark display-5" v-if="edit">Edit Job Post</h4> 
-                    <h4 class="text-dark display-5" v-else>Share Your Job Opening</h4>
+                    <h4 class="text-dark display-5" v-if="edit">Edit job post</h4> 
+                    <h4 class="text-dark display-5" v-else>Post job opening</h4>
                     <form v-on:submit.prevent="postJob" class=" lead" ref="form" enctype="multipart/form-data" novalidate>
                         <div class="form-group">
                             <label for="topic"><strong>Job Post Title</strong></label>
@@ -86,7 +86,7 @@
 import { store } from "../../store/store"
 import {mapGetters} from 'vuex'
 export default {
-    props:['edit'],
+    props:['edit', 'repost'],
 
     computed:{
         ...mapGetters([        
@@ -183,8 +183,7 @@ export default {
         */
         postJob() {     
             
-           // const files = (this.files.length > 0) ? Array.from(this.files[0]) : [] 
-            
+           // const files = (this.files.length > 0) ? Array.from(this.files[0]) : []             
 
             this.newPost = this.edit ? Object.assign(this.getPost) : this.newPost      
 

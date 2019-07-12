@@ -17,6 +17,7 @@ const getters = {
 }
 
 const mutations = {
+    
     IS_USER(state, payload){        
         state.authed = payload.confirmed,
         state.username = payload.username,

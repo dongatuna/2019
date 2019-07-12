@@ -8,7 +8,7 @@
 
         <div class="row justify-content-center">
             <div class="col-sm-10 col-md-6">
-                <div v-if="getPosts.length>0">
+                <div v-if="getAllPosts.length>0">
                 <table class="table" >
                     <thead>
                         <tr>                           
@@ -16,7 +16,7 @@
                             <th scope="col"><h5 class="lead"> Job Postings </h5> </th>                     
                         </tr>
                     </thead>
-                    <tbody v-for="(job, index) of getPosts" :key="index">
+                    <tbody v-for="(job, index) of getAllPosts" :key="index">
                         
                         <tr>                            
                             <td><router-link v-bind:to="{path: '/view/'+job._id}"><strong>{{job.title}} </strong></router-link></td>                                  
@@ -65,11 +65,14 @@ export default {
 
     computed:{
         ...mapGetters([
-            "getPosts"
+            "getAllPosts"
         ])
     },    
 
-    
+    mounted(){     
+        debugger  
+        this.$store.dispatch("getAllPosts")        
+    },
     // mounted(){
     //     debugger
     //     this.viewCourseStudents()

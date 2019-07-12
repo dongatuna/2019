@@ -153,7 +153,8 @@ export default {
 
                 const payload =  {stripeToken: token.id, poster: this.poster, post: this.getPost}
 
-                this.getPost._id ? await this.$store.dispatch('editPost', this.getPost) : await this.$store.dispatch('addPost', payload)
+                await this.$store.dispatch('addPost', payload)
+                //this.getPost._id ? await this.$store.dispatch('editPost', this.getPost) : await this.$store.dispatch('addPost', payload)
 
                 debugger
                 //await this.$store.dispatch('addPost', payload)              

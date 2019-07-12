@@ -4,6 +4,7 @@ const state = {
     job_files: [],
     file_names: [],
     posts: [],
+    all_posts: [],
     post: {}     
 }
 
@@ -11,7 +12,8 @@ const state = {
 const getters = {
       
     getPosts: state =>state.posts, 
-    getPost: state =>state.post,      
+    getPost: state =>state.post, 
+    getAllPosts: state => state.all_posts,     
     numberofPosts: state =>state.posts.length,
     //getFiles: state =>state.job_files,
     //getFilesNames: state =>state.file_names
@@ -22,6 +24,7 @@ const mutations = {
 
     CLEAR_POSTS: (state) => state.posts = [],
     CLEAR_POST:(state)=>state.post = {},
+    ALL_POSTS: (state, payload) => state.all_posts = payload,
     ADD_POSTS:(state, payload)=>state.posts=payload,
     // REMOVE_POST(state, payload){state.posts.filter(post => {
     //     debugger
@@ -73,9 +76,9 @@ const actions = {
                 headers: {"Content-Type":"application/json"}
             })
             
-            commit('CLEAR_POSTS')
+            //commit('CLEAR_POSTS')
 
-            commit("ADD_POSTS", response.data.jobs)
+            commit("ALL_POSTS", response.data.jobs)
         }catch(error){
             console.log(error)
         }

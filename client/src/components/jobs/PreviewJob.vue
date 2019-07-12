@@ -58,11 +58,11 @@
 import { store } from "../../store/store"
 import {mapGetters} from 'vuex'
 export default {   
-    props: ['edit'],
+    props:['edit', 'repost'],
 
     computed:{
         ...mapGetters([        
-            "getPost", "getFiles", "getFilesNames"
+            "getPost"
         ])      
     }, 
 
@@ -81,16 +81,27 @@ export default {
 
         async addPost(){ 
             
-            this.$router.push({name: "checkout"})           
+            debugger
+
+            if (this.edit && !this.repost) {
+
+                debugger
+                await this.$store.dispatch('editPost', this.getPost) 
+
+                this.$router.push({name: "listJobs"}) 
+            } else {
+                this.$router.push({name: "checkout"}) 
+            }
+                     
         },
 
         editPost(){
             
-            if(this.getPost._id){
-                this.$store.dispatch("getPostById", this.getPost._id)
-            }else {
+            // if(this.getPost._id){
+            //     this.$store.dispatch("getPostById", this.getPost._id)
+            // }else {
 
-            }
+            // }
            
 
             this.$router.push({path: "/editjob"})

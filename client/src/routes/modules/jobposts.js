@@ -28,7 +28,11 @@ export default [
             },
 
             {
-                path: '/editjob', name: "editJob", component: PostJob, props:{edit: true}, meta: {requiresAuth:true }
+                path: '/editjob', name: "editJob", component: PostJob, props:{edit: true, repost: false}, meta: {requiresAuth:true }
+            },
+
+            {
+                path: '/repost', name: "repost", component: PostJob, props:{edit: true, repost: true}, meta: {requiresAuth:true }
             },
 
             {
