@@ -6,6 +6,8 @@ import AdminJobs from '../../components/jobs/EmployerAdmin.vue'
 import Courses from '../../components/jobs/Courses.vue'
 import Checkout from '../../components/jobs/Checkout.vue'
 import CheckoutReceipt from '../../components/jobs/CheckoutReceipt.vue'
+import JobTips from '../../components/jobs/JobTips.vue'
+
 
 export default [   
 
@@ -28,15 +30,19 @@ export default [
             },
 
             {
-                path: '/editjob', name: "editJob", component: PostJob, props:{edit: true, repost: false}, meta: {requiresAuth:true }
+                path: '/editjob', name: "editJob", component: PostJob, props:{edit: true}, meta: {requiresAuth:true }
             },
 
             {
-                path: '/repost', name: "repost", component: PostJob, props:{edit: true, repost: true}, meta: {requiresAuth:true }
+                path: '/repost', name: "repost", component: PostJob, props:{edit: true}, meta: {requiresAuth:true }
             },
 
             {
-                path: '/previewjob', name: 'previewJob', component: PreviewJob,  meta: { requiresAuth:true }
+                path: '/previewjob', name: 'previewJob', component: PreviewJob, props:{repost: true}, meta: { requiresAuth:true }
+            },
+
+            {
+                path: '/preview', name: 'preview', component: PreviewJob, props:{repost: false}, meta: { requiresAuth:true }
             },
 
             {
@@ -45,12 +51,14 @@ export default [
             
             {
                 path: '/receipt', name: "receipt", component: CheckoutReceipt, meta: { requiresAuth:true }              
-            }            
+            },
+            
+            {
+                path: '/tips', name: "tips", component: JobTips, meta: { requiresAuth:true }              
+            }   
             
         ]
     },  
-
-
 
     {
         path: '/view/:id', name:'viewJob', component: ViewJob

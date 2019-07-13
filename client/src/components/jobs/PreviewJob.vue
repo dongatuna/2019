@@ -3,19 +3,27 @@
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-sm-10" >
+                    <div v-if="repost">
+                        <div class="col bg-success mb-2 p-3">
+                            <h4>Reposting costs $ 25.00 </h4>
+                        </div>
+                        
+                    </div>
                     <div class="card lead">
+                        
                         <div class="card-body">
-                            <h4 class="card-title py-3"><strong>{{getPost.title}}</strong></h4>                            
                             
-                            <h5 class="card-subtitle py-1"><strong>Location: </strong><span class="text-muted">{{ getPost.location }}</span> </h5>
+                            <h4 class="card-title"><strong>{{getPost.title}}</strong></h4>                            
+                            
+                            <h5 class="card-subtitle"><strong>Location: </strong><span class="text-muted">{{ getPost.location }}</span> </h5>
                             <br>
-                            <h5 class="card-subtitle py-1"><strong>Contact: </strong><span class="text-muted">{{ getPost.contact }}</span> </h5>
+                            <h5 class="card-subtitle"><strong>Contact: </strong><span class="text-muted">{{ getPost.contact }}</span> </h5>
                             <br>
-                            <h5 class="card-subtitle py-1 "><strong>Description </strong></h5>
+                            <h5 class="card-subtitle"><strong>Description </strong></h5>
                             <hr>
                                 <p class="card-text">{{ getPost.description }}</p>                            
                             <hr>
-                            <h5 class="card-subtitle py-1 "><strong>Requirements </strong></h5>
+                            <h5 class="card-subtitle"><strong>Requirements </strong></h5>
                             <hr>
                                 <p class="card-text">{{ getPost.requirements }}</p>                            
                             <hr>
@@ -58,7 +66,7 @@
 import { store } from "../../store/store"
 import {mapGetters} from 'vuex'
 export default {   
-    props:['edit', 'repost'],
+    props:['repost'],
 
     computed:{
         ...mapGetters([        
@@ -80,17 +88,17 @@ export default {
         
 
         async addPost(){ 
-            
-            debugger
 
-            if (this.edit && !this.repost) {
+            if (this.repost) {
 
-                debugger
+                this.$router.push({name: "checkout"}) 
+                
+            } else {
+              
                 await this.$store.dispatch('editPost', this.getPost) 
 
                 this.$router.push({name: "listJobs"}) 
-            } else {
-                this.$router.push({name: "checkout"}) 
+                
             }
                      
         },

@@ -5,8 +5,9 @@
                 <div class="p-3 col-md-2">
                     <ul class="list-group">
                         <li class="list-group-item"><router-link v-bind:to="{ path: '/adminjobs' }">Home</router-link></li>
-                        <li class="list-group-item"><router-link v-bind:to="{ path: '/postjob' }">Post Job Opening </router-link></li>
-                        <li class="list-group-item"><router-link v-bind:to="{ path: '/caregiver_courses' }">Caregiver Courses </router-link></li>
+                        <li class="list-group-item"><router-link v-bind:to="{ path: '/postjob' }">Post job opening </router-link></li>
+                        <li class="list-group-item"><router-link v-bind:to="{ path: '/caregiver_courses' }">Courses </router-link></li>
+                        <li class="list-group-item"><router-link v-bind:to="{ path: '/tips' }">Posting tips </router-link></li>                        
                         <li class="list-group-item"><button class="btn btn-white btn-md" type="submit" v-on:click="logOut">Log out</button></li>
                     </ul>
                 </div>

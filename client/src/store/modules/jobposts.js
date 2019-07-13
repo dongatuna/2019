@@ -23,6 +23,7 @@ const getters = {
 const mutations = {
 
     CLEAR_POSTS: (state) => state.posts = [],
+    CLEAR_ALL_POSTS: (state) => state.all_posts = [],
     CLEAR_POST:(state)=>state.post = {},
     ALL_POSTS: (state, payload) => state.all_posts = payload,
     ADD_POSTS:(state, payload)=>state.posts=payload,
@@ -70,13 +71,12 @@ const actions = {
 
     async getAllPosts({commit}){
         try{
+            
             const response = await axios({
                 method: 'get',
                 url: 'http://localhost:3000/jobs',
                 headers: {"Content-Type":"application/json"}
-            })
-            
-            //commit('CLEAR_POSTS')
+            })    
 
             commit("ALL_POSTS", response.data.jobs)
         }catch(error){

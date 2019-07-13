@@ -19,7 +19,7 @@
                         <p class="card-text"><strong>- Our current and former students receive email notification about job openings posted in our site</strong></p>
                         
 
-                        <p class="card-text">Besides our past, current, and prospective students, who number in the thousands, our site is a resource and is used by caregivers and CNAs in the whole of WA.  Our site is used by those preparing for WA NAC/HCA state exams, recertifying their CPR/FAs, and searching for their first/additional works.</p>
+                        <p class="card-text">Besides our past, current, and prospective students, who number in the thousands, our site is a resource and is used by caregivers and CNAs in the whole of WA.</p>
                         <router-link v-if="getStatus" v-bind:to="{path: '/postjob'}" class="btn btn-primary float-right">Find Caregivers</router-link>
                         <router-link v-else v-bind:to="{path: '/signup'}" class="btn btn-primary float-right">Find Caregivers</router-link>
                     </div>

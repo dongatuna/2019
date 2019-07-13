@@ -71,6 +71,7 @@ export default {
 
     mounted(){     
         debugger  
+        this.$store.commit('CLEAR_ALL_POSTS')
         this.$store.dispatch("getAllPosts")        
     },
     // mounted(){

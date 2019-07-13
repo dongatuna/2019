@@ -42,8 +42,7 @@
                         <p class="card-text">Create a job posting for the right audience - this audience will share, know and apply for your job opening.  Our site is used by licensed HCAs, NARs and CNAs, CNA and caregiver students, recent graduates preparing for state exam, their friends and acquaintances.
 
                             <br> <br> On the other hand, if you have a prospective hire or an employee in need of (re)training, you are at the right place.  
-                        </p>
-                        <router-link v-bind:to="{path: '/postjob'}" class="btn btn-primary">Find Caregivers</router-link>
+                        </p>                       
                     </div>
                 </div>
             </div>
