@@ -87,7 +87,7 @@ export default {
 
             this.$store.dispatch("getPostById", id)
 
-            this.$router.push({path: "/editjob"})
+            this.$router.push({path: "/preview"})
         },
 
         rePost(id){

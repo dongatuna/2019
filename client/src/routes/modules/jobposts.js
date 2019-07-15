@@ -30,19 +30,23 @@ export default [
             },
 
             {
-                path: '/editjob', name: "editJob", component: PostJob, props:{edit: true}, meta: {requiresAuth:true }
+                path: '/editjob', name: "editJob", component: PostJob, props:{edit: true, post: true}, meta: {requiresAuth:true }
             },
 
             {
-                path: '/repost', name: "repost", component: PostJob, props:{edit: true}, meta: {requiresAuth:true }
+                path: '/re-edit', name: "reEdit", component: PostJob, props:{edit: true, post: false}, meta: {requiresAuth:true }
+            },
+
+            // {
+            //     path: '/repost', name: "repost", component: PostJob, props: {edit: true}, meta: {requiresAuth:true }
+            // },
+
+            {
+                path: '/previewjob', name: 'previewJob', component: PreviewJob, props: {post: true}, meta: { requiresAuth:true }
             },
 
             {
-                path: '/previewjob', name: 'previewJob', component: PreviewJob, props:{repost: true}, meta: { requiresAuth:true }
-            },
-
-            {
-                path: '/preview', name: 'preview', component: PreviewJob, props:{repost: false}, meta: { requiresAuth:true }
+                path: '/preview', name: 'preview', component: PreviewJob, props: {post: false}, meta: { requiresAuth:true }
             },
 
             {

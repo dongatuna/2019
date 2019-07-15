@@ -66,7 +66,7 @@
 import { store } from "../../store/store"
 import {mapGetters} from 'vuex'
 export default {   
-    props:['repost'],
+    props:['post'],
 
     computed:{
         ...mapGetters([        
@@ -89,9 +89,11 @@ export default {
 
         async addPost(){ 
 
-            if (this.repost) {
+            if (this.post) {
 
                 this.$router.push({name: "checkout"}) 
+
+
                 
             } else {
               
@@ -104,15 +106,13 @@ export default {
         },
 
         editPost(){
-            
-            // if(this.getPost._id){
-            //     this.$store.dispatch("getPostById", this.getPost._id)
-            // }else {
 
-            // }
+            if(this.post){
+                this.$router.push({path: "/editjob"})
+            }else {
+                this.$router.push({path: "/re-edit"})
+            }            
            
-
-            this.$router.push({path: "/editjob"})
         }
     }
     

@@ -86,7 +86,7 @@
 import { store } from "../../store/store"
 import {mapGetters} from 'vuex'
 export default {
-    props:['edit', 'repost'],
+    props:['edit', 'post'],
 
     computed:{
         ...mapGetters([        
@@ -195,9 +195,19 @@ export default {
                 //     this.$store.commit('ADD_FILES', files)                                       
                 // }   
 
+
+
                 this.$store.commit('CLEAR_POST')
                 this.$store.commit("ADD_POST", this.newPost) 
-                this.$router.push({ name: 'previewJob' }) 
+                if(this.post||!this.newPost._id) {
+
+                    this.$router.push({ name: 'previewJob' }) 
+
+                } else {
+                    
+                    this.$router.push({ name: 'preview' }) 
+                }
+                
             }             
         }
     }
