@@ -3,7 +3,7 @@ const Course = require('../models/course')
 const Student = require('../models/student')
 const config = require ('../config')
 const stripe = require('stripe')(config.STRIPE.KEY)
-// const moment = require('moment')
+const moment = require('moment')
 // const Months = require('../helpers/months')
 // const {Courses} = require('../helpers/courses')
 
@@ -394,7 +394,8 @@ module.exports = {
     getAllCourses: async(req, res, next ) => {
         try{
 
-            const today = new Date()
+           const today = moment().startOf('day')
+
             console.log("This is today ", today)
             const courses = await Course.find({ start_date: {$gte: today}}).sort({start_date:'ascending'})
 

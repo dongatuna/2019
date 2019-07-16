@@ -17,7 +17,7 @@ module.exports = {
             
             const {email, first, last, tel } = poster
 
-            const { contact, description, location, requirements, title } = post
+            const { contact, description, location, requirements, title } = post            
 
             const customer = await stripe.customers.create({             
                 email,
@@ -27,6 +27,10 @@ module.exports = {
             })
 
             console.log("customer ", customer)
+
+            if(post.chargeId){
+                post.chargeId = null
+            }
 
             //create a new charge using the above newly created customer
             const charge = await stripe.charges.create({

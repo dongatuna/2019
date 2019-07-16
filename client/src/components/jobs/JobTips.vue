@@ -5,11 +5,12 @@
             <div class="card-body">
                 
                 <ul class="card-text">
-                    <li>Clearly specify whom to contact re: job opening</li>
+                    <li>Clearly specify whom to contact re: job opening, i.e, include email or phone #</li>
                     <li>If applicable, include website address to your application or where your application can be downloaded</li>
                     <li>If applicable, state how long your job orientation is</li>
                     <li>Put your requirements in a list (stylistic suggestion)</li>
                     <li>State whether you offer tuition reimbursement and/or whether you assist candidates acquire necessary training</li>
+                    <li>You can put more than one location in the location field e.g: "'Kent', 'Renton', 'Tukwila'"</li>
                 </ul>      
 
 

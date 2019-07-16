@@ -3,6 +3,15 @@ const Student = require('../models/student')
 const Course = require("../models/course")
 const {Courses} = require('../helpers/courses')
 const Months = ('../helpers/months')
+/*
+
+RESOURCES THAT CAN BE USED ON NODE JS AND QUICKBOOKS
+
+https://www.npmjs.com/package/node-quickbooks#getcustomerid-callback
+https://mcohen01.github.io/quickbooks/index.js.html
+https://github.com/mcohen01/quickbooks
+
+*/
 
 module.exports = {  
    
@@ -251,9 +260,7 @@ module.exports = {
                 return res.status(404).json({
                     message: 'No student matches the email address'
                 })
-            }
-
-            
+            }           
 
             res.status(200).json({
                 student

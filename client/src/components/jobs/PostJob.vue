@@ -24,7 +24,7 @@
                         <div class="form-group mb-3">
                             <label for="description"><strong>Requirements</strong></label>
                             <textarea v-if="edit" class="form-control" name="requirements" cols="30" rows="15" v-model="getPost.requirements"></textarea>
-                            <textarea v-else class="form-control" name="requirements" cols="30" rows="5" v-model="newPost.requirements"
+                            <textarea v-else class="form-control" name="requirements" cols="30" rows="8" v-model="newPost.requirements"
                             placeholder="Include job requirements and indicate whether you provide assistance helping prospects meet your requirements etc."></textarea>
                             <span class="text-danger" v-if="(errors['requirements'])"><small>{{errors['requirements']}}</small></span>  
                         </div> 

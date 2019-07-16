@@ -104,14 +104,14 @@ const actions = {
 
     async deletePost({commit}, payload){
         try{
-            debugger
-            commit('REMOVE_POST', payload)
-            debugger
+            
             await axios( {            
                 method: 'delete',
                 url: 'http://localhost:3000/jobs/'+ payload,
                 headers: {'Content-Type':'application/json'}
             })
+
+            commit('REMOVE_POST', payload)
         }catch(error){
            console.log(error)
         }

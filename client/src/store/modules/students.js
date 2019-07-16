@@ -57,7 +57,7 @@ const actions = {
         try{
             debugger
             const response = await axios({
-                url: `/students/search`,
+                url: `http://localhost:3000/students/search`,
                 method: "post",
                 data: payload,
                 headers: {"Content-Type":"application/json"}
@@ -74,7 +74,7 @@ const actions = {
         try{
             debugger
             const response = await axios({
-                url: `/students/${payload}`,
+                url: `http://localhost:3000/students/${payload}`,
                 method: 'get',
                 headers:{
                     'Content-Type': 'application/json'
@@ -93,7 +93,7 @@ const actions = {
             debugger
             const response = await axios({
                 method: 'get',
-                url: '/students',
+                url: 'http://localhost:3000/students',
                 headers:{
                     'Content-Type': 'application/json'
                 }
@@ -109,7 +109,7 @@ const actions = {
     async updateStudent({commit}, payload){
         const response = await axios({
             data: payload,
-            url: '/students',
+            url: 'http://localhost:3000/students',
             method: 'patch', 
             headers: {
                 'Content-Type': 'application/json'
@@ -125,7 +125,7 @@ const actions = {
             debugger
             const response = await axios({
                 data: payload,
-                url: `/students/transfer`,
+                url: `http://localhost:3000/students/transfer`,
                 method: 'patch', 
                 headers: { 'Content-Type': 'application/json' }          
             })
@@ -142,7 +142,7 @@ const actions = {
     async unenrollStudent({commit}, payload){
         const response = await axios({
             data: payload,
-            url: `/students/unenroll/${payload.course_id}`,
+            url: `http://localhost:3000/students/unenroll/${payload.course_id}`,
             method: 'patch', 
             headers: {
                 'Content-Type': 'application/json'

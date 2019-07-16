@@ -3,12 +3,12 @@ const bcrypt = require('bcryptjs')
 
 const userSchema = mongoose.Schema({
    // _id: mongoose.Schema.Types.ObjectId, 
-    email: {type: String, dropDups: true, unique: true, required:true},
+    email: {type: String, dropDups: true, required:true},
     password: {type: String,  min: 6,  required: true},
     role: {type: String, enum: ['user', 'admin'], default: 'user'},
     confirmed: {type: Boolean, default: false},
-    resetPasswordToken: String,
-    resetPasswordExpires: Date,
+    resetPasswordToken: {type: String, default: null},
+    resetPasswordExpires: {type: Date, default: null},
     customerId: {type: String, dropDups: true, unique: true, default: null},
 })
 

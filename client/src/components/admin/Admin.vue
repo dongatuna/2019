@@ -68,7 +68,7 @@ export default {
 
         searchStudent(){
 
-            this.$store.dispatch('searchStudent', {email: this.email})
+            this.$store.dispatch('searchStudent', {email: this.email.trim()})
         
             this.$router.push({path: `/student_edit/${this.getStudent._id}`})
         }

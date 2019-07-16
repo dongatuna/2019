@@ -91,6 +91,8 @@ export default {
         },
 
         rePost(id){
+
+            alert('Reposting costs $25.00 -- just like creating a new post.')
             this.$store.dispatch("getPostById", id)
 
             this.$router.push({path: '/previewjob'})

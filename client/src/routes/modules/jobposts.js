@@ -37,10 +37,6 @@ export default [
                 path: '/re-edit', name: "reEdit", component: PostJob, props:{edit: true, post: false}, meta: {requiresAuth:true }
             },
 
-            // {
-            //     path: '/repost', name: "repost", component: PostJob, props: {edit: true}, meta: {requiresAuth:true }
-            // },
-
             {
                 path: '/previewjob', name: 'previewJob', component: PreviewJob, props: {post: true}, meta: { requiresAuth:true }
             },

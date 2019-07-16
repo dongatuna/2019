@@ -15,8 +15,8 @@
                 <div class="card lead">
                     <div class="card-body">
                         <h4 class="card-title py-3"><strong>{{getPost.title}}</strong></h4>
-                        <h5><strong>Location: </strong><span class="text-muted">{{getPost.location}}</span> </h5>
-                        <h5><strong>Contact: </strong><span class="text-muted">{{getPost.contact}}</span> </h5>
+                        <h5><strong><span class="text-muted">Location: </span> </strong>{{getPost.location}} </h5>
+                        <h5><strong><span class="text-muted">Contact: </span> </strong>{{getPost.contact}}</h5>
                         <hr>
 
                         <h5>Description</h5>

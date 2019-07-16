@@ -183,7 +183,8 @@ module.exports = {
                     })                
                 }  
             }  else {
-                if( password === password2 ){          
+                if( password === password2 ){      
+                    
                     
                     const user = new User({    
                         email, 
@@ -191,9 +192,9 @@ module.exports = {
                         role: "admin",
                         confirmed: true                
                     })                 
-                   
+                    console.log('We are getting in the admin .... whatever')    
                     await user.save()     
-                
+                    console.log('We are getting in the admin .... whatever 2')    
                     const results = {
                         confirmed: user.confirmed,
                         username: user.email.split("@")[0],

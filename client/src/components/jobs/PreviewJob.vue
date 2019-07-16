@@ -3,12 +3,12 @@
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-sm-10" >
-                    <div v-if="repost">
+                    <!-- <div v-if="post">
                         <div class="col bg-success mb-2 p-3">
                             <h4>Reposting costs $ 25.00 </h4>
                         </div>
                         
-                    </div>
+                    </div> -->
                     <div class="card lead">
                         
                         <div class="card-body">
@@ -25,8 +25,8 @@
                             <hr>
                             <h5 class="card-subtitle"><strong>Requirements </strong></h5>
                             <hr>
-                                <p class="card-text">{{ getPost.requirements }}</p>                            
-                            <hr>
+                                <p class="card-text"> {{ getPost.requirements }} </p>                            
+                            
                             
                              <!-- {{files}} -->
                             <!-- <h5 class="card-subtitle py-1 "><strong>Attachments </strong></h5><br> -->
@@ -92,8 +92,6 @@ export default {
             if (this.post) {
 
                 this.$router.push({name: "checkout"}) 
-
-
                 
             } else {
               

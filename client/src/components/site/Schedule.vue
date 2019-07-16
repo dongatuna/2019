@@ -86,6 +86,13 @@
                                 <li>Pass math and English entrance exam or unofficial college transcript showing at least 30 credits </li>
                                 <li>Functioning email address</li>
                             </ul>
+                            <hr>
+                            <p class="lead text-dark">CNA course includes:</p>
+                            <ul class="lead text-dark">
+                                <li>HIVAIDS Course</li>
+                                <li>AHA Adult CPRFA/AED</li>                      
+                                
+                            </ul>
                             
                         </div>
 
