@@ -41,6 +41,8 @@ const actions = {
 
     async getPostById({commit}, payload){
         try{
+            commit('CLEAR_POST')
+
             const response = await axios({
                 method: 'get',
                 url: "http://localhost:3000/jobs/read/" + payload,
@@ -55,14 +57,14 @@ const actions = {
 
     async getUserPosts({commit}, payload){
         try{
-            debugger
+            commit('CLEAR_POSTS')
+
             const response = await axios({
                 method: 'get',
                 url: "http://localhost:3000/jobs/"+payload,
                 headers: {"Content-Type":"application/json"}
-            })
-           // commit('REMOVE_POST')
-            debugger
+            })    
+           
             commit("ADD_POSTS", response.data.jobs)
         }catch(error){
             console.log(error)
@@ -71,7 +73,8 @@ const actions = {
 
     async getAllPosts({commit}){
         try{
-            
+            commit('CLEAR_ALL_POSTS')
+
             const response = await axios({
                 method: 'get',
                 url: 'http://localhost:3000/jobs',
@@ -86,7 +89,8 @@ const actions = {
 
     async addPost ({commit}, payload){
         try{
-            debugger
+            commit('CLEAR_POST')
+
             const response = await axios({
                 method: 'post',
                 url: 'http://localhost:3000/jobs', 
@@ -119,7 +123,9 @@ const actions = {
 
     async editPost({commit}, payload){
         try{
-            debugger
+            
+            commit('CLEAR_POST')
+
             const response = await axios({
                 method: 'patch',
                 url: 'http://localhost:3000/jobs',

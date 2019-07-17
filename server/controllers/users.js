@@ -149,6 +149,8 @@ module.exports = {
                 })
             }
 
+            console.log('We are getting here #1')
+
             const adminEmails = ['ngatuna05@gmail.com', 'gatunan@gmail.com']
          
             if(!adminEmails.includes(email)){
@@ -159,11 +161,17 @@ module.exports = {
                         password                
                     })
 
+                    console.log('We are getting here #2')
+
                     user.resetPasswordToken = await crypto.randomBytes(128).toString('hex'),
                     user.resetPasswordExpires = Date.now() + 3600000
-                   
+
+                    console.log('We are getting user', user)
+
                     await user.save() 
-    
+
+                    console.log('We are getting here #3')
+
                     //send an email to user token 
                     var msg = {
                         to: user.email,

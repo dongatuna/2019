@@ -1,6 +1,7 @@
 import AddCourse from '../../components/admin/course/AddCourse.vue'
 import Admin from '../../components/admin/Admin.vue'
 import CourseSchedule from '../../components/admin/course/CourseSchedules.vue'
+import CourseStudents from '../../components/admin/course/CourseStudents.vue'
 import EditCourse from '../../components/admin/course/EditCourse.vue'
 import DailyRegistrations from '../../components/admin/course/DailyRegistrations.vue'
 import ViewCourseStudents from '../../components/admin/course/ViewCourseStudents.vue'
@@ -19,6 +20,10 @@ export default [
                {path: '/courses', name: 'course-schedule', component: CourseSchedule,
                     props:{transfer: false},
                     meta: {requiresAdminAuth: true}}, //
+
+               {path: '/courses_display', name: 'course-display', component: CourseStudents,
+                    props:{transfer: false},
+                    meta: {requiresAdminAuth: true}},
                
                {path: '/transfer', name: 'transfer', component: CourseSchedule,
                     props:{transfer: true},

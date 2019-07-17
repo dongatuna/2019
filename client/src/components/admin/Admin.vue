@@ -6,7 +6,8 @@
                     <ul class="list-group">
                         <li class="list-group-item"><router-link v-bind:to="{ name: 'daily-registrants' }">Home</router-link></li>
                         <li class="list-group-item"><router-link v-bind:to="{ name: 'add-course' }">Add Course </router-link></li>
-                        <li class="list-group-item"><router-link v-bind:to="{ name: 'course-schedule' }">View Upcoming Courses </router-link></li>
+                        <li class="list-group-item"><router-link v-bind:to="{ name: 'course-schedule' }">Enroll Student </router-link></li>
+                        <li class="list-group-item"><router-link v-bind:to="{ name: 'course-display' }">View Upcoming Courses </router-link></li>
                         <li class="list-group-item"><button class="btn btn-white btn-md" type="submit" v-on:click="logOut">Log out</button></li>
                     </ul>
                 </div>

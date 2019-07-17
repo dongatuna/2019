@@ -12,7 +12,7 @@
                             <div class="col-md-6 col-sm-10">
                                 
                                 <div class="form-group">
-                                    <label for="first">First Name:</label>
+                                    <label for="first">First Name</label>
                                     <input v-if="edit" type="text" class="form-control" name="first" v-model="getStudent.first">
                                     <input v-else type="text" class="form-control" name="first" v-model="student.first">
                                       <span class="text-danger" v-if="(this.errors.first)"><small>{{errors['first']}}</small></span>  
@@ -20,7 +20,7 @@
                             </div>
                             <div class="col-md-6 col-sm-10">
                                 <div class="form-group">
-                                    <label for="last">Last Name:</label>
+                                    <label for="last">Last Name</label>
                                     <input v-if="edit" type="text" class="form-control" name="last" v-model="getStudent.last">
                                     <input v-else type="text" class="form-control" name="last" v-model="student.last">
                                     <span class="text-danger" v-if="(this.errors.last)"><small>{{errors['last']}}</small></span>  
@@ -32,7 +32,7 @@
                         <div class="row">
                             <div class="col-md-12 col-sm-10">
                                 <div class="form-group">
-                                    <label for="address">Address:</label>
+                                    <label for="address">Address</label>
                                     <input v-if="edit" type="text" class="form-control" name="address" v-model="getStudent.address">
                                     <input v-else type="text" class="form-control" name="address" v-model="student.address">
                                     <span class="text-danger" v-if="(this.errors.address)"><small>{{errors['address']}}</small></span>  
@@ -44,7 +44,7 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label for="city">City:</label>
+                                    <label for="city">City</label>
                                     <input v-if="edit" type="text" class="form-control" name="city"  v-model="getStudent.city">
                                     <input v-else type="text" class="form-control" name="city"  v-model="student.city">
                                     <span class="text-danger" v-if="(this.errors.city)"><small>{{errors['city']}}</small></span>  
@@ -52,7 +52,7 @@
                             </div>  
                               <div class="col-sm-2">
                                 <div class="form-group">
-                                    <label for="state">State:</label>
+                                    <label for="state">State</label>
                                     <input v-if="edit" type="text" class="form-control" name="state"  v-model="getStudent.state">
                                     <input v-else type="text" class="form-control" name="state"  v-model="student.state">
                                     <span class="text-danger" v-if="(this.errors.state)"><small>{{errors['state']}}</small></span>  
@@ -60,7 +60,7 @@
                             </div>  
                               <div class="col-sm-4">
                                 <div class="form-group">
-                                    <label for="zip">Zip:</label>
+                                    <label for="zip">Zip</label>
                                     <input v-if="edit" type="text" class="form-control" name="zip" v-model="getStudent.zip">
                                     <input v-else type="text" class="form-control" name="zip" v-model="student.zip">
                                     <span class="text-danger" v-if="(this.errors.zip)"><small>{{errors['zip']}}</small></span>  
@@ -72,7 +72,7 @@
                         <div class="row">
                             <div class="col-md-6 col-sm-10">
                                 <div class="form-group">
-                                    <label for="email">EMAIL:</label>
+                                    <label for="email">Email</label>
                                     <input v-if="edit" type="email" class="form-control" name="email" v-model="getStudent.email">
                                     <input v-else type="email" class="form-control" name="email" v-model="student.email">
                                     <span class="text-danger" v-if="(this.errors.email)"><small>{{errors['email']}}</small></span>  
@@ -92,7 +92,7 @@
                         <div class="row">
                             <div class="col-md-6 col-sm-10">
                                 <div class="form-group">
-                                    <label for="email">Date of Birth:</label>
+                                    <label for="email">Date of Birth</label>
                                     <input v-if="edit" type="date" class="form-control" name="birthdate" v-model="getStudent.birthdate">
                                     <input v-else type="date" class="form-control" name="birthdate" v-model="student.birthdate">
                                     <span class="text-danger" v-if="(this.errors.birthdate)"><small>{{errors['birthdate']}}</small></span>  
@@ -103,7 +103,7 @@
                                     <label for="payment">Payment</label>
                                     <div v-if="edit" >
                                         <input type="text" class="form-control" name="payment" v-model="getStudent.payments">
-                                        <span class="text-dark" ><strong>Amount in account: </strong></span>
+                                        <span class="text-dark" ><strong>Amount in account </strong></span>
                                     </div>
                                     <div v-else >
                                         <input type="payment" class="form-control" name="payment" v-model="student.payments">

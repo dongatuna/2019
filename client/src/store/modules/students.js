@@ -11,12 +11,15 @@ const state = {
 }
 
 const getters = {
+
     getStudent: state => state.student,
     getDailyRegistrations: state => state.students,
     getTransfer: state => state.transfer
+
 }
 
 const mutations = {
+    CLEAR_STUDENTS:(state) => state.students = [],
     TO_TRANSFER(state, payload){
         state.transfer.course_id = payload.course_id,
         state.transfer.student_id = payload.student_id
@@ -91,6 +94,8 @@ const actions = {
     async getDailyRegistrations({commit}){
         try{
             debugger
+            commit('CLEAR_STUDENTS')
+
             const response = await axios({
                 method: 'get',
                 url: 'http://localhost:3000/students',
@@ -98,7 +103,7 @@ const actions = {
                     'Content-Type': 'application/json'
                 }
             })
-
+            
             debugger
             commit('ADD_TO_STUDENTS', response.data.students)
         }catch(error){

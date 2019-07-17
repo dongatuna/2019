@@ -9,7 +9,7 @@ const userSchema = mongoose.Schema({
     confirmed: {type: Boolean, default: false},
     resetPasswordToken: {type: String, default: null},
     resetPasswordExpires: {type: Date, default: null},
-    customerId: {type: String, dropDups: true, unique: true, default: null},
+    customerId: {type: String, default: null},
 })
 
 userSchema.pre('save', async function(next){

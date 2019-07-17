@@ -54,15 +54,15 @@ const actions = {
                 withCredentials: true,
                 headers: { "Content-Type" : "application/json" }
             })            
-            debugger
-            //commit('REMOVE_USER')
+
+            commit('REMOVE_USER')//this clears the state so that the user can 
 
             if(response.data.hasOwnProperty('message')){
                 debugger
                 commit("MESSAGE", response.data.message)
             }else{
                 commit('IS_USER', response.data.results)
-            }          
+            }         
             
         }catch(error){
             error
@@ -79,7 +79,7 @@ const actions = {
                 withCredentials: true,
                 headers: {"Content-Type": "application/json"}
             })
-           // commit('REMOVE_USER')
+            commit('REMOVE_USER')
             debugger
             if(response.data.hasOwnProperty('message')){
                 debugger
@@ -114,8 +114,8 @@ const actions = {
         try{
             
             localStorage.clear()
-             commit('REMOVE_USER')
-            debugger
+            commit('REMOVE_USER')
+          
             await axios({
                 method: 'get',
                 url: 'http://localhost:3000/user/signout',
@@ -123,7 +123,7 @@ const actions = {
                 headers: {"Content-Type": "application/json"}           
             })               
             
-            debugger
+          
            
 
         }catch(error){

@@ -97,6 +97,7 @@ export default {
     },
 
     methods:{
+
         displayDates(dates){
             
             const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -107,6 +108,7 @@ export default {
         },
 
         updateStudent(student_id){
+            
             this.$store.dispatch('getStudent', student_id)
 
             debugger

@@ -17,48 +17,125 @@
                 <div class="col-md-4 col-sm-12">
                                  
                     <ul v-if="selected ==='CNA'" class="list-group list-group-flush justify-content-between">
-                        <li class="list-group-item list-group-item-primary text-dark">Day Class <br> Mon - Fri <br> 3 weeks long <br> 9:00 a.m. - 3:00 p.m.</li>                        
-                        <li  class="list-group-item" v-for="course of dayCourses" :key="course.courseId" >
-                            <router-link v-bind:to="{ path: `/register/${course.courseId}` }">{{displayDates(course.start_date)}} - {{displayDates(course.end_date)}}</router-link>
-                        </li>
+                        <li class="list-group-item list-group-item-primary text-dark">Day Class <br> Mon - Fri <br> 3 weeks long <br> 9:00 a.m. - 3:00 p.m.</li>      
+                        <div v-if="transfer">
+                            <li class="list-group-item" v-for="course of dayCourses" :key="course.courseId">
+                            {{displayDates(course.start_date)}} - {{displayDates(course.end_date)}} <button class="btn btn-sm btn-outline-success float-right"
+                                                v-on:click="transfer_student(course.courseId)" type="button" > + </button>
+                            </li>
+                        </div> 
+                        <div v-else>
+                            <div v-if="getRole==='admin'">
+                                <li  class="list-group-item" v-for="course of dayCourses" :key="course.courseId" >
+                                    <router-link v-bind:to="{ path: `/student_register/${course.courseId}` }">{{displayDates(course.start_date)}} - {{displayDates(course.end_date)}}</router-link>
+                                </li>
+                            </div>
+                            <div v-else>
+                                <li  class="list-group-item" v-for="course of dayCourses" :key="course.courseId" >
+                                    <router-link v-bind:to="{ path: `/register/${course.courseId}` }">{{displayDates(course.start_date)}} - {{displayDates(course.end_date)}}</router-link>
+                                </li>
+                            </div>                            
+                        </div>                        
                     </ul>
                     <ul v-else class="list-group list-group-flush justify-content-center">
-                        <li class="list-group-item list-group-item-primary text-dark">Day Class <br> 9:00 a.m. - 3:00 p.m.</li>                        
-                        <li  class="list-group-item text-center" v-for="course of dayCourses" :key="course.courseId" >
-                            <router-link v-bind:to="{ path: `/register/${course.courseId}` }">{{displayDates(course.start_date)}}</router-link>
-                        </li>
+                        <li class="list-group-item list-group-item-primary text-dark">Day Class <br> 9:00 a.m. - 3:00 p.m.</li>     
+                        <div v-if="transfer">
+                            <li class="list-group-item" v-for="course of dayCourses" :key="course.courseId">
+                            {{displayDates(course.start_date)}}<button class="btn btn-sm btn-outline-success float-right"
+                                                v-on:click="transfer_student(course.courseId)" type="button" > + </button>
+                            </li>
+                        </div>                   
+                        <div v-else>
+                            <li  class="list-group-item text-center" v-for="course of dayCourses" :key="course.courseId" >
+                                <router-link v-bind:to="{ path: `/register/${course.courseId}` }">{{displayDates(course.start_date)}}</router-link>
+                            </li>
+                        </div>
+                        
                     </ul>
                 </div>
 
                 <div class="col-md-4 col-sm-12">
                                       
                     <ul v-if="selected ==='CNA'" class="list-group list-group-flush justify-content-between">
-                        <li class="list-group-item list-group-item-primary text-dark">Evening Class <br> Mon - Fri <br> 3 weeks long <br> 3:00 p.m. - 9:00 p.m.</li>                        
-                        <li  class="list-group-item" v-for="course of eveningCourses" :key="course.courseId" >
-                            <router-link v-bind:to="{ path: `/register/${course.courseId}` }">{{displayDates(course.start_date)}} - {{displayDates(course.end_date)}}</router-link>
-                        </li>
+                        <li class="list-group-item list-group-item-primary text-dark">Evening Class <br> Mon - Fri <br> 3 weeks long <br> 3:00 p.m. - 9:00 p.m.</li>      
+                        <div v-if="transfer">
+                            <li class="list-group-item" v-for="course of eveningCourses" :key="course.courseId">
+                            {{displayDates(course.start_date)}} - {{displayDates(course.end_date)}} <button class="btn btn-sm btn-outline-success float-right"
+                                                v-on:click="transfer_student(course.courseId)" type="button" > + </button>
+                            </li>
+                        </div>  
+                        <div v-else>
+                            <div v-if="getRole==='admin'">
+                                <li  class="list-group-item" v-for="course of eveningCourses" :key="course.courseId" >
+                                    <router-link v-bind:to="{ path: `/student_register/${course.courseId}` }">{{displayDates(course.start_date)}} - {{displayDates(course.end_date)}}</router-link>
+                                </li>
+                            </div>
+                            <div v-else>
+                                <li  class="list-group-item" v-for="course of eveningCourses" :key="course.courseId" >
+                                    <router-link v-bind:to="{ path: `/register/${course.courseId}` }">{{displayDates(course.start_date)}} - {{displayDates(course.end_date)}}</router-link>
+                                </li>
+                            </div>
+                        </div>                
+                        
                     </ul>
                     <ul v-else class="list-group list-group-flush justify-content-center">
-                        <li class="list-group-item list-group-item-primary text-dark">Evening Class <br> 3:00 p.m. - 9:00 p.m.</li>                        
-                        <li  class="list-group-item text-center" v-for="course of eveningCourses" :key="course.courseId" >
-                            <router-link v-bind:to="{ path: `/register/${course.courseId}` }">{{displayDates(course.start_date)}}</router-link>
-                        </li>
+                        <li class="list-group-item list-group-item-primary text-dark">Evening Class <br> 3:00 p.m. - 9:00 p.m.</li>     
+                        <div v-if="transfer">
+                            <li class="list-group-item" v-for="course of dayCourses" :key="course.courseId">
+                            {{displayDates(course.start_date)}}<button class="btn btn-sm btn-outline-success float-right"
+                                                v-on:click="transfer_student(course.courseId)" type="button" > + </button>
+                            </li>
+                        </div> 
+                        <div v-else>            
+                            
+                            <li  class="list-group-item text-center" v-for="course of eveningCourses" :key="course.courseId" >
+                                <router-link v-bind:to="{ path: `/register/${course.courseId}` }">{{displayDates(course.start_date)}}</router-link>
+                            </li>
+                           
+                        </div>                  
+                        
                     </ul>
                 </div> 
                 
                 <div class="col-md-4 col-sm-12">
                                      
-                    <ul v-if="selected ==='CNA'" class="list-group list-group-flush justify-content-between">
-                        <li class="list-group-item list-group-item-primary text-dark">Weekend Class <br> Sat & Sun <br> 6 weekends long <br> 2:00 p.m. - 10:00 p.m.</li>                        
-                        <li  class="list-group-item" v-for="course of weekendCourses" :key="course.courseId" >
-                            <router-link v-bind:to="{ path: `/register/${course.courseId}` }">{{displayDates(course.start_date)}} - {{displayDates(course.end_date)}}</router-link>
-                        </li>
+                    <ul v-if="selected==='CNA'" class="list-group list-group-flush justify-content-between">
+                        <li class="list-group-item list-group-item-primary text-dark">Weekend Class <br> Sat & Sun <br> 6 weekends long <br> 2:00 p.m. - 10:00 p.m.</li>
+                        <div v-if="transfer">
+                            <li class="list-group-item" v-for="course of weekendCourses" :key="course.courseId">
+                            {{displayDates(course.start_date)}} - {{displayDates(course.end_date)}} <button class="btn btn-sm btn-outline-success float-right"
+                                                v-on:click="transfer_student(course.courseId)" type="button" > + </button>
+                            </li> 
+                        </div>   
+
+                        <div v-else>
+                            <div v-if="getRole==='admin'">
+                                <li class="list-group-item" v-for="course of weekendCourses" :key="course.courseId" >                                                        
+                                    <router-link v-bind:to="{ path: `/student_register/${course.courseId}` }">{{displayDates(course.start_date)}} - {{displayDates(course.end_date)}}</router-link>                            
+                                </li>
+                            </div>
+                            <div v-else>
+                                <li class="list-group-item" v-for="course of weekendCourses" :key="course.courseId" >                                                        
+                                    <router-link v-bind:to="{ path: `/register/${course.courseId}` }">{{displayDates(course.start_date)}} - {{displayDates(course.end_date)}}</router-link>                            
+                                </li>
+                            </div>
+                            
+                        </div>                         
                     </ul>
                     <ul v-else class="list-group list-group-flush justify-content-center">
-                        <li class="list-group-item list-group-item-primary text-dark">Weekend Class <br> 10:00 a.m. - 4:00 p.m.</li>                        
-                        <li class="list-group-item text-center" v-for="course of weekendCourses" :key="course.courseId" >
-                            <router-link v-bind:to="{ path: `/register/${course.courseId}` }">{{displayDates(course.start_date)}}</router-link>
-                        </li>
+                        <li class="list-group-item list-group-item-primary text-dark">Weekend Class <br> 10:00 a.m. - 4:00 p.m.</li>      
+                        <div v-if="transfer">
+                            <li class="list-group-item" v-for="course of weekendCourses" :key="course.courseId">
+                            {{displayDates(course.start_date)}}<button class="btn btn-sm btn-outline-success float-right"
+                                                v-on:click="transfer_student(course.courseId)" type="button" > + </button>
+                            </li>
+                        </div>
+                        <div v-else>
+                            
+                            <li class="list-group-item text-center" v-for="course of weekendCourses" :key="course.courseId" >
+                                <router-link v-bind:to="{ path: `/register/${course.courseId}` }">{{displayDates(course.start_date)}}</router-link>
+                            </li>
+                        </div>                            
                     </ul>
                 </div>            
             </div> 
@@ -89,7 +166,7 @@ export default {
     },
     computed: {
         ...mapGetters([
-            "getCourseIds", "getAllCourses","getAllSortedCourses"
+            "getCourseIds", "getAllCourses","getAllSortedCourses", "getRole", "getTransfer"
         ]),
         
         sortCourses(){
@@ -110,11 +187,18 @@ export default {
             return `${months[course_month]} ${course_date}`
         },
 
-        // transfer_student(course_id){
-        //     this.$store.dispatch('transferStudent', {old_course_id: this.getTransfer.course_id, new_course_id: course_id, student_id: this.getTransfer.student_id})
+        transfer_student(course_id){
 
-        //     this.$router.push({path: `/course/${course_id}`})
-        // },
+            if(this.getTransfer.course_id===course_id){
+                alert('You are already signed up for this class.')
+
+                return this.$router.push({path: `/course/${course_id}`})                
+            }
+
+            this.$store.dispatch('transferStudent', {old_course_id: this.getTransfer.course_id, new_course_id: course_id, student_id: this.getTransfer.student_id})
+
+            this.$router.push({path: `/course/${course_id}`})
+        },
 
     },    
 
