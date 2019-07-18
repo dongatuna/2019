@@ -71,13 +71,21 @@ export default {
         ])
     },    
 
+     watch: {
+        "$route": "getJobListings"
+    },
+
     mounted(){     
-        debugger  
-        this.$store.dispatch("getUserPosts", this.getUserId)        
+        //debugger  
+        this.getJobListings()   
     },
     
 
     methods:{
+
+        getJobListings(){
+            this.$store.dispatch("getUserPosts", this.getUserId)     
+        },
 
         createPost(){
             this.$router.push({ path: '/postjob' })

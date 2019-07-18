@@ -20,6 +20,7 @@ const getters = {
 }
 
 const mutations = {
+    CLEAR_COURSE: (state) => state.course = {},
     ADD_COURSE: (state, payload) => state.course = payload,
     ADD_TO_COURSES(state, payload){  
 
@@ -54,11 +55,10 @@ const actions = {
     
     async getAllCourses({commit}){
         try{
-            
-            const responses = await axios.get('http://localhost:3000/courses')
-            
             commit('REMOVE_COURSES')
-            debugger
+                       
+            const responses = await axios.get('http://localhost:3000/courses')            
+            
             commit("ADD_TO_COURSES", responses.data.courses)
 
         }catch(error){
@@ -68,6 +68,8 @@ const actions = {
 
     async getCourse({commit}, payload){
         try{
+
+            commit('CLEAR_COURSE')
 
             const response = await axios.get(`http://localhost:3000/courses/${payload}`)
 

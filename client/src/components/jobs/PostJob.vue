@@ -17,7 +17,7 @@
                             <label for="description"><strong>Description</strong></label>
                             <textarea v-if="edit" class="form-control" name="description" cols="30" rows="15" v-model="getPost.description"></textarea>
                             <textarea v-else class="form-control" name="description" cols="30" rows="15" v-model="newPost.description"
-                            placeholder="Include a description of the job, day and times of this job opening, pay, benefits, etc."></textarea>
+                            placeholder="Include a description, schedule, benefits, etc of the job and how to apply for the job."></textarea>
                             <span class="text-danger" v-if="(errors['description'])"><small>{{errors['description']}}</small></span>  
                         </div>    
 

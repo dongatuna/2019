@@ -1,6 +1,9 @@
 <template>
     <section>
         <div class="container mt-5 col-sm-10 col-md-6 col-lg-4 p-5">
+            <div class="alert alert-info" role="alert">
+                <h4 class="text-dark">Looking to hire caregivers and CNAs?  Sign in below. <br> <small>To sign up for courses, click <a href="http://localhost:8080/schedule">here</a>.</small></h4>
+            </div>
         
         <form class="form-signin" v-on:submit.prevent="signIn">
             <div class="text-center mb-4">        

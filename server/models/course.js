@@ -79,6 +79,8 @@ courseSchema.methods.sendNotifications = async function(type, students){
                         subject: `Upcoming course`,
                         text: `Hello ${student.first} ${student.last}, This is a reminder that the class you signed up for will start in a few days `
                     }
+
+                    sgMail.send(msg)
                 })  
 
             break

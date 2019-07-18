@@ -20,6 +20,7 @@ const getters = {
 
 const mutations = {
     CLEAR_STUDENTS:(state) => state.students = [],
+    CLEAR_STUDENT:(state) => state.student = {},
     TO_TRANSFER(state, payload){
         state.transfer.course_id = payload.course_id,
         state.transfer.student_id = payload.student_id
@@ -58,7 +59,8 @@ const actions = {
     async searchStudent({commit}, payload){
         
         try{
-            debugger
+            commit('CLEAR_STUDENT')
+
             const response = await axios({
                 url: `http://localhost:3000/students/search`,
                 method: "post",
@@ -75,7 +77,8 @@ const actions = {
 
     async getStudent({commit}, payload){
         try{
-            debugger
+            commit('CLEAR_STUDENT')
+
             const response = await axios({
                 url: `http://localhost:3000/students/${payload}`,
                 method: 'get',
@@ -112,6 +115,9 @@ const actions = {
     },
 
     async updateStudent({commit}, payload){
+
+        commit('CLEAR_STUDENT')
+
         const response = await axios({
             data: payload,
             url: 'http://localhost:3000/students',
@@ -126,8 +132,9 @@ const actions = {
     },
     
     async transferStudent({commit}, payload){
-        //try{
-            debugger
+        try{
+            commit('CLEAR_STUDENT')
+            
             const response = await axios({
                 data: payload,
                 url: `http://localhost:3000/students/transfer`,
@@ -135,13 +142,13 @@ const actions = {
                 headers: { 'Content-Type': 'application/json' }          
             })
 
-        debugger
-        commit('ADD_STUDENT', response.data.student)
+            debugger
+            commit('ADD_STUDENT', response.data.student)
 
-        // }catch(error){
-        //     console.log(error)
-        //     throw new Error(error)
-        // }        
+        }catch(error){
+            console.log(error)
+            throw new Error(error)
+        }        
     },
 
     async unenrollStudent({commit}, payload){

@@ -2,7 +2,7 @@
     <div class="container">    
         <div class= "row justify-content-between mb-3">
             <div class="col-md-6">
-                
+                {{course_students}}
                 <h5>{{displayDates(getCourse.start_date)}} - {{displayDates(getCourse.end_date)}} {{getCourse.name}} {{getCourse.type}} Class </h5>
             </div>
             <div class="col-md-3">
@@ -73,29 +73,40 @@ import {mapGetters} from "vuex"
 import moment from "moment"
 
 export default {
-
-    data(){
-        return{
-            moment: moment
-        }
-    },
-
     computed:{
         ...mapGetters([
             "getCourse"
         ])
-    },    
+    },
+
+    data(){
+        return{
+            moment: moment,
+            //course: getCourse
+            course_students: {}
+        }
+    },       
 
     // watch: {
     //     "$route": "viewCourseStudents"
     // },
-
+    
     mounted(){
         debugger
-        this.viewCourseStudents()
-        
+        this.viewCourseStudents()        
     },
 
+    // beforeRouteEnter (to, from, next) {
+    //     next(vm => {
+    //         // access to component instance via `vm`
+    //         this.course_students = vm.viewCourseStudents()
+    //     })
+    // },
+
+    // updated(){
+    //     this.viewCourseStudents()
+    // },
+    
     methods:{
 
         displayDates(dates){

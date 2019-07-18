@@ -4,7 +4,7 @@ const notificationsWorker = require('./helpers/notificationsWorkerFactory')
 const schedulerFactory = function(){
     return{
         start: function(){
-            new CronJob('00 * * * *', function(){ //00 45 07 * * * - the pattern to send at 7:45 a.m
+            new CronJob('00 00 08 * * * ', function(){ //00 00 08 * * * - the pattern to send at 7:45 a.m
                 console.log('How often are we running?')
                 notificationsWorker.run()
             }, null, true, 'America/Los_Angeles')

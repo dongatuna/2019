@@ -8,7 +8,7 @@
             </div>
 
             <div class="alert alert-info" role="alert">
-                <p class="text-dark">Looking to hire caregivers and CNAs?  Sign up below. <br> <small>To sign up for courses, click <a href="http://localhost:8080/schedule">here</a>.</small></p>
+                <h4 class="text-dark">Looking to hire caregivers and CNAs?  Sign up below. <br> <small>To sign up for courses, click <a href="http://localhost:8080/schedule">here</a>.</small></h4>
             </div>
             
             <form class="form-signin" v-on:submit.prevent="signUp">
