@@ -20,6 +20,8 @@
                         
 
                         <p class="card-text">Besides our past, current, and prospective students, who number in the thousands, our site is a resource and is used by caregivers and CNAs in the whole of WA.</p>
+                            
+                        <p class="card-text">So, sign up, share your job opening with your community and start recruiting competent caregivers.</p>
                         <router-link v-if="getStatus" v-bind:to="{path: '/postjob'}" class="btn btn-primary float-right">Find Caregivers</router-link>
                         <router-link v-else v-bind:to="{path: '/signup'}" class="btn btn-primary float-right">Find Caregivers</router-link>
                     </div>

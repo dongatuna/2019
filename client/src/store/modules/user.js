@@ -5,13 +5,15 @@ const state = {
     role: undefined,
     username: undefined,
     message: undefined,
-    _id: undefined    
+    _id: undefined,
+    checkEmail: false  
 }
 
 const getters = {   
     getUser: state => state.username,
     getUserId: state => state._id,
     getRole: state => state.role,
+    getEmailCheck: state =>state.checkEmail,
     getMessage: state => state.message,
     getStatus: state => state.authed      
 }
@@ -26,7 +28,8 @@ const mutations = {
     },
 
     MESSAGE(state, payload){
-        state.message = payload
+        state.message = payload.message,
+        state.checkEmail = payload.checkEmail
     },
 
     REMOVE_MESSAGE (state){
@@ -59,8 +62,9 @@ const actions = {
 
             if(response.data.hasOwnProperty('message')){
                 debugger
-                commit("MESSAGE", response.data.message)
+                commit("MESSAGE", response.data)
             }else{
+                //this is specific to admin log in
                 commit('IS_USER', response.data.results)
             }         
             
@@ -71,7 +75,8 @@ const actions = {
 
     async signIn({commit}, payload){
         try{
-            debugger
+            commit('REMOVE_USER')
+            
             const response = await axios({
                 method: 'post',
                 url: 'http://localhost:3000/user/signin',
@@ -79,11 +84,11 @@ const actions = {
                 withCredentials: true,
                 headers: {"Content-Type": "application/json"}
             })
-            commit('REMOVE_USER')
+           
             debugger
             if(response.data.hasOwnProperty('message')){
                 debugger
-                commit("MESSAGE", response.data.message)
+                commit("MESSAGE", response.data)
             }else{
                 commit('IS_USER', response.data.results)
             }
@@ -144,7 +149,7 @@ const actions = {
             })               
             
             debugger
-            commit("MESSAGE", res.data.message)
+            commit("MESSAGE", res.data)
 
         }catch(error){
             error
@@ -166,7 +171,7 @@ const actions = {
             debugger
             if(response.data.hasOwnProperty('message')){
                 debugger
-                commit("MESSAGE", response.data.message)
+                commit("MESSAGE", response.data)
             }else{
                 commit('IS_USER', response.data.results)
             }

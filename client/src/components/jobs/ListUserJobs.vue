@@ -36,13 +36,12 @@
             </div>
             <div v-else>
                 <div class="card">
-                    <h3 class="card-header">Find CNAs and caregivers</h3>
+                    <h3 class="card-header">This job site is only for CNAs and caregivers</h3>
                     <div class="card-body">
                         <h5 class="card-title">Reach the right audience</h5>
                         <p class="card-text">Create a job posting for the right audience - this audience will share, know and apply for your job opening.  Our site is used by licensed HCAs, NARs and CNAs, CNA and caregiver students, recent graduates preparing for state exam, their friends and acquaintances.
 
-                            <br> <br> On the other hand, if you have a prospective hire or an employee in need of (re)training, you are at the right place.  
-                        </p>                       
+                            <br> <br>You can also sign up your employees or recruits for their courses on the courses tab to your right.  This will help you ensure your employees' certifications are always current.</p>                       
                     </div>
                 </div>
             </div>

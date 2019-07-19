@@ -14,7 +14,14 @@ const userSchema = mongoose.Schema({
 
 userSchema.pre('save', async function(next){
     try{
-      
+        
+        // the user schema is instantiated
+        const user = this
+
+         //check if the user has been modified to know if the password has already been hashed
+        if(!user.isModified('password')){
+            next()
+        }
         //create the salt
         const salt =  await bcrypt.genSalt(10)
 

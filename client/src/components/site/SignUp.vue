@@ -47,7 +47,7 @@ export default {
 
     computed:{
         ...mapGetters([
-            "getUser", "getMessage"
+            "getUser", "getMessage", "getEmailCheck"
         ])
     },
 
@@ -72,7 +72,16 @@ export default {
                 if(this.admin){
                     this.$router.push({path: '/admin'})
                     
-                }else this.$router.push({path: '/checkemail'})
+                }
+                
+                if(this.getEmailCheck){
+                    this.$router.push({path: '/checkemail'})
+                }else{
+                    const message = this.getMessage
+                    alert(`${message}`)
+                    this.$router.push({path: '/signup'})
+                }
+                
                
                 
             }   else {

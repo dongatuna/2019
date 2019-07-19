@@ -38,7 +38,7 @@ export default {
 
     computed:{
         ...mapGetters([
-            "getUser", "getMessage"
+            "getUser", "getMessage", "getEmailCheck"
         ])
     },
 
@@ -60,13 +60,19 @@ export default {
             await this.$store.dispatch("signIn", {email, password:this.user.password})
             debugger
             if(this.admin){
-                    this.$router.push({path: '/admin'})
-                }else{
-                    if(this.getMessage){
-                        debugger
-                        this.$router.push({path: '/checkemail'})
-                    }else this.$router.push({path: '/adminjobs'})
+                this.$router.push({path: '/admin'})
             }
+            
+           
+            if(this.getEmailCheck){
+                debugger
+                this.$router.push({path: '/checkemail'})
+            }else{
+                const message = this.getMessage
+                alert(`${message}`)
+                this.$router.push({path: '/signin'})
+            } 
+        
         }
     }
     

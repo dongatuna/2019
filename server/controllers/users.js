@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const User = require("../models/user")
 const JWT = require('jsonwebtoken')
+const moment = require('moment')
 const crypto = require("crypto")
 const { JWT_SECRET, ISSUER,  EmailAPI } = require('../helpers/config')
 const sgMail = require('@sendgrid/mail')
@@ -39,7 +40,8 @@ module.exports = {
 
             if(!user){
                 return res.status(404).json({
-                    message: "The user does not exist."
+                    message: "The user does not exist.",
+                    checkEmail: false
                 })
             }
 
@@ -58,10 +60,11 @@ module.exports = {
                   'If you did not request this, please ignore this email and your password will remain unchanged.\n'
             }
 
-            console.log('What is the value here? ', sgMail.send(msg))
+            sgMail.send(msg)
 
             res.status(200).json({
-                message: "Please check your email for instructions on how to reset the password."
+                message: "Please check your email for instructions on how to reset the password.",
+                checkEmail: true
             })
 
 
@@ -76,15 +79,15 @@ module.exports = {
 
      //This user is confirmed
     reset: async (req, res, next ) => {
-        //does the user exist?
+        //does the user have a reset token that is not currently expired?
         const user = await User.findOne({resetPasswordToken: req.params.token, resetPasswordExpires:{ $gt: Date.now() }})
 
         console.log("Here is the user...", user)
-
+        //return if the user does not have a 
         if(!user){
-            return res.status(404).json({
-                message: "Password reset token is invalid or has expired",
-                url: '/forgot'
+            return res.status(200).json({
+                message: "Password reset token is invalid or has expired.  Click on localhost:8080/forgot to reset password afresh.",
+                checkEmail: false               
             })        
         }
 
@@ -92,43 +95,39 @@ module.exports = {
 
         if( password === password2 ){
 
-            const reset_user = await User.findOneAndUpdate({email: user.email}, 
-                {
-                    $set:{ 
-                        confirmed: true,                                      
-                        resetPasswordToken: undefined,
-                        resetPasswordExpires: undefined
-                    }
-                },                                     
-                {
-                    new: true
-                }
-            )
+            user.password = password
+            user.confirmed = true                                      
+            user.resetPasswordToken = undefined
+            user.resetPasswordExpires = undefined
+           
+            await user.save()
 
             const msg = {
-                to: reset_user.email,
+                to: user.email,
                 from: 'jobs.at.excel@gmail.com',
                 subject: 'Password Reset Successful',
                 text: 'Hello,\n\n' +
-                'This is a confirmation that the password for your account ' + reset_user.email + ' has just been changed.\n'
+                'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
             }
     
             sgMail.send(msg)
 
-            const results = {
-                confirmed: reset_user.confirmed,
-                username: reset_user.email.split("@")[0],
-                role: reset_user.role
+                const results = {
+                confirmed: user.confirmed,
+                username: user.email.split("@")[0],
+                role: user.role
             } 
             
-            const token = signToken(reset_user)
+            // const token = signToken(reset_user)
+            const token = signToken(user)
             //Send a cookie containing JWT
             res.cookie("user_token", token , {/*secure: true,*/  httpOnly:true})
 
             res.status(200).json({ results })
         } else {
-            return res.status(401).json({
-                message: "Your password and confirm password do not match."
+            return res.status(200).json({
+                message: "Your password and confirm password do not match.",
+                checkEmail: false
             })
         }
     },
@@ -144,8 +143,9 @@ module.exports = {
 
             //if user does, let admin to login
             if(result){
-                return res.status(404).json({
-                    message: "The email is in use."
+                return res.status(200).json({
+                    message: "The email is in use.",
+                    checkEmail: false
                 })
             }
 
@@ -181,43 +181,21 @@ module.exports = {
                           'http://localhost:8080/confirm/' + user.resetPasswordToken + '\n\n' +
                           'If you did not request this, please ignore this email and your password will remain unchanged.\n'
                     }
-
-                    console.log("What is this message? ", msg)
-    
+   
                     sgMail.send(msg)    
     
                     return res.status(200).json({
-                        message: 'Check your email for further instruction on how to complete signing up.'               
+                        message: 'Log into your email to complete signing up.',
+                        checkEmail: true               
                     })                
                 }  
             }  else {
-                if( password === password2 ){      
-                    
-                    
-                    const user = new User({    
-                        email, 
-                        password,
-                        role: "admin",
-                        confirmed: true                
-                    })                 
-                    console.log('We are getting in the admin .... whatever')    
-                    await user.save()     
-                    console.log('We are getting in the admin .... whatever 2')    
-                    const results = {
-                        confirmed: user.confirmed,
-                        username: user.email.split("@")[0],
-                        role: user.role,
-                        _id: user._id
-                    } 
 
-                    const token = signToken(user)
-                    //Send a cookie containing JWT
-                    res.cookie("user_token", token , {/*secure: true,*/  httpOnly:true})
-     
-                    res.status(200).json({
-                        results                       
-                    })                
-                }  
+                console.log("Here is someone trying to log in as admin")
+                res.status(200).json({
+                    message: "Not to be used by administrators to log in.",
+                    checkEmail: false               
+                })                
             }                 
         }catch(error){
             res.status(404).json({
@@ -229,32 +207,27 @@ module.exports = {
 
     addUser: async( req, res, next ) => {
         try{
+            console.log('I am getting here...')
 
-            console.log("We are getting here...")
-            //confirm that the token exists and that the token is not expired
             
-            const user = await User.findOneAndUpdate({resetPasswordToken: req.params.token, resetPasswordExpires:{ $gt: Date.now() }}, 
-                            {
-                                $set:{
-                                    confirmed: true,
-                                    resetPasswordToken:undefined,
-                                    resetPasswordExpires:undefined
-                                }
-                            },                                     
-                            {
-                                new: true
-                            }
-                        )
-            
-            console.log("Here is the updated user", user)                        
+            const user = await User.findOne({resetPasswordToken: req.params.token, resetPasswordExpires:{ $gt: Date.now() }})
+
             if(!user){
-                return res.status(404).json({
-                    message: "Ooops!  Took too long to confirm your email, please sign up again.",
-                    url: '/forgot'
+                return res.status(200).json({
+                    message: "Ooops!  Took too long to confirm your email, please click forgot password on the sign in page.",
+                    checkEmail: false
                 })        
-            }           
+            }    
+            
+            console.log('This is the user ', user)
+            user.confirmed = true
+            user.resetPasswordToken = undefined
+            user.resetPasswordExpires = undefined
+
+            await user.save()
 
             const token = signToken(user)
+            console.log('This is the user....after successfull sign up', user)
             //Send a cookie containing JWT
             res.cookie("user_token", token , {/*secure: true,*/  httpOnly:true})
 
@@ -265,10 +238,12 @@ module.exports = {
                 _id: user._id
             }
 
+            console.log('These are the results to be returned....', results)
+
             res.status(200).json({results})          
 
         }catch(err){
-            res.status.json({
+            res.status(500).json({
                 message: "There has been an error adding your account.",
                 err
             })
@@ -278,39 +253,35 @@ module.exports = {
     signIn: async(req, res, next) => {
         try{    
             //get the user from passport local method
+           
             const user = req.user
             console.log("This is the user: ", user)
+
                 
-            if(!user.confirmed){
-                const newResetPasswordToken = await crypto.randomBytes(128).toString('hex')
-                const newResetPasswordExpires = Date.now() + 3600000
+            if(!user.confirmed){     
+                // user.resetPasswordExpires = undefined
+                // user.resetPasswordToken = undefined                
 
-                const confirmed_user = await User.findOneAndUpdate({email: user.email}, 
-                            {
-                                $set:{                                       
-                                    resetPasswordToken: newResetPasswordToken,
-                                    resetPasswordExpires: newResetPasswordExpires
-                                }
-                            },                                     
-                            {
-                                new: true
-                            }
-                        )
+                // console.log("This is the user #1: ", user)
+                // user.resetPasswordExpires = Date.now() + 3600000
+                // user.resetPasswordToken = await crypto.randomBytes(128).toString('hex') 
 
+                console.log("This is the user #2: ", user)
                  //send an email to user with a token 
                 const msg = {
-                    to: confirmed_user.email,
+                    to: user.email,
                     from: 'jobs.at.excel@gmail.com',
                     subject: 'Confirm your email',
                     text: 'Please confirm your email, by clicking on the following link, or pasting it on your browser to complete the process:\n\n' +
-                      'http://localhost:8080/confirm/' + confirmed_user.resetPasswordToken + '\n\n' +
+                      'http://localhost:8080/confirm/' + user.resetPasswordToken + '\n\n' +
                       'If you did not request this, please ignore this email and your password will remain unchanged.\n'
                 }
 
                 sgMail.send(msg)    
 
                 return res.status(200).json({
-                    message: 'You never confirmed your account by logging into your email and finishing the sign up process.  Check your email to complete the sign up process.'               
+                    message: 'You never confirmed your account by logging into your email and finishing the sign up process.  Check your email to complete the sign up process.',    
+                    checkEmail: true          
                 }) 
             }    
                       
