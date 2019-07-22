@@ -69,6 +69,7 @@
                                 <div id="card-errors" ref="card-errors" role="alert"></div>
                                 <!-- <div ref="card" class="credit-card-inputs mb-2"  ></div>                -->
                                 <button class="btn btn-primary btn-block p-3 mt-3" type="submit" v-on:click.prevent="register"><strong>Pay $ {{registration}}.00 to register</strong> </button> 
+                                <small class="text-success">Payment securely processed by Stripe Corporation</small>
                             </div>
                         </div>
 

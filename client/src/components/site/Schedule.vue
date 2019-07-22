@@ -80,7 +80,7 @@
                         <div v-else>
                             <p class="lead text-dark">CNA course requirements include:</p>
                             <ul class="lead text-dark">
-                                <li>TB Test Results less than 1 year old</li>
+                                <li>2 steps TB Test Results less than 1 year old or chest XRAY less than 3 years old</li>
                                 <li>Valid ID</li>                                
                                 <li>$ 600.00 tuition cost</li>
                                 <li>Pass math and English entrance exam or unofficial college transcript showing at least 30 credits </li>
