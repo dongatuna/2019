@@ -27,15 +27,20 @@ app.use(cors({
   origin: 'http://localhost:8080',
   credentials: true
 }))
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
-
 
 //set up routes for students, admin and courses
 app.use('/students', require('./routes/students'))
 app.use('/courses', require('./routes/courses'))
 app.use('/jobs', require('./routes/jobs'))
 app.use('/user', require('./routes/user'))
+
+if(process.env.NODE_ENV === 'production'){
+  //where to look for static folder
+  app.use(express.static(__dirname +'/publice'))
+}
 
 const scheduler = require('./scheduler')
 
