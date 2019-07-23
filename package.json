@@ -4,7 +4,8 @@
   "description": "\"This is the server side of excel healthcare training website\"",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "node server/server.js",
+    "dev": "nodemon server/server.js"
   },
   "author": "Don Gatuna",
   "license": "ISC",
