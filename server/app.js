@@ -4,7 +4,7 @@ const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const morgan = require('morgan')
-const cfg= require('./config')
+const cfg= require('../server/config')
 
 mongoose.Promise = global.Promise
 
