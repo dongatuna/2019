@@ -15,12 +15,12 @@
         <div class="row">
           <div class="col-md-4">
             <h2>Take a class</h2>
-            <p>We offer CNA, Basic Life Support and CPR/First Aid courses in a variety of schedules: day, evening and weekend. This way, we fit into your schedule rather than the other way round.  Our courses are cost effective and generally short.</p>
+            <p>We offer CNA, Basic Life Support and (Infant, child, adult) CPR/First Aid courses in a variety of schedules: day, evening and weekend. This way, we fit into your schedule rather than the other way round.  Our courses are cost effective and generally short.</p>
             <p><a class="btn btn-secondary" href="#" role="button">Enroll now &raquo;</a></p>
           </div>
           <div class="col-md-4">
             <h2>Prepare for exam</h2>
-            <p>Our question bank has over 700 questions.  When you get a question wrong, you not only see what the right answer is but <i>why</i> the right answer is right. In addition, there are professionally made caregiving skill videos for your reference.</p>
+            <p>Our question bank has over 700 questions.  When you get a question wrong, you not only see what the right answer is but <i>why</i> the right answer is right one. In addition, there are professionally made caregiving skill videos for your reference during practice.</p>
             <p><a class="btn btn-secondary" href="#" role="button">Prep tests &raquo;</a></p>
           </div>
           <div class="col-md-4">
@@ -59,7 +59,7 @@
 
     <div class="row featurette">
       <div class="col-md-7">
-        <h2 class="featurette-heading">CPR/First Aid and BLS certifications<span class="text-muted">Now easy to keep them current.</span></h2>
+        <h2 class="featurette-heading">CPR/First Aid and BLS certifications.  <span class="text-muted">Now easy to keep them current.</span></h2>
         <p class="lead">Your prospective hires and caregivers/nurses require a current CPR/First Aid or BLS certification to work.  We have now made it easy for you to schedule your caregivers for their CPR/FA/BLS renewal/certifications.  </p>
       </div>
       <div class="col-md-5">
